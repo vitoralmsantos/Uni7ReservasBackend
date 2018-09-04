@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Uni7ReservasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="Uni7ReservasModelStoreContainer" />
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Uni7ReservasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Uni7ReservasEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Usuarios" EntityType="Uni7ReservasModel.Usuario" />
+          <EntitySet Name="Reservas" EntityType="Uni7ReservasModel.Reserva" />
+          <EntitySet Name="Locais" EntityType="Uni7ReservasModel.Local" />
+          <EntitySet Name="Equipamentos" EntityType="Uni7ReservasModel.Equipamento" />
+          <EntitySet Name="Categorias" EntityType="Uni7ReservasModel.CategoriaEquipamento" />
+          <AssociationSet Name="UsuarioReserva" Association="Uni7ReservasModel.UsuarioReserva">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Reserva" EntitySet="Reservas" />
+          </AssociationSet>
+          <AssociationSet Name="ReservaLocal" Association="Uni7ReservasModel.ReservaLocal">
+            <End Role="Reserva" EntitySet="Reservas" />
+            <End Role="Local" EntitySet="Locais" />
+          </AssociationSet>
+          <AssociationSet Name="CategoriaEquipamentoEquipamento" Association="Uni7ReservasModel.CategoriaEquipamentoEquipamento">
+            <End Role="CategoriaEquipamento" EntitySet="Categorias" />
+            <End Role="Equipamento" EntitySet="Equipamentos" />
+          </AssociationSet>
+          <AssociationSet Name="ReservaCategoriaEquipamento" Association="Uni7ReservasModel.ReservaCategoriaEquipamento">
+            <End Role="Reserva" EntitySet="Reservas" />
+            <End Role="CategoriaEquipamento" EntitySet="Categorias" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Reservas" Relationship="Uni7ReservasModel.UsuarioReserva" FromRole="Usuario" ToRole="Reserva" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Senha" Type="String" Nullable="false" />
+          <Property Name="Permissao" Type="Uni7ReservasModel.PERMISSAO" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Usuario" Relationship="Uni7ReservasModel.UsuarioReserva" FromRole="Reserva" ToRole="Usuario" />
+          <NavigationProperty Name="Local" Relationship="Uni7ReservasModel.ReservaLocal" FromRole="Reserva" ToRole="Local" />
+          <NavigationProperty Name="CategoriasEquipamentos" Relationship="Uni7ReservasModel.ReservaCategoriaEquipamento" FromRole="Reserva" ToRole="CategoriaEquipamento" />
+          <Property Name="Data" Type="DateTime" Nullable="false" />
+          <Property Name="ReservadoEm" Type="DateTime" Nullable="false" />
+          <Property Name="Obs" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Local">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Reservas" Relationship="Uni7ReservasModel.ReservaLocal" FromRole="Local" ToRole="Reserva" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+          <Property Name="Reservavel" Type="Boolean" Nullable="false" />
+          <Property Name="Disponivel" Type="Boolean" Nullable="false" />
+          <Property Name="Tipo" Type="Uni7ReservasModel.TIPOLOCAL" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Equipamento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CategoriaEquipamento" Relationship="Uni7ReservasModel.CategoriaEquipamentoEquipamento" FromRole="Equipamento" ToRole="CategoriaEquipamento" />
+          <Property Name="Modelo" Type="String" Nullable="false" />
+          <Property Name="Disponivel" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CategoriaEquipamento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Equipamentos" Relationship="Uni7ReservasModel.CategoriaEquipamentoEquipamento" FromRole="CategoriaEquipamento" ToRole="Equipamento" />
+          <NavigationProperty Name="Reservas" Relationship="Uni7ReservasModel.ReservaCategoriaEquipamento" FromRole="CategoriaEquipamento" ToRole="Reserva" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="UsuarioReserva">
+          <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="*" />
+        </Association>
+        <Association Name="ReservaLocal">
+          <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="*" />
+          <End Type="Uni7ReservasModel.Local" Role="Local" Multiplicity="1" />
+        </Association>
+        <Association Name="CategoriaEquipamentoEquipamento">
+          <End Type="Uni7ReservasModel.CategoriaEquipamento" Role="CategoriaEquipamento" Multiplicity="1" />
+          <End Type="Uni7ReservasModel.Equipamento" Role="Equipamento" Multiplicity="*" />
+        </Association>
+        <Association Name="ReservaCategoriaEquipamento">
+          <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="1" />
+          <End Type="Uni7ReservasModel.CategoriaEquipamento" Role="CategoriaEquipamento" Multiplicity="*" />
+        </Association>
+        <EnumType Name="PERMISSAO">
+          <Member Name="ADMIN" Value="0" />
+          <Member Name="OPERACIONAL" Value="1" />
+          <Member Name="COORDENADOR" Value="2" />
+          <Member Name="PROFESSOR" Value="3" />
+        </EnumType>
+        <EnumType Name="TIPOLOCAL">
+          <Member Name="LAB" Value="0" />
+          <Member Name="SALA" Value="1" />
+          <Member Name="AUDITORIO" Value="2" />
+        </EnumType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Uni7ReservasModelStoreContainer" CdmEntityContainer="Uni7ReservasEntities" />
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
