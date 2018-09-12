@@ -157,7 +157,8 @@ namespace Uni7ReservasBackend.Models
             }
             string password = pwdBuilder.ToString();
 
-           
+            ///USAR HASH PARA SALVAR SENHA
+            
             var fromAddress = new MailAddress(Util.EMAIL_CONTATO, "UNI7 Reservas");
             var toAddress = new MailAddress(email, "");
             string fromPassword = Util.EMAIL_PWD;
@@ -199,7 +200,7 @@ namespace Uni7ReservasBackend.Models
             if (newPassword.Length < TAMANHOSENHA)
                 throw new EntityException(EntityExcCode.SENHACURTA, "tamanho mínimo é " + TAMANHOSENHA);
 
-            string email = "";
+            
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
                 var usuario_ = from Usuario u in context.Usuarios
@@ -208,8 +209,8 @@ namespace Uni7ReservasBackend.Models
 
                 if (usuario_.Count() == 0)
                     throw new EntityException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
-                else if 
-                    usuario = usuario_.First();
+                
+                ///USAR HASH PARA VERIFICAR E ATUALIZAR SENHA
             }
 
         }
