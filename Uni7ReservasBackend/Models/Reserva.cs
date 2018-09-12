@@ -24,10 +24,13 @@ namespace Uni7ReservasBackend.Models
         public System.DateTime Data { get; set; }
         public System.DateTime ReservadoEm { get; set; }
         public string Obs { get; set; }
+        public string Horario { get; set; }
+        public string Turno { get; set; }
     
         public virtual Usuario Usuario { get; set; }
         public virtual Local Local { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CategoriaEquipamento> CategoriasEquipamentos { get; set; }
+        public virtual Controle Controle { get; set; }
     }
 }

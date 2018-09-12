@@ -11,11 +11,10 @@ namespace Uni7ReservasBackend.Models
 {
     using System;
     
-    public enum PERMISSAO : int
+    public enum SATISFACAO : int
     {
-        ADMIN = 0,
-        OPERACIONAL = 1,
-        COORDENADOR = 2,
-        PROFESSOR = 3
+        OTIMO = 0,
+        REGULAR = 1,
+        RUIM = 2
     }
 }

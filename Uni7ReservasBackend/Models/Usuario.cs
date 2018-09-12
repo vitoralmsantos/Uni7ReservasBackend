@@ -18,15 +18,18 @@ namespace Uni7ReservasBackend.Models
         public Usuario()
         {
             this.Reservas = new HashSet<Reserva>();
+            this.Controles = new HashSet<Controle>();
         }
     
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }
-        public PERMISSAO Permissao { get; set; }
+        public TIPOUSUARIO Tipo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reserva> Reservas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Controle> Controles { get; set; }
     }
 }

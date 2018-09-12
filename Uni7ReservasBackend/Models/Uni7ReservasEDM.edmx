@@ -33,6 +33,15 @@
             <End Role="Reserva" EntitySet="Reservas" />
             <End Role="CategoriaEquipamento" EntitySet="Categorias" />
           </AssociationSet>
+          <EntitySet Name="Controles" EntityType="Uni7ReservasModel.Controle" />
+          <AssociationSet Name="UsuarioControle" Association="Uni7ReservasModel.UsuarioControle">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Controle" EntitySet="Controles" />
+          </AssociationSet>
+          <AssociationSet Name="ReservaControle" Association="Uni7ReservasModel.ReservaControle">
+            <End Role="Reserva" EntitySet="Reservas" />
+            <End Role="Controle" EntitySet="Controles" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Usuario">
           <Key>
@@ -43,7 +52,8 @@
           <Property Name="Nome" Type="String" Nullable="false" />
           <Property Name="Email" Type="String" Nullable="false" />
           <Property Name="Senha" Type="String" Nullable="false" />
-          <Property Name="Permissao" Type="Uni7ReservasModel.PERMISSAO" Nullable="false" />
+          <Property Name="Tipo" Type="Uni7ReservasModel.TIPOUSUARIO" Nullable="false" />
+          <NavigationProperty Name="Controles" Relationship="Uni7ReservasModel.UsuarioControle" FromRole="Usuario" ToRole="Controle" />
         </EntityType>
         <EntityType Name="Reserva">
           <Key>
@@ -56,6 +66,9 @@
           <Property Name="Data" Type="DateTime" Nullable="false" />
           <Property Name="ReservadoEm" Type="DateTime" Nullable="false" />
           <Property Name="Obs" Type="String" Nullable="false" />
+          <Property Name="Horario" Type="String" Nullable="false" />
+          <Property Name="Turno" Type="String" Nullable="false" />
+          <NavigationProperty Name="Controle" Relationship="Uni7ReservasModel.ReservaControle" FromRole="Reserva" ToRole="Controle" />
         </EntityType>
         <EntityType Name="Local">
           <Key>
@@ -102,17 +115,44 @@
           <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="1" />
           <End Type="Uni7ReservasModel.CategoriaEquipamento" Role="CategoriaEquipamento" Multiplicity="*" />
         </Association>
-        <EnumType Name="PERMISSAO">
+        <EnumType Name="TIPOUSUARIO">
           <Member Name="ADMIN" Value="0" />
-          <Member Name="OPERACIONAL" Value="1" />
+          <Member Name="SECRETARIO" Value="1" />
           <Member Name="COORDENADOR" Value="2" />
           <Member Name="PROFESSOR" Value="3" />
+          <Member Name="BOLSISTA" Value="4" />
         </EnumType>
         <EnumType Name="TIPOLOCAL">
           <Member Name="LAB" Value="0" />
           <Member Name="SALA" Value="1" />
           <Member Name="AUDITORIO" Value="2" />
         </EnumType>
+        <EntityType Name="Controle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Bolsista" Relationship="Uni7ReservasModel.UsuarioControle" FromRole="Controle" ToRole="Usuario" />
+          <Property Name="Abertura" Type="DateTime" Nullable="false" />
+          <Property Name="Fechamento" Type="DateTime" Nullable="false" />
+          <Property Name="ObsBolsista" Type="String" Nullable="false" />
+          <Property Name="ObsUsuario" Type="String" Nullable="false" />
+          <Property Name="Satisfacao" Type="Uni7ReservasModel.SATISFACAO" Nullable="false" />
+          <NavigationProperty Name="Reserva" Relationship="Uni7ReservasModel.ReservaControle" FromRole="Controle" ToRole="Reserva" />
+        </EntityType>
+        <Association Name="UsuarioControle">
+          <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="Uni7ReservasModel.Controle" Role="Controle" Multiplicity="*" />
+        </Association>
+        <EnumType Name="SATISFACAO">
+          <Member Name="OTIMO" Value="0" />
+          <Member Name="REGULAR" Value="1" />
+          <Member Name="RUIM" Value="2" />
+        </EnumType>
+        <Association Name="ReservaControle">
+          <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="1" />
+          <End Type="Uni7ReservasModel.Controle" Role="Controle" Multiplicity="0..1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

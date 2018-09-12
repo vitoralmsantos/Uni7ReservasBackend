@@ -111,6 +111,13 @@
     <Compile Include="Models\CategoriaEquipamento.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Controle.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entidades\EntityException.cs" />
+    <Compile Include="Models\Entidades\Reserva.cs" />
+    <Compile Include="Models\Entidades\Usuario.cs" />
+    <Compile Include="Models\Entidades\Util.cs" />
     <Compile Include="Models\Equipamento.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
@@ -120,7 +127,10 @@
     <Compile Include="Models\Local.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PERMISSAO.cs">
+    <Compile Include="Models\SATISFACAO.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TIPOUSUARIO.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -167,7 +177,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Models\Entidades\" />
     <Folder Include="Models\TransferObjects\" />
   </ItemGroup>
   <ItemGroup>
