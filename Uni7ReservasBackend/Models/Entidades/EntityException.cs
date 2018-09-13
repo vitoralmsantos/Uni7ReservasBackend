@@ -15,7 +15,12 @@ namespace Uni7ReservasBackend.Models.Entidades
         SENHACURTA = 1005,
         NOMEUSUARIOVAZIO = 1006,
         SENHANAOENVIADA = 1007,
-        EMAILJACADASTRADO = 1008
+        EMAILJACADASTRADO = 1008,
+        SENHANAOCONFERE = 1009,
+        LOCALINDISPONIVEL = 1101,
+        EQUIPAMENTOINDISPONIVEL = 1102,
+        CATEGORIAINEXISTENTE = 1201,
+        LOCALINEXISTENTE = 1301
     }
 
     public class EntityException : Exception
@@ -51,9 +56,19 @@ namespace Uni7ReservasBackend.Models.Entidades
                     case EntityExcCode.NOMEUSUARIOVAZIO:
                         return "Nome de usuário não pode ser vazio.";
                     case EntityExcCode.SENHANAOENVIADA:
-                        return "Senha não enviada.";
+                        return "Erro ao tentar enviar nova senha: " + Detail;
                     case EntityExcCode.EMAILJACADASTRADO:
                         return "E-mail já cadastrado: " + Detail;
+                    case EntityExcCode.SENHANAOCONFERE:
+                        return "Senha antiga não confere.";
+                    case EntityExcCode.LOCALINDISPONIVEL:
+                        return "O local está indisponível.";
+                    case EntityExcCode.EQUIPAMENTOINDISPONIVEL:
+                        return "O equipamento está indisponível.";
+                    case EntityExcCode.CATEGORIAINEXISTENTE:
+                        return "Categoria inexistente: " + Detail;
+                    case EntityExcCode.LOCALINEXISTENTE:
+                        return "Local inexistente: " + Detail;
                     default: return "Erro desconhecido";
                 }
             }

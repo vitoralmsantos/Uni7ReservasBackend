@@ -147,52 +147,74 @@ namespace Uni7ReservasBackend.Models
                 nomeUsuario = usuario_.First().Nome;
             }
 
-            Random random = new Random((int)DateTime.Now.Ticks);
-            StringBuilder pwdBuilder = new StringBuilder();
-            char ch;
-            for (int i = 0; i < TAMANHOSENHA; i++)
+            try
             {
-                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
-                pwdBuilder.Append(ch);
+
+
+                Random random = new Random((int)DateTime.Now.Ticks);
+                StringBuilder pwdBuilder = new StringBuilder();
+                char ch;
+                for (int i = 0; i < TAMANHOSENHA; i++)
+                {
+                    ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                    pwdBuilder.Append(ch);
+                }
+                string senha = pwdBuilder.ToString();
+
+                ///USAR HASH PARA SALVAR SENHA
+
+                var fromAddress = new MailAddress(Util.EMAIL_CONTATO, "UNI7 Reservas");
+                var toAddress = new MailAddress(email, "");
+                string fromPassword = Util.EMAIL_PWD;
+                string subject = "UNI7 Reservas - Senha de acesso";
+
+                string body = "";
+                body += "<p>Prezado(a) " + nomeUsuario + ",</p>";
+                body += "<p>Sua nova senha de acesso do UNI7 Reservas é " + senha + "</p>";
+                body += "<p></p>";
+                body += "<a href='http://www.uni7.edu.br/reservas'><img alt =\"\" hspace=0 src=\"cid:imageId\" align=baseline border=0 width=\"120\"></a>";
+                body += "<br/><a href='http://www.uni7.edu.br/reservas'>http://www.uni7.edu.br/reservas</a>";
+
+                var smtp = new SmtpClient
+                {
+                    Host = "",
+                    Port = 25,
+                    EnableSsl = false,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                };
+
+                var message = new MailMessage(fromAddress, toAddress);
+
+                message.Subject = subject;
+
+                AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body, null, "text/html");
+                LinkedResource imagelink = new LinkedResource(HttpContext.Current.Server.MapPath("~/Imagens/uni7reservaslogo.png"), "image/png");
+                imagelink.ContentId = "imageId";
+                imagelink.TransferEncoding = System.Net.Mime.TransferEncoding.Base64;
+                htmlView.LinkedResources.Add(imagelink);
+                message.AlternateViews.Add(htmlView);
+
+                smtp.Send(message);
+
+                using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+                {
+                    var usuario_ = from Usuario u in context.Usuarios
+                                   where u.Email == email
+                                   select u;
+
+                    if (usuario_.Count() == 0)
+                        throw new EntityException(EntityExcCode.EMAILNAOCADASTRADO, email);
+
+                    usuario_.First().Senha = Util.GerarHashMd5(senha);
+                    context.SaveChanges();
+                }
             }
-            string password = pwdBuilder.ToString();
-
-            ///USAR HASH PARA SALVAR SENHA
-            
-            var fromAddress = new MailAddress(Util.EMAIL_CONTATO, "UNI7 Reservas");
-            var toAddress = new MailAddress(email, "");
-            string fromPassword = Util.EMAIL_PWD;
-            string subject = "UNI7 Reservas - Senha de acesso";
-
-            string body = "";
-            body += "<p>Prezado(a) " + nomeUsuario + ",</p>";
-            body += "<p>Sua nova senha de acesso do UNI7 Reservas é " + password + "</p>";
-            body += "<p></p>";
-            body += "<a href='http://www.uni7.edu.br/reservas'><img alt =\"\" hspace=0 src=\"cid:imageId\" align=baseline border=0 width=\"120\"></a>";
-            body += "<br/><a href='http://www.uni7.edu.br/reservas'>http://www.uni7.edu.br/reservas</a>";
-
-            var smtp = new SmtpClient
+            catch(Exception ex)
             {
-                Host = "",
-                Port = 25,
-                EnableSsl = false,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-            };
-
-            var message = new MailMessage(fromAddress, toAddress);
-
-            message.Subject = subject;
-
-            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body, null, "text/html");
-            LinkedResource imagelink = new LinkedResource(HttpContext.Current.Server.MapPath("~/Imagens/uni7reservaslogo.png"), "image/png");
-            imagelink.ContentId = "imageId";
-            imagelink.TransferEncoding = System.Net.Mime.TransferEncoding.Base64;
-            htmlView.LinkedResources.Add(imagelink);
-            message.AlternateViews.Add(htmlView);
-
-            smtp.Send(message);
+                throw new EntityException(EntityExcCode.SENHANAOENVIADA, ex.Message);
+            }
         }
 
         public static void AtualizarSenha(int idUsuario, string oldPassword, string newPassword)
@@ -210,7 +232,13 @@ namespace Uni7ReservasBackend.Models
                 if (usuario_.Count() == 0)
                     throw new EntityException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
                 
-                ///USAR HASH PARA VERIFICAR E ATUALIZAR SENHA
+                if (Util.GerarHashMd5(oldPassword) != Util.GerarHashMd5(usuario_.First().Senha))
+                {
+                    throw new EntityException(EntityExcCode.SENHANAOCONFERE, "");
+                }
+
+                usuario_.First().Senha = Util.GerarHashMd5(newPassword);
+                context.SaveChanges();
             }
 
         }
