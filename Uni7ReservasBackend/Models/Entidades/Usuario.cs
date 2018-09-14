@@ -24,7 +24,7 @@ namespace Uni7ReservasBackend.Models
                                select u;
 
                 if (usuario_.Count() == 0)
-                    throw new EntityException(EntityExcCode.EMAILNAOCADASTRADO, email);
+                    throw new EntidadesException(EntityExcCode.EMAILNAOCADASTRADO, email);
                 else
                     usuario = usuario_.First();
             }
@@ -42,7 +42,7 @@ namespace Uni7ReservasBackend.Models
                                select u;
 
                 if (usuario_.Count() == 0)
-                    throw new EntityException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
+                    throw new EntidadesException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
                 else
                     usuario = usuario_.First();
             }
@@ -53,7 +53,7 @@ namespace Uni7ReservasBackend.Models
         public static void Cadastrar(string nome, string email, TIPOUSUARIO tipo)
         {
             if (nome == null || nome.Length == 0)
-                throw new EntityException(EntityExcCode.NOMEUSUARIOVAZIO, "");
+                throw new EntidadesException(EntityExcCode.NOMEUSUARIOVAZIO, "");
 
             Regex regexEmail = new Regex(@"^(([^<>()[\]\\.,;:\s@\""]+"
                         + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
@@ -61,7 +61,7 @@ namespace Uni7ReservasBackend.Models
                         + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
                         + @"[a-zA-Z]{2,}))$");
             if (!regexEmail.IsMatch(email))
-                throw new EntityException(EntityExcCode.EMAILINVALIDO, email);
+                throw new EntidadesException(EntityExcCode.EMAILINVALIDO, email);
 
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
@@ -70,7 +70,7 @@ namespace Uni7ReservasBackend.Models
                                select u;
 
                 if (usuario_.Count() > 0)
-                    throw new EntityException(EntityExcCode.EMAILJACADASTRADO, email);
+                    throw new EntidadesException(EntityExcCode.EMAILJACADASTRADO, email);
                 else
                 {
                     Usuario usuario = new Usuario();
@@ -89,14 +89,14 @@ namespace Uni7ReservasBackend.Models
             }
             catch (Exception ex)
             {
-                throw new EntityException(EntityExcCode.SENHANAOENVIADA, ex.Message);
+                throw new EntidadesException(EntityExcCode.SENHANAOENVIADA, ex.Message);
             }
         }
 
         public static void Atualizar(int idUsuario, string nome, string email, TIPOUSUARIO tipo)
         {
             if (nome == null || nome.Length == 0)
-                throw new EntityException(EntityExcCode.NOMEUSUARIOVAZIO, "");
+                throw new EntidadesException(EntityExcCode.NOMEUSUARIOVAZIO, "");
 
             Regex regexEmail = new Regex(@"^(([^<>()[\]\\.,;:\s@\""]+"
                         + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
@@ -104,7 +104,7 @@ namespace Uni7ReservasBackend.Models
                         + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
                         + @"[a-zA-Z]{2,}))$");
             if (!regexEmail.IsMatch(email))
-                throw new EntityException(EntityExcCode.EMAILINVALIDO, email);
+                throw new EntidadesException(EntityExcCode.EMAILINVALIDO, email);
 
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
@@ -113,14 +113,14 @@ namespace Uni7ReservasBackend.Models
                                select u;
 
                 if (usuario1_.Count() == 0)
-                    throw new EntityException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
+                    throw new EntidadesException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
 
                 var usuario2_ = from Usuario u in context.Usuarios
                                where u.Email == email
                                select u;
 
                 if (usuario2_.Count() > 0)
-                    throw new EntityException(EntityExcCode.EMAILJACADASTRADO, email);
+                    throw new EntidadesException(EntityExcCode.EMAILJACADASTRADO, email);
 
                 Usuario usuario = usuario1_.First();
                 usuario.Nome = nome;
@@ -142,7 +142,7 @@ namespace Uni7ReservasBackend.Models
                                select u;
 
                 if (usuario_.Count() == 0)
-                    throw new EntityException(EntityExcCode.EMAILNAOCADASTRADO, email);
+                    throw new EntidadesException(EntityExcCode.EMAILNAOCADASTRADO, email);
 
                 nomeUsuario = usuario_.First().Nome;
             }
@@ -205,7 +205,7 @@ namespace Uni7ReservasBackend.Models
                                    select u;
 
                     if (usuario_.Count() == 0)
-                        throw new EntityException(EntityExcCode.EMAILNAOCADASTRADO, email);
+                        throw new EntidadesException(EntityExcCode.EMAILNAOCADASTRADO, email);
 
                     usuario_.First().Senha = Util.GerarHashMd5(senha);
                     context.SaveChanges();
@@ -213,14 +213,14 @@ namespace Uni7ReservasBackend.Models
             }
             catch(Exception ex)
             {
-                throw new EntityException(EntityExcCode.SENHANAOENVIADA, ex.Message);
+                throw new EntidadesException(EntityExcCode.SENHANAOENVIADA, ex.Message);
             }
         }
 
         public static void AtualizarSenha(int idUsuario, string oldPassword, string newPassword)
         {
             if (newPassword.Length < TAMANHOSENHA)
-                throw new EntityException(EntityExcCode.SENHACURTA, "tamanho mínimo é " + TAMANHOSENHA);
+                throw new EntidadesException(EntityExcCode.SENHACURTA, "tamanho mínimo é " + TAMANHOSENHA);
 
             
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
@@ -230,11 +230,11 @@ namespace Uni7ReservasBackend.Models
                                select u;
 
                 if (usuario_.Count() == 0)
-                    throw new EntityException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
+                    throw new EntidadesException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
                 
                 if (Util.GerarHashMd5(oldPassword) != Util.GerarHashMd5(usuario_.First().Senha))
                 {
-                    throw new EntityException(EntityExcCode.SENHANAOCONFERE, "");
+                    throw new EntidadesException(EntityExcCode.SENHANAOCONFERE, "");
                 }
 
                 usuario_.First().Senha = Util.GerarHashMd5(newPassword);

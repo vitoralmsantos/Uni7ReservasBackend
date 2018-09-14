@@ -8,68 +8,85 @@ namespace Uni7ReservasBackend.Models
 {
     public partial class Reserva
     {
-        public static void ReservarLocal(DateTime data, string horario, string turno, int idLocal,
-            string obs)
+        public static void Reservar(DateTime data, string horario, string turno, int idLocal, 
+            string obs, int idCatEquipamento1, int idCatEquipamento2)
         {
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
                 //Consulta local
-                var local_ = from Local l in context.Locais
+                var local_ = from Local l in context.Locais.Include("RestricoesCategoriaEquipamento")
                              where l.Id == idLocal
                              select l;
 
                 if (local_.Count() == 0)
                 {
-                    throw new EntityException(EntityExcCode.LOCALINEXISTENTE, idLocal.ToString());
+                    throw new EntidadesException(EntityExcCode.LOCALINEXISTENTE, idLocal.ToString());
+                }
+                else if (!local_.First().Reservavel && idCatEquipamento1 == 0 && idCatEquipamento2 == 0)
+                {
+                    throw new EntidadesException(EntityExcCode.EQUIPAMENTONECESSARIO, "");
+                }
+                else if (idCatEquipamento1 == idCatEquipamento2)
+                {
+                    throw new EntidadesException(EntityExcCode.EQUIPAMENTOSIGUAIS, "");
+                }
+                
+                IEnumerable<CategoriaEquipamento> catequip1_ = null;
+                if (idCatEquipamento1 > 0)
+                {
+                    //Consulta categoria do equipamento 1
+                    catequip1_ = from CategoriaEquipamento ce in context.Categorias
+                                     where ce.Id == idCatEquipamento1
+                                     select ce;
+
+                    if (catequip1_.Count() == 0)
+                    {
+                        throw new EntidadesException(EntityExcCode.CATEGORIAINEXISTENTE, idCatEquipamento1.ToString());
+                    }
+
+                    //Verifica disponibilidade do equipamento 1
+                    var equip1_ = from Equipamento e in context.Equipamentos
+                                  where e.CategoriaEquipamento.Id == idCatEquipamento1 && e.Disponivel
+                                  select e;
+
+                    if (equip1_.Count() == 0)
+                    {
+                        throw new EntidadesException(EntityExcCode.EQUIPAMENTOINDISPONIVEL, catequip1_.First().Nome);
+                    }
+
+                    if (local_.First().RestricoesCategoriaEquipamento.Contains(catequip1_.First()))
+                    {
+                        throw new EntidadesException(EntityExcCode.RESTRICALLOCALEQUIPAMENTO, catequip1_.First().Nome);
+                    }
                 }
 
-                //Verifica disponibilidade do local
-                var reserva_ = from Reserva r in context.Reservas
-                               where r.Data.Equals(data) && r.Turno.Equals(turno) && r.Horario.Equals(horario)
-                                 && r.Local.Id == idLocal
-                               select r.Local.Id;
-
-                if (reserva_.Count() > 0)
+                IEnumerable<CategoriaEquipamento> catequip2_ = null;
+                if (idCatEquipamento2 > 0)
                 {
-                    throw new EntityException(EntityExcCode.LOCALINDISPONIVEL, "");
-                }
+                    //Consulta categoria do equipamento 2
+                    catequip2_ = from CategoriaEquipamento ce in context.Categorias
+                                 where ce.Id == idCatEquipamento2
+                                     select ce;
 
-                //Realiza a reserva
-                Reserva reserva = new Reserva();
-                reserva.Data = data;
-                reserva.Turno = turno;
-                reserva.Horario = horario;
-                reserva.Obs = obs;
-                reserva.Local = local_.First();
+                    if (catequip2_.Count() == 0)
+                    {
+                        throw new EntidadesException(EntityExcCode.CATEGORIAINEXISTENTE, idCatEquipamento2.ToString());
+                    }
 
-                context.SaveChanges();
-            }
-        }
+                    //Verifica disponibilidade do equipamento 1
+                    var equip2_ = from Equipamento e in context.Equipamentos
+                                  where e.CategoriaEquipamento.Id == idCatEquipamento1 && e.Disponivel
+                                  select e;
 
-        //INCLUIR DOIS EQUIPAMENTOS NOS PARÂMETROS
-        public static void ReservarLocal(DateTime data, string horario, string turno, int idLocal, 
-            string obs, int idCatEquipamento)
-        {
-            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
-            {
-                //Consulta local
-                var local_ = from Local l in context.Locais
-                                where l.Id == idLocal
-                                select l;
+                    if (equip2_.Count() == 0)
+                    {
+                        throw new EntidadesException(EntityExcCode.EQUIPAMENTOINDISPONIVEL, catequip2_.First().Nome);
+                    }
 
-                if (local_.Count() == 0)
-                {
-                    throw new EntityException(EntityExcCode.LOCALINEXISTENTE, idLocal.ToString());
-                }
-
-                //Consulta categoria do equipamento
-                var catequip_ = from CategoriaEquipamento ce in context.Categorias
-                                where ce.Id == idCatEquipamento
-                                select ce;
-
-                if (catequip_.Count() == 0)
-                {
-                    throw new EntityException(EntityExcCode.CATEGORIAINEXISTENTE, idCatEquipamento.ToString());
+                    if (local_.First().RestricoesCategoriaEquipamento.Contains(catequip2_.First()))
+                    {
+                        throw new EntidadesException(EntityExcCode.RESTRICALLOCALEQUIPAMENTO, catequip2_.First().Nome);
+                    }
                 }
 
                 //Verifica disponibilidade do local
@@ -80,17 +97,7 @@ namespace Uni7ReservasBackend.Models
 
                 if (reserva_.Count() > 0)
                 {
-                    throw new EntityException(EntityExcCode.LOCALINDISPONIVEL, "");
-                }
-
-                //Verifica disponibilidade do equipamento
-                var equip_ = from Equipamento e in context.Equipamentos
-                             where e.CategoriaEquipamento.Id == idCatEquipamento && e.Disponivel
-                             select e;
-
-                if (equip_.Count() == 0)
-                {
-                    throw new EntityException(EntityExcCode.EQUIPAMENTOINDISPONIVEL, "");
+                    throw new EntidadesException(EntityExcCode.LOCALINDISPONIVEL, "");
                 }
 
                 //Realiza a reserva
@@ -100,7 +107,10 @@ namespace Uni7ReservasBackend.Models
                 reserva.Horario = horario;
                 reserva.Obs = obs;
                 reserva.Local = local_.First();
-                reserva.CategoriasEquipamentos.Add(catequip_.First());
+                if (idCatEquipamento1 > 0)
+                    reserva.CategoriasEquipamentos.Add(catequip1_.First());
+                if (idCatEquipamento2 > 0)
+                    reserva.CategoriasEquipamentos.Add(catequip2_.First());
 
                 context.SaveChanges();
             }
@@ -144,5 +154,20 @@ namespace Uni7ReservasBackend.Models
             return Locais;
         }
 
+        public static List<Reserva> ConsultarReservas()
+        {
+            List<Reserva> Reservas = new List<Reserva>();
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var reservas_ = from Reserva r in context.Reservas
+                                where r.Data > DateTime.Today.AddDays(-1)
+                                select r;
+
+                Reservas = reservas_.ToList();
+            }
+
+            return Reservas;
+        }
     }
 }

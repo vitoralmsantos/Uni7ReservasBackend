@@ -18,6 +18,7 @@ namespace Uni7ReservasBackend.Models
         public CategoriaEquipamento()
         {
             this.Equipamentos = new HashSet<Equipamento>();
+            this.RestricoesLocais = new HashSet<Local>();
         }
     
         public int Id { get; set; }
@@ -26,5 +27,7 @@ namespace Uni7ReservasBackend.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipamento> Equipamentos { get; set; }
         public virtual Reserva Reservas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Local> RestricoesLocais { get; set; }
     }
 }

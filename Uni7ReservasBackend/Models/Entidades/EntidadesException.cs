@@ -19,56 +19,66 @@ namespace Uni7ReservasBackend.Models.Entidades
         SENHANAOCONFERE = 1009,
         LOCALINDISPONIVEL = 1101,
         EQUIPAMENTOINDISPONIVEL = 1102,
+        EQUIPAMENTONECESSARIO = 1103,
+        EQUIPAMENTOSIGUAIS = 1104,
+        RESTRICALLOCALEQUIPAMENTO = 1105,
         CATEGORIAINEXISTENTE = 1201,
         LOCALINEXISTENTE = 1301
+        
     }
 
-    public class EntityException : Exception
+    public class EntidadesException : Exception
     {
-        private string Detail { get; }
-        public EntityExcCode Ecode { get; }
+        private string Detalhe { get; }
+        public EntityExcCode Codigo { get; }
 
-        public EntityException(EntityExcCode ecode, string detail)
-            : base(detail)
+        public EntidadesException(EntityExcCode codigo, string detalhe)
+            : base(detalhe)
         {
-            this.Ecode = ecode;
-            this.Detail = detail;
+            this.Codigo = codigo;
+            this.Detalhe = detalhe;
         }
 
         public override string Message
         {
             get
             {
-                switch (Ecode)
+                switch (Codigo)
                 {
                     case EntityExcCode.ERRODESCONHECIDO:
-                        return "Erro desconhecido: " + Detail;
+                        return "Erro desconhecido: " + Detalhe;
                     case EntityExcCode.AUTENTICACAO:
-                        return "Não foi possível realizar sua autenticação: " + Detail;
+                        return "Não foi possível realizar sua autenticação: " + Detalhe;
                     case EntityExcCode.EMAILNAOCADASTRADO:
-                        return "E-mail não cadastrado: " + Detail;
+                        return "E-mail não cadastrado: " + Detalhe;
                     case EntityExcCode.IDUSUARIONAOCADASTRADO:
-                        return "ID de usuário não cadastrado: " + Detail;
+                        return "ID de usuário não cadastrado: " + Detalhe;
                     case EntityExcCode.EMAILINVALIDO:
-                        return "E-mail inválido: " + Detail;
+                        return "E-mail inválido: " + Detalhe;
                     case EntityExcCode.SENHACURTA:
-                        return "Senha muito curta. " + Detail;
+                        return "Senha muito curta. " + Detalhe;
                     case EntityExcCode.NOMEUSUARIOVAZIO:
                         return "Nome de usuário não pode ser vazio.";
                     case EntityExcCode.SENHANAOENVIADA:
-                        return "Erro ao tentar enviar nova senha: " + Detail;
+                        return "Erro ao tentar enviar nova senha: " + Detalhe;
                     case EntityExcCode.EMAILJACADASTRADO:
-                        return "E-mail já cadastrado: " + Detail;
+                        return "E-mail já cadastrado: " + Detalhe;
                     case EntityExcCode.SENHANAOCONFERE:
                         return "Senha antiga não confere.";
                     case EntityExcCode.LOCALINDISPONIVEL:
                         return "O local está indisponível.";
                     case EntityExcCode.EQUIPAMENTOINDISPONIVEL:
-                        return "O equipamento está indisponível.";
+                        return "O equipamento está indisponível: " + Detalhe;
+                    case EntityExcCode.EQUIPAMENTONECESSARIO:
+                        return "Um equipamento precisa ser escolhido.";
+                    case EntityExcCode.EQUIPAMENTOSIGUAIS:
+                        return "Equipamentos não podem ser iguais.";
+                    case EntityExcCode.RESTRICALLOCALEQUIPAMENTO:
+                        return "O equipamento especificado não pode ser reservado para o local: " + Detalhe;
                     case EntityExcCode.CATEGORIAINEXISTENTE:
-                        return "Categoria inexistente: " + Detail;
+                        return "Categoria inexistente: " + Detalhe;
                     case EntityExcCode.LOCALINEXISTENTE:
-                        return "Local inexistente: " + Detail;
+                        return "Local inexistente: " + Detalhe;
                     default: return "Erro desconhecido";
                 }
             }

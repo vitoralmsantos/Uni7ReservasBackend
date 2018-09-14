@@ -42,6 +42,10 @@
             <End Role="Reserva" EntitySet="Reservas" />
             <End Role="Controle" EntitySet="Controles" />
           </AssociationSet>
+          <AssociationSet Name="Restricoes" Association="Uni7ReservasModel.Restricoes">
+            <End Role="Local" EntitySet="Locais" />
+            <End Role="CategoriaEquipamento" EntitySet="Categorias" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Usuario">
           <Key>
@@ -80,6 +84,7 @@
           <Property Name="Reservavel" Type="Boolean" Nullable="false" />
           <Property Name="Disponivel" Type="Boolean" Nullable="false" />
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPOLOCAL" Nullable="false" />
+          <NavigationProperty Name="RestricoesCategoriaEquipamento" Relationship="Uni7ReservasModel.Restricoes" FromRole="Local" ToRole="CategoriaEquipamento" />
         </EntityType>
         <EntityType Name="Equipamento">
           <Key>
@@ -98,6 +103,7 @@
           <NavigationProperty Name="Equipamentos" Relationship="Uni7ReservasModel.CategoriaEquipamentoEquipamento" FromRole="CategoriaEquipamento" ToRole="Equipamento" />
           <NavigationProperty Name="Reservas" Relationship="Uni7ReservasModel.ReservaCategoriaEquipamento" FromRole="CategoriaEquipamento" ToRole="Reserva" />
           <Property Name="Nome" Type="String" Nullable="false" />
+          <NavigationProperty Name="RestricoesLocais" Relationship="Uni7ReservasModel.Restricoes" FromRole="CategoriaEquipamento" ToRole="Local" />
         </EntityType>
         <Association Name="UsuarioReserva">
           <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
@@ -152,6 +158,10 @@
         <Association Name="ReservaControle">
           <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="1" />
           <End Type="Uni7ReservasModel.Controle" Role="Controle" Multiplicity="0..1" />
+        </Association>
+        <Association Name="Restricoes">
+          <End Type="Uni7ReservasModel.Local" Role="Local" Multiplicity="*" />
+          <End Type="Uni7ReservasModel.CategoriaEquipamento" Role="CategoriaEquipamento" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>

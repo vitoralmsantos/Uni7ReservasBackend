@@ -7,8 +7,8 @@
       <Diagram DiagramId="9f7932b5f32f419c9c04b9d745f4594e" Name="Diagram1" >
         <EntityTypeShape EntityType="Uni7ReservasModel.Usuario" Width="1.5" PointX="1.125" PointY="0.625" />
         <EntityTypeShape EntityType="Uni7ReservasModel.Reserva" Width="1.5" PointX="4.5" PointY="0.5" />
-        <EntityTypeShape EntityType="Uni7ReservasModel.Local" Width="1.5" PointX="7.5" PointY="0.5" />
-        <EntityTypeShape EntityType="Uni7ReservasModel.Equipamento" Width="1.5" PointX="7.5" PointY="3" />
+        <EntityTypeShape EntityType="Uni7ReservasModel.Local" Width="1.75" PointX="7.25" PointY="0.5" />
+        <EntityTypeShape EntityType="Uni7ReservasModel.Equipamento" Width="1.5" PointX="7.75" PointY="3.25" />
         <EntityTypeShape EntityType="Uni7ReservasModel.CategoriaEquipamento" Width="1.5" PointX="4.625" PointY="4" />
         <AssociationConnector Association="Uni7ReservasModel.UsuarioReserva" />
         <AssociationConnector Association="Uni7ReservasModel.ReservaLocal" />
@@ -17,6 +17,7 @@
         <EntityTypeShape EntityType="Uni7ReservasModel.Controle" Width="1.5" PointX="2.25" PointY="3.625" />
         <AssociationConnector Association="Uni7ReservasModel.UsuarioControle" />
         <AssociationConnector Association="Uni7ReservasModel.ReservaControle" />
+        <AssociationConnector Association="Uni7ReservasModel.Restricoes" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
