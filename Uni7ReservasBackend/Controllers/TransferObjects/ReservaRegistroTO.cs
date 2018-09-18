@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Uni7ReservasBackend.Controllers.TransferObjects
 {
-    public class ReservaTO
+    public class ReservaRegistroTO
     {
         public int Id { get; set; }
         public string Data { get; set; }
@@ -13,9 +13,9 @@ namespace Uni7ReservasBackend.Controllers.TransferObjects
         public string Horario { get; set; }
         public string Turno { get; set; }
         public string Obs { get; set; }
-        public string NomeLocal { get; set; }
-        public string NomeUsuario { get; set; }
-        public string EmailUsuario { get; set; }
-        public List<string> Equipamentos { get; set; }
+        public int IdUsuario { get; set; }
+        public int IdLocal { get; set; }
+        public int IdEquipamento1 { get; set; }
+        public int IdEquipamento2 { get; set; }
     }
 }

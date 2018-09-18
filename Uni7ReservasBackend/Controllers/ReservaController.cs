@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -20,15 +21,30 @@ namespace Uni7ReservasBackend.Controllers
         public IHttpActionResult Get()
         {
             ReservasResponse rResponse = new ReservasResponse();
+            rResponse.Reservas = new List<ReservaTO>();
+
             try
             {
                 List<Reserva> reservas = Reserva.ConsultarReservas();
 
                 foreach (Reserva r in reservas)
                 {
-                    
+                    ReservaTO rTO = new ReservaTO();
+                    rTO.Data = r.Data.ToString("ddMMyyyy");
+                    rTO.Horario = r.Horario;
+                    rTO.Turno = r.Turno;
+                    rTO.Obs = r.Obs;
+                    rTO.ReservadoEm = r.ReservadoEm.ToString("ddMMyyyy HHmm");
+                    rTO.NomeLocal = r.Local.Nome;
+                    rTO.NomeUsuario = r.Usuario.Nome;
+                    rTO.EmailUsuario = r.Usuario.Email;
+                    foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
+                    {
+                        rTO.Equipamentos.Add(ce.Nome);
+                    }
+
+                    rResponse.Reservas.Add(rTO);
                 }
-                
             }
             catch (EntidadesException eex)
             {
@@ -47,24 +63,57 @@ namespace Uni7ReservasBackend.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Get(int id)
         {
-            
-            return Ok();
+            ReservaResponse rResponse = new ReservaResponse();
+            rResponse.Reserva = new ReservaTO();
+
+            try
+            {
+                Reserva r = Reserva.ConsultarReservaPorId(id);
+
+                rResponse.Reserva.Data = r.Data.ToString("ddMMyyyy");
+                rResponse.Reserva.Horario = r.Horario;
+                rResponse.Reserva.Turno = r.Turno;
+                rResponse.Reserva.Obs = r.Obs;
+                rResponse.Reserva.ReservadoEm = r.ReservadoEm.ToString("ddMMyyyy HHmm");
+                rResponse.Reserva.NomeLocal = r.Local.Nome;
+                rResponse.Reserva.NomeUsuario = r.Usuario.Nome;
+                rResponse.Reserva.EmailUsuario = r.Usuario.Email;
+                foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
+                {
+                    rResponse.Reserva.Equipamentos.Add(ce.Nome);
+                }
+            }
+            catch (EntidadesException eex)
+            {
+                rResponse.Status = (int)eex.Codigo;
+                rResponse.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                rResponse.Status = -1;
+                rResponse.Detalhes = ex.Message;
+            }
+            return Ok(rResponse);
         }
 
         [Route("{id:int}/produto")]
         public IHttpActionResult GetProdutosPorCategoria(int id)
         {
-            
+
             return Ok();
         }
 
         // POST api/<controller>
-        public IHttpActionResult Post([FromBody]string categoria)
+        public IHttpActionResult Post([FromBody]ReservaRegistroTO reserva)
         {
             BaseResponse response = new BaseResponse();
             try
             {
-               
+                DateTime data = DateTime.ParseExact(reserva.Data, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime dataReservado = DateTime.ParseExact(reserva.ReservadoEm, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                Reserva.Reservar(data, reserva.Horario, reserva.Turno, reserva.IdLocal, reserva.Obs, reserva.IdEquipamento1,
+                    reserva.IdEquipamento2);
             }
             catch (EntidadesException eex)
             {
@@ -83,7 +132,7 @@ namespace Uni7ReservasBackend.Controllers
         [HttpPut]
         public IHttpActionResult Put(int id, [FromBody]string categoria)
         {
-            
+
             return Ok();
         }
 
@@ -94,7 +143,7 @@ namespace Uni7ReservasBackend.Controllers
             BaseResponse bResponse = new BaseResponse();
             try
             {
-                
+                Reserva.Remover(id);
             }
             catch (EntidadesException eex)
             {

@@ -22,6 +22,7 @@ namespace Uni7ReservasBackend.Models.Entidades
         EQUIPAMENTONECESSARIO = 1103,
         EQUIPAMENTOSIGUAIS = 1104,
         RESTRICALLOCALEQUIPAMENTO = 1105,
+        RESERVAINEXISTENTE = 1106,
         CATEGORIAINEXISTENTE = 1201,
         LOCALINEXISTENTE = 1301
         
@@ -75,6 +76,8 @@ namespace Uni7ReservasBackend.Models.Entidades
                         return "Equipamentos não podem ser iguais.";
                     case EntityExcCode.RESTRICALLOCALEQUIPAMENTO:
                         return "O equipamento especificado não pode ser reservado para o local: " + Detalhe;
+                    case EntityExcCode.RESERVAINEXISTENTE:
+                        return "Reserva inexistente: " + Detalhe;
                     case EntityExcCode.CATEGORIAINEXISTENTE:
                         return "Categoria inexistente: " + Detalhe;
                     case EntityExcCode.LOCALINEXISTENTE:

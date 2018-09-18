@@ -154,13 +154,36 @@ namespace Uni7ReservasBackend.Models
             return Locais;
         }
 
+        public static Reserva ConsultarReservaPorId(int id)
+        {
+            Reserva reserva = new Reserva();
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var reservas_ = from Reserva r in context.Reservas.Include("Local")
+                                .Include("CategoriasEquipamentos").Include("Usuario")
+                                where r.Id == id
+                                select r;
+
+                if (reservas_.Count() == 0)
+                {
+                    throw new EntidadesException(EntityExcCode.RESERVAINEXISTENTE, id.ToString());
+                }
+                
+                reserva = reservas_.First();
+            }
+
+            return reserva;
+        }
+
         public static List<Reserva> ConsultarReservas()
         {
             List<Reserva> Reservas = new List<Reserva>();
 
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
-                var reservas_ = from Reserva r in context.Reservas
+                var reservas_ = from Reserva r in context.Reservas.Include("Local")
+                                .Include("CategoriasEquipamentos").Include("Usuario")
                                 where r.Data > DateTime.Today.AddDays(-1)
                                 select r;
 
@@ -168,6 +191,26 @@ namespace Uni7ReservasBackend.Models
             }
 
             return Reservas;
+        }
+
+        public static void Remover(int id)
+        {
+            Reserva reserva = new Reserva();
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var reservas_ = from Reserva r in context.Reservas
+                                where r.Id == id
+                                select r;
+
+                if (reservas_.Count() == 0)
+                {
+                    throw new EntidadesException(EntityExcCode.RESERVAINEXISTENTE, id.ToString());
+                }
+
+                context.Reservas.Remove(reservas_.First());
+                context.SaveChanges();
+            }
         }
     }
 }

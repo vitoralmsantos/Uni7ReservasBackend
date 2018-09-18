@@ -110,7 +110,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ReservaController.cs" />
     <Compile Include="Controllers\Response\BaseResponse.cs" />
+    <Compile Include="Controllers\Response\ReservaResponse.cs" />
     <Compile Include="Controllers\Response\ReservasResponse.cs" />
+    <Compile Include="Controllers\TransferObjects\ReservaRegistroTO.cs" />
     <Compile Include="Models\CategoriaEquipamento.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
