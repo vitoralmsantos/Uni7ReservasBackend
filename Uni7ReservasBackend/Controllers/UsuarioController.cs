@@ -14,7 +14,6 @@ namespace Uni7ReservasBackend.Controllers
     [RoutePrefix("api/usuario")]
     public class UsuarioController : ApiController
     {
-        // GET api/<controller>
         [Route("")]
         public IHttpActionResult Get()
         {
@@ -49,25 +48,124 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
-        // GET: api/Usuario/5
-        public string Get(int id)
+        [Route("consulta/{id:int}")]
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            UsuarioResponse response = new UsuarioResponse();
+
+            try
+            {
+                Usuario u = Usuario.ConsultarUsuarioPorId(id);
+                response.Usuario = new UsuarioTO();
+                response.Usuario.Id = u.Id;
+                response.Usuario.Nome = u.Nome;
+                response.Usuario.Email = u.Email;
+                response.Usuario.Tipo = (int)u.Tipo;
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("consulta")]
+        public IHttpActionResult Get([FromUri]string email)
+        {
+            UsuarioResponse response = new UsuarioResponse();
+
+            try
+            {
+                Usuario u = Usuario.ConsultarUsuarioPorEmail(email);
+                response.Usuario = new UsuarioTO();
+                response.Usuario.Id = u.Id;
+                response.Usuario.Nome = u.Nome;
+                response.Usuario.Email = u.Email;
+                response.Usuario.Tipo = (int)u.Tipo;
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
         }
 
         // POST: api/Usuario
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody]UsuarioTO usuario)
         {
+            UsuarioResponse response = new UsuarioResponse();
+
+            try
+            {
+                Usuario.Cadastrar(usuario.Nome, usuario.Email, (TIPOUSUARIO)usuario.Tipo);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
         }
 
         // PUT: api/Usuario/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]UsuarioTO usuario)
         {
+            UsuarioResponse response = new UsuarioResponse();
+
+            try
+            {
+                Usuario.Atualizar(id, usuario.Nome, usuario.Email, (TIPOUSUARIO)usuario.Tipo);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
         }
 
         // DELETE: api/Usuario/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            UsuarioResponse response = new UsuarioResponse();
+
+            try
+            {
+                Usuario.Remover(id);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
         }
     }
 }

@@ -164,8 +164,6 @@ namespace Uni7ReservasBackend.Models
 
             try
             {
-
-
                 Random random = new Random((int)DateTime.Now.Ticks);
                 StringBuilder pwdBuilder = new StringBuilder();
                 char ch;
@@ -175,8 +173,6 @@ namespace Uni7ReservasBackend.Models
                     pwdBuilder.Append(ch);
                 }
                 string senha = pwdBuilder.ToString();
-
-                ///USAR HASH PARA SALVAR SENHA
 
                 var fromAddress = new MailAddress(Util.EMAIL_CONTATO, "UNI7 Reservas");
                 var toAddress = new MailAddress(email, "");
@@ -256,6 +252,30 @@ namespace Uni7ReservasBackend.Models
                 context.SaveChanges();
             }
 
+        }
+
+        public static void Remover(int idUsuario)
+        {
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var usuario_ = from Usuario u in context.Usuarios.Include("Reservas")
+                               where u.Id == idUsuario
+                               select u;
+
+                if (usuario_.Count() == 0)
+                    throw new EntidadesException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
+
+                List<Reserva> reservas = usuario_.First().Reservas.Where(r => r.Data > DateTime.Now.AddDays(-1)).ToList();
+                if (reservas.Count() > 0)
+                {
+                    throw new EntidadesException(EntityExcCode.USUARIOPOSSUIRESERVAS, reservas.Count().ToString());
+                }
+
+                context.Reservas.RemoveRange(reservas);
+                context.Controles.RemoveRange(usuario_.First().Controles);
+                context.Usuarios.Remove(usuario_.First());
+                context.SaveChanges();
+            }
         }
     }
 }

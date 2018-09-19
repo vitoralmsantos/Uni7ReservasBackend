@@ -96,13 +96,6 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(rResponse);
         }
 
-        [Route("{id:int}/produto")]
-        public IHttpActionResult GetProdutosPorCategoria(int id)
-        {
-
-            return Ok();
-        }
-
         // POST api/<controller>
         public IHttpActionResult Post([FromBody]ReservaRegistroTO reserva)
         {

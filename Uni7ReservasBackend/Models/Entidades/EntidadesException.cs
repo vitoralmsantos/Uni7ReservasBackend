@@ -17,6 +17,7 @@ namespace Uni7ReservasBackend.Models.Entidades
         SENHANAOENVIADA = 1007,
         EMAILJACADASTRADO = 1008,
         SENHANAOCONFERE = 1009,
+        USUARIOPOSSUIRESERVAS = 1010,
         LOCALINDISPONIVEL = 1101,
         EQUIPAMENTOINDISPONIVEL = 1102,
         EQUIPAMENTONECESSARIO = 1103,
@@ -66,6 +67,8 @@ namespace Uni7ReservasBackend.Models.Entidades
                         return "E-mail já cadastrado: " + Detalhe;
                     case EntityExcCode.SENHANAOCONFERE:
                         return "Senha antiga não confere.";
+                    case EntityExcCode.USUARIOPOSSUIRESERVAS:
+                        return String.Format("Usuário possui {0} reservas futuras.", Detalhe);
                     case EntityExcCode.LOCALINDISPONIVEL:
                         return "O local está indisponível.";
                     case EntityExcCode.EQUIPAMENTOINDISPONIVEL:
