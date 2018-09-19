@@ -14,6 +14,21 @@ namespace Uni7ReservasBackend.Models
     {
         public static readonly int TAMANHOSENHA = 6;
 
+        public static List<Usuario> ConsultarUsuarios()
+        {
+            List<Usuario> Usuarios = new List<Usuario>();
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var usuarios_ = from Usuario u in context.Usuarios
+                                select u;
+
+                Usuarios = usuarios_.ToList();
+            }
+
+            return Usuarios;
+        }
+
         public static Usuario ConsultarUsuarioPorEmail(string email)
         {
             Usuario usuario = null;
@@ -32,7 +47,7 @@ namespace Uni7ReservasBackend.Models
             return usuario;
         }
 
-        public static Usuario ConsultarMedicoPorId(int idUsuario)
+        public static Usuario ConsultarUsuarioPorId(int idUsuario)
         {
             Usuario usuario = null;
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())

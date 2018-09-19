@@ -99,6 +99,7 @@
       <LastGenOutput>Uni7ReservasEDM.Context.cs</LastGenOutput>
       <DependentUpon>Uni7ReservasEDM.edmx</DependentUpon>
     </Content>
+    <Content Include="Models\Uni7ReservasEDM.edmx.sql" />
     <Content Include="Models\Uni7ReservasEDM.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Uni7ReservasEDM.edmx</DependentUpon>
@@ -110,9 +111,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ReservaController.cs" />
     <Compile Include="Controllers\Response\BaseResponse.cs" />
-    <Compile Include="Controllers\Response\ReservaResponse.cs" />
     <Compile Include="Controllers\Response\ReservasResponse.cs" />
+    <Compile Include="Controllers\Response\UsuarioResponse.cs" />
+    <Compile Include="Controllers\Response\ReservaResponse.cs" />
+    <Compile Include="Controllers\Response\UsuariosResponse.cs" />
     <Compile Include="Controllers\TransferObjects\ReservaRegistroTO.cs" />
+    <Compile Include="Controllers\TransferObjects\UsuarioTO.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Models\CategoriaEquipamento.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
