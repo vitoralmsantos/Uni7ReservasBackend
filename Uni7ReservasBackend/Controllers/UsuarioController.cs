@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Uni7ReservasBackend.Controllers.Response;
 using Uni7ReservasBackend.Controllers.TransferObjects;
 using Uni7ReservasBackend.Models;
@@ -11,6 +12,7 @@ using Uni7ReservasBackend.Models.Entidades;
 
 namespace Uni7ReservasBackend.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/usuario")]
     public class UsuarioController : ApiController
     {

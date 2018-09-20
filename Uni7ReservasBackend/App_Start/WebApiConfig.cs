@@ -12,6 +12,7 @@ namespace Uni7ReservasBackend
         {
             // Serviços e configuração da API da Web
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+            config.EnableCors();
 
             // Rotas da API da Web
             config.MapHttpAttributeRoutes();
