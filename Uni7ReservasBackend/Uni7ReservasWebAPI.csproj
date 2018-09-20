@@ -89,9 +89,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Uni7Reservas.mdf" />
-    <Content Include="App_Data\Uni7Reservas_log.ldf">
-      <DependentUpon>Uni7Reservas.mdf</DependentUpon>
+    <Content Include="App_Data\Uni7ReservasBD.mdf" />
+    <Content Include="App_Data\Uni7ReservasBD_log.ldf">
+      <DependentUpon>Uni7ReservasBD.mdf</DependentUpon>
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Models\Uni7ReservasEDM.Context.tt">
@@ -105,7 +105,9 @@
       <DependentUpon>Uni7ReservasEDM.edmx</DependentUpon>
       <LastGenOutput>Uni7ReservasEDM.cs</LastGenOutput>
     </Content>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -119,6 +121,9 @@
     <Compile Include="Controllers\TransferObjects\UsuarioTO.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Models\CategoriaEquipamento.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Chamado.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Controle.cs">
@@ -137,7 +142,16 @@
     <Compile Include="Models\Local.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Recurso.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SATISFACAO.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\STATUSCHAMADO.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TIPORECURSO.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIPOUSUARIO.cs">

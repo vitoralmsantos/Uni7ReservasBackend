@@ -12,6 +12,8 @@
     <EntitySet Name="Equipamentos" EntityType="Uni7ReservasModel.Store.Equipamentos" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Categorias" EntityType="Uni7ReservasModel.Store.Categorias" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Controles" EntityType="Uni7ReservasModel.Store.Controles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Chamados" EntityType="Uni7ReservasModel.Store.Chamados" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Recursos" EntityType="Uni7ReservasModel.Store.Recursos" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Restricoes" EntityType="Uni7ReservasModel.Store.Restricoes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="UsuarioReserva" Association="Uni7ReservasModel.Store.UsuarioReserva">
       <End Role="Usuario" EntitySet="Usuarios" />
@@ -44,6 +46,14 @@
     <AssociationSet Name="FK_Restricoes_CategoriaEquipamento" Association="Uni7ReservasModel.Store.FK_Restricoes_CategoriaEquipamento">
       <End Role="CategoriaEquipamento" EntitySet="Categorias" />
       <End Role="Restricoes" EntitySet="Restricoes" />
+    </AssociationSet>
+    <AssociationSet Name="UsuarioChamado" Association="Uni7ReservasModel.Store.UsuarioChamado">
+      <End Role="Usuario" EntitySet="Usuarios" />
+      <End Role="Chamado" EntitySet="Chamados" />
+    </AssociationSet>
+    <AssociationSet Name="LocalRecurso" Association="Uni7ReservasModel.Store.LocalRecurso">
+      <End Role="Local" EntitySet="Locais" />
+      <End Role="Recurso" EntitySet="Recursos" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Usuarios">
@@ -108,6 +118,25 @@
     <Property Name="Satisfacao" Type="int" Nullable="false" />
     <Property Name="Bolsista_Id" Type="int" Nullable="false" />
     <Property Name="Reserva_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Chamados">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descricao" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="Observacoes" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Usuario_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Recursos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Tipo" Type="int" Nullable="false" />
+    <Property Name="Local_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Restricoes">
     <Key>
@@ -189,6 +218,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="UsuarioChamado">
+    <End Role="Usuario" Type="Uni7ReservasModel.Store.Usuarios" Multiplicity="1" />
+    <End Role="Chamado" Type="Uni7ReservasModel.Store.Chamados" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Chamado">
+        <PropertyRef Name="Usuario_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LocalRecurso">
+    <End Role="Local" Type="Uni7ReservasModel.Store.Locais" Multiplicity="1" />
+    <End Role="Recurso" Type="Uni7ReservasModel.Store.Recursos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Local">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Recurso">
+        <PropertyRef Name="Local_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Restricoes_Local">
     <End Role="Local" Type="Uni7ReservasModel.Store.Locais" Multiplicity="1" />
     <End Role="Restricoes" Type="Uni7ReservasModel.Store.Restricoes" Multiplicity="*" />
@@ -252,6 +305,16 @@
             <End Role="Local" EntitySet="Locais" />
             <End Role="CategoriaEquipamento" EntitySet="Categorias" />
           </AssociationSet>
+          <EntitySet Name="Chamados" EntityType="Uni7ReservasModel.Chamado" />
+          <AssociationSet Name="UsuarioChamado" Association="Uni7ReservasModel.UsuarioChamado">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Chamado" EntitySet="Chamados" />
+          </AssociationSet>
+          <EntitySet Name="Recursos" EntityType="Uni7ReservasModel.Recurso" />
+          <AssociationSet Name="LocalRecurso" Association="Uni7ReservasModel.LocalRecurso">
+            <End Role="Local" EntitySet="Locais" />
+            <End Role="Recurso" EntitySet="Recursos" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Usuario">
           <Key>
@@ -264,6 +327,7 @@
           <Property Name="Senha" Type="String" Nullable="false" />
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPOUSUARIO" Nullable="false" />
           <NavigationProperty Name="Controles" Relationship="Uni7ReservasModel.UsuarioControle" FromRole="Usuario" ToRole="Controle" />
+          <NavigationProperty Name="Chamados" Relationship="Uni7ReservasModel.UsuarioChamado" FromRole="Usuario" ToRole="Chamado" />
         </EntityType>
         <EntityType Name="Reserva">
           <Key>
@@ -291,6 +355,7 @@
           <Property Name="Disponivel" Type="Boolean" Nullable="false" />
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPOLOCAL" Nullable="false" />
           <NavigationProperty Name="RestricoesCategoriaEquipamento" Relationship="Uni7ReservasModel.Restricoes" FromRole="Local" ToRole="CategoriaEquipamento" />
+          <NavigationProperty Name="Recursos" Relationship="Uni7ReservasModel.LocalRecurso" FromRole="Local" ToRole="Recurso" />
         </EntityType>
         <EntityType Name="Equipamento">
           <Key>
@@ -369,6 +434,43 @@
           <End Type="Uni7ReservasModel.Local" Role="Local" Multiplicity="*" />
           <End Type="Uni7ReservasModel.CategoriaEquipamento" Role="CategoriaEquipamento" Multiplicity="*" />
         </Association>
+        <EntityType Name="Chamado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descricao" Type="String" Nullable="false" />
+          <Property Name="Status" Type="Uni7ReservasModel.STATUSCHAMADO" Nullable="false" />
+          <Property Name="Observacoes" Type="String" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Uni7ReservasModel.UsuarioChamado" FromRole="Chamado" ToRole="Usuario" />
+        </EntityType>
+        <Association Name="UsuarioChamado">
+          <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="Uni7ReservasModel.Chamado" Role="Chamado" Multiplicity="*" />
+        </Association>
+        <EnumType Name="STATUSCHAMADO">
+          <Member Name="ABERTO" Value="0" />
+          <Member Name="ANDAMENTO" Value="1" />
+          <Member Name="ENCERRADO" Value="2" />
+        </EnumType>
+        <EntityType Name="Recurso">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" />
+          <Property Name="Tipo" Type="Uni7ReservasModel.TIPORECURSO" Nullable="false" />
+          <NavigationProperty Name="Local" Relationship="Uni7ReservasModel.LocalRecurso" FromRole="Recurso" ToRole="Local" />
+        </EntityType>
+        <EnumType Name="TIPORECURSO">
+          <Member Name="SOFTWARE" Value="0" />
+          <Member Name="HARDWARE" Value="1" />
+          <Member Name="EQUIPAMENTO" Value="2" />
+        </EnumType>
+        <Association Name="LocalRecurso">
+          <End Type="Uni7ReservasModel.Local" Role="Local" Multiplicity="1" />
+          <End Type="Uni7ReservasModel.Recurso" Role="Recurso" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -438,6 +540,25 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Chamados">
+      <EntityTypeMapping TypeName="IsTypeOf(Uni7ReservasModel.Chamado)">
+        <MappingFragment StoreEntitySet="Chamados">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Observacoes" ColumnName="Observacoes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Recursos">
+      <EntityTypeMapping TypeName="IsTypeOf(Uni7ReservasModel.Recurso)">
+        <MappingFragment StoreEntitySet="Recursos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="UsuarioReserva" TypeName="Uni7ReservasModel.UsuarioReserva" StoreEntitySet="Reservas">
       <EndProperty Name="Usuario">
         <ScalarProperty Name="Id" ColumnName="Usuario_Id" />
@@ -492,6 +613,22 @@
       </EndProperty>
       <EndProperty Name="CategoriaEquipamento">
         <ScalarProperty Name="Id" ColumnName="RestricoesCategoriaEquipamento_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UsuarioChamado" TypeName="Uni7ReservasModel.UsuarioChamado" StoreEntitySet="Chamados">
+      <EndProperty Name="Usuario">
+        <ScalarProperty Name="Id" ColumnName="Usuario_Id" />
+      </EndProperty>
+      <EndProperty Name="Chamado">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="LocalRecurso" TypeName="Uni7ReservasModel.LocalRecurso" StoreEntitySet="Recursos">
+      <EndProperty Name="Local">
+        <ScalarProperty Name="Id" ColumnName="Local_Id" />
+      </EndProperty>
+      <EndProperty Name="Recurso">
+        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
