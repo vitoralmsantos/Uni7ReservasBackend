@@ -134,7 +134,7 @@ namespace Uni7ReservasBackend.Models
                                where u.Email == email
                                select u;
 
-                if (usuario2_.Count() > 0)
+                if (usuario2_.Count() > 0 && !usuario1_.First().Email.Equals(email))
                     throw new EntidadesException(EntityExcCode.EMAILJACADASTRADO, email);
 
                 Usuario usuario = usuario1_.First();

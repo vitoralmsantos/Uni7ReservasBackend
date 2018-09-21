@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/20/2018 17:26:19
--- Generated from EDMX file: D:\Projetos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
+-- Date Created: 09/21/2018 15:35:13
+-- Generated from EDMX file: C:\Users\NIP\source\repos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -41,6 +41,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Restricoes_CategoriaEquipamento]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Restricoes] DROP CONSTRAINT [FK_Restricoes_CategoriaEquipamento];
 GO
+IF OBJECT_ID(N'[dbo].[FK_UsuarioChamado]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Chamados] DROP CONSTRAINT [FK_UsuarioChamado];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -63,6 +66,9 @@ IF OBJECT_ID(N'[dbo].[Categorias]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Controles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Controles];
+GO
+IF OBJECT_ID(N'[dbo].[Chamados]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Chamados];
 GO
 IF OBJECT_ID(N'[dbo].[Restricoes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Restricoes];
@@ -145,12 +151,20 @@ CREATE TABLE [dbo].[Chamados] (
 );
 GO
 
--- Creating table 'Recursos'
-CREATE TABLE [dbo].[Recursos] (
+-- Creating table 'Softwares'
+CREATE TABLE [dbo].[Softwares] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Nome] nvarchar(max)  NOT NULL,
-    [Tipo] int  NOT NULL,
-    [Local_Id] int  NOT NULL
+    [Versao] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'SoftwaresLocais'
+CREATE TABLE [dbo].[SoftwaresLocais] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Qtde] int  NOT NULL,
+    [Local_Id] int  NOT NULL,
+    [Software_Id] int  NOT NULL
 );
 GO
 
@@ -207,9 +221,15 @@ ADD CONSTRAINT [PK_Chamados]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Recursos'
-ALTER TABLE [dbo].[Recursos]
-ADD CONSTRAINT [PK_Recursos]
+-- Creating primary key on [Id] in table 'Softwares'
+ALTER TABLE [dbo].[Softwares]
+ADD CONSTRAINT [PK_Softwares]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SoftwaresLocais'
+ALTER TABLE [dbo].[SoftwaresLocais]
+ADD CONSTRAINT [PK_SoftwaresLocais]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -352,19 +372,34 @@ ON [dbo].[Chamados]
     ([Usuario_Id]);
 GO
 
--- Creating foreign key on [Local_Id] in table 'Recursos'
-ALTER TABLE [dbo].[Recursos]
-ADD CONSTRAINT [FK_LocalRecurso]
+-- Creating foreign key on [Local_Id] in table 'SoftwaresLocais'
+ALTER TABLE [dbo].[SoftwaresLocais]
+ADD CONSTRAINT [FK_LocalSoftwareLocal]
     FOREIGN KEY ([Local_Id])
     REFERENCES [dbo].[Locais]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_LocalRecurso'
-CREATE INDEX [IX_FK_LocalRecurso]
-ON [dbo].[Recursos]
+-- Creating non-clustered index for FOREIGN KEY 'FK_LocalSoftwareLocal'
+CREATE INDEX [IX_FK_LocalSoftwareLocal]
+ON [dbo].[SoftwaresLocais]
     ([Local_Id]);
+GO
+
+-- Creating foreign key on [Software_Id] in table 'SoftwaresLocais'
+ALTER TABLE [dbo].[SoftwaresLocais]
+ADD CONSTRAINT [FK_SoftwareSoftwareLocal]
+    FOREIGN KEY ([Software_Id])
+    REFERENCES [dbo].[Softwares]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SoftwareSoftwareLocal'
+CREATE INDEX [IX_FK_SoftwareSoftwareLocal]
+ON [dbo].[SoftwaresLocais]
+    ([Software_Id]);
 GO
 
 -- --------------------------------------------------

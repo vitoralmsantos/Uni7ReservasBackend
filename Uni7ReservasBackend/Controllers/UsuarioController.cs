@@ -127,13 +127,15 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         // PUT: api/Usuario/5
+        [Route("{id:int}")]
         public IHttpActionResult Put(int id, [FromBody]UsuarioTO usuario)
         {
             UsuarioResponse response = new UsuarioResponse();
-
+            
             try
             {
                 Usuario.Atualizar(id, usuario.Nome, usuario.Email, (TIPOUSUARIO)usuario.Tipo);
+                response.Usuario = usuario;
             }
             catch (EntidadesException eex)
             {

@@ -148,10 +148,13 @@
     <Compile Include="Models\Local.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Recurso.cs">
+    <Compile Include="Models\SATISFACAO.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SATISFACAO.cs">
+    <Compile Include="Models\Software.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SoftwareLocal.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STATUSCHAMADO.cs">
