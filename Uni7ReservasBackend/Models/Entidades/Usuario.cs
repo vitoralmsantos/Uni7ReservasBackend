@@ -78,6 +78,16 @@ namespace Uni7ReservasBackend.Models
             if (!regexEmail.IsMatch(email))
                 throw new EntidadesException(EntityExcCode.EMAILINVALIDO, email);
 
+            Random random = new Random((int)DateTime.Now.Ticks);
+            StringBuilder pwdBuilder = new StringBuilder();
+            char ch;
+            for (int i = 0; i < TAMANHOSENHA; i++)
+            {
+                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                pwdBuilder.Append(ch);
+            }
+            string senhaTemp = pwdBuilder.ToString(); //Senha temporária pois o campo não pode ser nulo.
+
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
                 var usuario_ = from Usuario u in context.Usuarios
@@ -92,6 +102,7 @@ namespace Uni7ReservasBackend.Models
                     usuario.Nome = nome;
                     usuario.Email = email;
                     usuario.Tipo = tipo;
+                    usuario.Senha = senhaTemp;
 
                     context.Usuarios.Add(usuario);
                     context.SaveChanges();

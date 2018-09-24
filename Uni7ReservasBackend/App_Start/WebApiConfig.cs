@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Uni7ReservasBackend
 {
@@ -12,7 +13,9 @@ namespace Uni7ReservasBackend
         {
             // Serviços e configuração da API da Web
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
-            config.EnableCors();
+
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
 
             // Rotas da API da Web
             config.MapHttpAttributeRoutes();

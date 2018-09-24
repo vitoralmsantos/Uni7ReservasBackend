@@ -105,6 +105,7 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         // POST: api/Usuario
+        [Route("")]
         public IHttpActionResult Post([FromBody]UsuarioTO usuario)
         {
             UsuarioResponse response = new UsuarioResponse();
@@ -151,6 +152,7 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         // DELETE: api/Usuario/5
+        [Route("{id:int}")]
         public IHttpActionResult Delete(int id)
         {
             UsuarioResponse response = new UsuarioResponse();
