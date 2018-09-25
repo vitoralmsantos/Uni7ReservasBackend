@@ -19,8 +19,8 @@
         <AssociationConnector Association="Uni7ReservasModel.Restricoes" />
         <EntityTypeShape EntityType="Uni7ReservasModel.Chamado" Width="1.5" PointX="1.25" PointY="1.625" />
         <AssociationConnector Association="Uni7ReservasModel.UsuarioChamado" />
-        <EntityTypeShape EntityType="Uni7ReservasModel.Software" Width="1.5" PointX="12.375" PointY="3.625" />
-        <EntityTypeShape EntityType="Uni7ReservasModel.SoftwareLocal" Width="1.5" PointX="12.375" PointY="1.125" />
+        <EntityTypeShape EntityType="Uni7ReservasModel.Software" Width="1.5" PointX="12.125" PointY="3.5" />
+        <EntityTypeShape EntityType="Uni7ReservasModel.SoftwareLocal" Width="1.5" PointX="12.125" PointY="0.875" />
         <AssociationConnector Association="Uni7ReservasModel.LocalSoftwareLocal" />
         <AssociationConnector Association="Uni7ReservasModel.SoftwareSoftwareLocal" />
         <AssociationConnector Association="Uni7ReservasModel.ReservaCategoriaEquipamento" />
