@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/21/2018 15:35:13
+-- Date Created: 09/25/2018 15:10:53
 -- Generated from EDMX file: C:\Users\NIP\source\repos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
 -- --------------------------------------------------
 
@@ -26,9 +26,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CategoriaEquipamentoEquipamento]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Equipamentos] DROP CONSTRAINT [FK_CategoriaEquipamentoEquipamento];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ReservaCategoriaEquipamento]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Categorias] DROP CONSTRAINT [FK_ReservaCategoriaEquipamento];
-GO
 IF OBJECT_ID(N'[dbo].[FK_UsuarioControle]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Controles] DROP CONSTRAINT [FK_UsuarioControle];
 GO
@@ -43,6 +40,15 @@ IF OBJECT_ID(N'[dbo].[FK_Restricoes_CategoriaEquipamento]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_UsuarioChamado]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Chamados] DROP CONSTRAINT [FK_UsuarioChamado];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LocalSoftwareLocal]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SoftwaresLocais] DROP CONSTRAINT [FK_LocalSoftwareLocal];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SoftwareSoftwareLocal]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[SoftwaresLocais] DROP CONSTRAINT [FK_SoftwareSoftwareLocal];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CategoriaEquipamentoReserva]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservas] DROP CONSTRAINT [FK_CategoriaEquipamentoReserva];
 GO
 
 -- --------------------------------------------------
@@ -69,6 +75,12 @@ IF OBJECT_ID(N'[dbo].[Controles]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Chamados]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Chamados];
+GO
+IF OBJECT_ID(N'[dbo].[Softwares]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Softwares];
+GO
+IF OBJECT_ID(N'[dbo].[SoftwaresLocais]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SoftwaresLocais];
 GO
 IF OBJECT_ID(N'[dbo].[Restricoes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Restricoes];
@@ -123,8 +135,7 @@ GO
 -- Creating table 'Categorias'
 CREATE TABLE [dbo].[Categorias] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Nome] nvarchar(max)  NOT NULL,
-    [Reservas_Id] int  NOT NULL
+    [Nome] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -172,6 +183,13 @@ GO
 CREATE TABLE [dbo].[Restricoes] (
     [RestricoesLocais_Id] int  NOT NULL,
     [RestricoesCategoriaEquipamento_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'ReservaCategoriaEquipamento'
+CREATE TABLE [dbo].[ReservaCategoriaEquipamento] (
+    [Reservas_Id] int  NOT NULL,
+    [CategoriasEquipamentos_Id] int  NOT NULL
 );
 GO
 
@@ -239,6 +257,12 @@ ADD CONSTRAINT [PK_Restricoes]
     PRIMARY KEY CLUSTERED ([RestricoesLocais_Id], [RestricoesCategoriaEquipamento_Id] ASC);
 GO
 
+-- Creating primary key on [Reservas_Id], [CategoriasEquipamentos_Id] in table 'ReservaCategoriaEquipamento'
+ALTER TABLE [dbo].[ReservaCategoriaEquipamento]
+ADD CONSTRAINT [PK_ReservaCategoriaEquipamento]
+    PRIMARY KEY CLUSTERED ([Reservas_Id], [CategoriasEquipamentos_Id] ASC);
+GO
+
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
@@ -286,21 +310,6 @@ GO
 CREATE INDEX [IX_FK_CategoriaEquipamentoEquipamento]
 ON [dbo].[Equipamentos]
     ([CategoriaEquipamento_Id]);
-GO
-
--- Creating foreign key on [Reservas_Id] in table 'Categorias'
-ALTER TABLE [dbo].[Categorias]
-ADD CONSTRAINT [FK_ReservaCategoriaEquipamento]
-    FOREIGN KEY ([Reservas_Id])
-    REFERENCES [dbo].[Reservas]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ReservaCategoriaEquipamento'
-CREATE INDEX [IX_FK_ReservaCategoriaEquipamento]
-ON [dbo].[Categorias]
-    ([Reservas_Id]);
 GO
 
 -- Creating foreign key on [Bolsista_Id] in table 'Controles'
@@ -400,6 +409,30 @@ GO
 CREATE INDEX [IX_FK_SoftwareSoftwareLocal]
 ON [dbo].[SoftwaresLocais]
     ([Software_Id]);
+GO
+
+-- Creating foreign key on [Reservas_Id] in table 'ReservaCategoriaEquipamento'
+ALTER TABLE [dbo].[ReservaCategoriaEquipamento]
+ADD CONSTRAINT [FK_ReservaCategoriaEquipamento_Reserva]
+    FOREIGN KEY ([Reservas_Id])
+    REFERENCES [dbo].[Reservas]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [CategoriasEquipamentos_Id] in table 'ReservaCategoriaEquipamento'
+ALTER TABLE [dbo].[ReservaCategoriaEquipamento]
+ADD CONSTRAINT [FK_ReservaCategoriaEquipamento_CategoriaEquipamento]
+    FOREIGN KEY ([CategoriasEquipamentos_Id])
+    REFERENCES [dbo].[Categorias]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ReservaCategoriaEquipamento_CategoriaEquipamento'
+CREATE INDEX [IX_FK_ReservaCategoriaEquipamento_CategoriaEquipamento]
+ON [dbo].[ReservaCategoriaEquipamento]
+    ([CategoriasEquipamentos_Id]);
 GO
 
 -- --------------------------------------------------

@@ -98,6 +98,7 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         // POST api/<controller>
+        [Route("")]
         public IHttpActionResult Post([FromBody]ReservaRegistroTO reserva)
         {
             BaseResponse response = new BaseResponse();
@@ -123,7 +124,7 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         // PUT api/<controller>/5
-        [HttpPut]
+        [Route("{id:int}")]
         public IHttpActionResult Put(int id, [FromBody]string categoria)
         {
 
@@ -131,7 +132,7 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         // DELETE api/<controller>/5
-        [HttpDelete]
+        [Route("{id:int}")]
         public IHttpActionResult Delete(int id)
         {
             BaseResponse bResponse = new BaseResponse();

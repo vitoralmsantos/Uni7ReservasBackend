@@ -117,13 +117,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\ReservaController.cs" />
     <Compile Include="Controllers\Response\BaseResponse.cs" />
+    <Compile Include="Controllers\Response\CategoriasResponse.cs" />
     <Compile Include="Controllers\Response\ReservasResponse.cs" />
+    <Compile Include="Controllers\Response\CategoriaResponse.cs" />
     <Compile Include="Controllers\Response\UsuarioResponse.cs" />
     <Compile Include="Controllers\Response\ReservaResponse.cs" />
     <Compile Include="Controllers\Response\UsuariosResponse.cs" />
     <Compile Include="Controllers\TransferObjects\ReservaRegistroTO.cs" />
+    <Compile Include="Controllers\TransferObjects\CategoriaTO.cs" />
     <Compile Include="Controllers\TransferObjects\UsuarioTO.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Models\CategoriaEquipamento.cs">
@@ -137,6 +141,7 @@
     </Compile>
     <Compile Include="Models\Entidades\EntidadesException.cs" />
     <Compile Include="Models\Entidades\Reserva.cs" />
+    <Compile Include="Models\Entidades\CategoriaEquipamento.cs" />
     <Compile Include="Models\Entidades\Usuario.cs" />
     <Compile Include="Models\Entidades\Util.cs" />
     <Compile Include="Models\Equipamento.cs">

@@ -13,7 +13,6 @@
         <AssociationConnector Association="Uni7ReservasModel.UsuarioReserva" />
         <AssociationConnector Association="Uni7ReservasModel.ReservaLocal" />
         <AssociationConnector Association="Uni7ReservasModel.CategoriaEquipamentoEquipamento" />
-        <AssociationConnector Association="Uni7ReservasModel.ReservaCategoriaEquipamento" />
         <EntityTypeShape EntityType="Uni7ReservasModel.Controle" Width="1.5" PointX="4.25" PointY="3.875" />
         <AssociationConnector Association="Uni7ReservasModel.UsuarioControle" />
         <AssociationConnector Association="Uni7ReservasModel.ReservaControle" />
@@ -24,6 +23,7 @@
         <EntityTypeShape EntityType="Uni7ReservasModel.SoftwareLocal" Width="1.5" PointX="12.375" PointY="1.125" />
         <AssociationConnector Association="Uni7ReservasModel.LocalSoftwareLocal" />
         <AssociationConnector Association="Uni7ReservasModel.SoftwareSoftwareLocal" />
+        <AssociationConnector Association="Uni7ReservasModel.ReservaCategoriaEquipamento" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

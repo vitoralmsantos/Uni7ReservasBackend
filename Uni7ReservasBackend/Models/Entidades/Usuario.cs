@@ -282,6 +282,7 @@ namespace Uni7ReservasBackend.Models
                     throw new EntidadesException(EntityExcCode.USUARIOPOSSUIRESERVAS, reservas.Count().ToString());
                 }
 
+                //Remove as reservas e controles antigos
                 context.Reservas.RemoveRange(reservas);
                 context.Controles.RemoveRange(usuario_.First().Controles);
                 context.Usuarios.Remove(usuario_.First());

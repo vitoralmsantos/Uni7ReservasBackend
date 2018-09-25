@@ -25,6 +25,10 @@ namespace Uni7ReservasBackend.Models.Entidades
         RESTRICALLOCALEQUIPAMENTO = 1105,
         RESERVAINEXISTENTE = 1106,
         CATEGORIAINEXISTENTE = 1201,
+        NOMECATEGORIAVAZIO = 1202,
+        CATEGORIAJACADASTRADA = 1203,
+        CATEGORIAPOSSUIRESERVAS = 1204,
+        CATEGORIAPOSSUIEQUIPAMENTOS = 1205,
         LOCALINEXISTENTE = 1301
         
     }
@@ -83,6 +87,12 @@ namespace Uni7ReservasBackend.Models.Entidades
                         return "Reserva inexistente: " + Detalhe;
                     case EntityExcCode.CATEGORIAINEXISTENTE:
                         return "Categoria inexistente: " + Detalhe;
+                    case EntityExcCode.NOMECATEGORIAVAZIO:
+                        return "Nome da categoria não pode ser vazio.";
+                    case EntityExcCode.CATEGORIAPOSSUIRESERVAS:
+                        return String.Format("Categoria possui {0} reservas.", Detalhe);
+                    case EntityExcCode.CATEGORIAPOSSUIEQUIPAMENTOS:
+                        return String.Format("Categoria possui {0} equipamentos.", Detalhe);
                     case EntityExcCode.LOCALINEXISTENTE:
                         return "Local inexistente: " + Detalhe;
                     default: return "Erro desconhecido";

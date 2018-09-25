@@ -29,8 +29,8 @@ namespace Uni7ReservasBackend.Models
     
         public virtual Usuario Usuario { get; set; }
         public virtual Local Local { get; set; }
+        public virtual Controle Controle { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CategoriaEquipamento> CategoriasEquipamentos { get; set; }
-        public virtual Controle Controle { get; set; }
     }
 }
