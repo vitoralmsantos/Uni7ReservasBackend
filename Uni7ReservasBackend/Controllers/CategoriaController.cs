@@ -122,7 +122,7 @@ namespace Uni7ReservasBackend.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Delete(int id)
         {
-            CategoriaResponse response = new CategoriaResponse();
+            BaseResponse response = new BaseResponse();
 
             try
             {

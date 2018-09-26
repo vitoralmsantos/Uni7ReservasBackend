@@ -24,7 +24,7 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                List<Equipamento> equipamentos = Equipamento.ConsultarEquipamentos();
+                List<Equipamento> equipamentos = Equipamento.Consultar();
 
                 foreach (Equipamento e in equipamentos)
                 {
@@ -57,7 +57,7 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                Equipamento e = Equipamento.ConsultarEquipamentoPorId(id);
+                Equipamento e = Equipamento.ConsultarPorId(id);
                 response.Equipamento = new EquipamentoTO();
                 response.Equipamento.Id = e.Id;
                 response.Equipamento.Modelo = e.Modelo;
@@ -83,7 +83,7 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                Equipamento.Cadastrar(equipamento.Modelo, equipamento.Disponivel, equipamento.IdCategoria);
+                Equipamento.Cadastrar(equipamento.Modelo, equipamento.Serie, equipamento.Disponivel, equipamento.IdCategoria);
             }
             catch (EntidadesException eex)
             {
@@ -105,7 +105,7 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                Equipamento.Atualizar(id, equipamento.Modelo, equipamento.Disponivel, equipamento.IdCategoria);
+                Equipamento.Atualizar(id, equipamento.Modelo, equipamento.Serie, equipamento.Disponivel, equipamento.IdCategoria);
                 response.Equipamento = equipamento;
             }
             catch (EntidadesException eex)
@@ -129,7 +129,7 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                Equipamento.Remover(id);
+                Equipamento.Remover(id, true);
             }
             catch (EntidadesException eex)
             {

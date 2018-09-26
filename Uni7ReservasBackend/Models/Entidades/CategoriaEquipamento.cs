@@ -38,8 +38,8 @@ namespace Uni7ReservasBackend.Models
 
                 if (categoria_.Count() == 0)
                     throw new EntidadesException(EntityExcCode.CATEGORIAINEXISTENTE, idCategoria.ToString());
-                else
-                    categoria = categoria_.First();
+
+                categoria = categoria_.First();
             }
 
             return categoria;
@@ -99,10 +99,15 @@ namespace Uni7ReservasBackend.Models
                 if (categoria_.Count() == 0)
                     throw new EntidadesException(EntityExcCode.CATEGORIAINEXISTENTE, idCategoria.ToString());
 
-                int reservas = categoria_.First().Reservas.Count();
-                if (reservas > 0)
+                if (categoria_.First().Reservas.Count > 0)
                 {
-                    throw new EntidadesException(EntityExcCode.CATEGORIAPOSSUIRESERVAS, reservas.ToString());
+                    string info = "";
+                    foreach (var r in categoria_.First().Reservas)
+                    {
+                        info += String.Format("[{0} {1} {2}] ", r.Data.ToShortDateString(),
+                            r.Turno, r.Horario);
+                    }
+                    throw new EntidadesException(EntityExcCode.CATEGORIAPOSSUIRESERVAS, info);
                 }
 
                 int equips = categoria_.First().Equipamentos.Count();

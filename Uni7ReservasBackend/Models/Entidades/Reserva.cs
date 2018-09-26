@@ -56,7 +56,7 @@ namespace Uni7ReservasBackend.Models
 
                     if (local_.First().RestricoesCategoriaEquipamento.Contains(catequip1_.First()))
                     {
-                        throw new EntidadesException(EntityExcCode.RESTRICALLOCALEQUIPAMENTO, catequip1_.First().Nome);
+                        throw new EntidadesException(EntityExcCode.RESTRICAOLOCALEQUIPAMENTO, catequip1_.First().Nome);
                     }
                 }
 
@@ -85,7 +85,7 @@ namespace Uni7ReservasBackend.Models
 
                     if (local_.First().RestricoesCategoriaEquipamento.Contains(catequip2_.First()))
                     {
-                        throw new EntidadesException(EntityExcCode.RESTRICALLOCALEQUIPAMENTO, catequip2_.First().Nome);
+                        throw new EntidadesException(EntityExcCode.RESTRICAOLOCALEQUIPAMENTO, catequip2_.First().Nome);
                     }
                 }
 

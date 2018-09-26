@@ -22,7 +22,7 @@ namespace Uni7ReservasBackend.Models.Entidades
         EQUIPAMENTOINDISPONIVEL = 1102,
         EQUIPAMENTONECESSARIO = 1103,
         EQUIPAMENTOSIGUAIS = 1104,
-        RESTRICALLOCALEQUIPAMENTO = 1105,
+        RESTRICAOLOCALEQUIPAMENTO = 1105,
         RESERVAINEXISTENTE = 1106,
         CATEGORIAINEXISTENTE = 1201,
         NOMECATEGORIAVAZIO = 1202,
@@ -30,9 +30,11 @@ namespace Uni7ReservasBackend.Models.Entidades
         CATEGORIAPOSSUIRESERVAS = 1204,
         CATEGORIAPOSSUIEQUIPAMENTOS = 1205,
         LOCALINEXISTENTE = 1301,
+        NOMELOCALVAZIO = 1302,
+        LOCALPOSSUIRESERVAS = 1303,
         EQUIPAMENTOINEXISTENTE = 1401,
-        MODELOEQUIPAMENTOVAZIO = 1402
-
+        MODELOEQUIPAMENTOVAZIO = 1402,
+        EQUIPAMENTONOLIMITEDERESERVAS = 1403
     }
 
     public class EntidadesException : Exception
@@ -83,7 +85,7 @@ namespace Uni7ReservasBackend.Models.Entidades
                         return "Um equipamento precisa ser escolhido.";
                     case EntityExcCode.EQUIPAMENTOSIGUAIS:
                         return "Equipamentos não podem ser iguais.";
-                    case EntityExcCode.RESTRICALLOCALEQUIPAMENTO:
+                    case EntityExcCode.RESTRICAOLOCALEQUIPAMENTO:
                         return "O equipamento especificado não pode ser reservado para o local: " + Detalhe;
                     case EntityExcCode.EQUIPAMENTOINEXISTENTE:
                         return "Equipamento inexistente: " + Detalhe;
@@ -94,11 +96,19 @@ namespace Uni7ReservasBackend.Models.Entidades
                     case EntityExcCode.NOMECATEGORIAVAZIO:
                         return "Nome da categoria não pode ser vazio.";
                     case EntityExcCode.CATEGORIAPOSSUIRESERVAS:
-                        return String.Format("Categoria possui {0} reservas.", Detalhe);
+                        return String.Format("Categoria possui reservas: ", Detalhe);
                     case EntityExcCode.CATEGORIAPOSSUIEQUIPAMENTOS:
                         return String.Format("Categoria possui {0} equipamentos.", Detalhe);
+                    case EntityExcCode.MODELOEQUIPAMENTOVAZIO:
+                        return String.Format("Modelo do equipamento não pode ser vazio.");
                     case EntityExcCode.LOCALINEXISTENTE:
                         return "Local inexistente: " + Detalhe;
+                    case EntityExcCode.NOMELOCALVAZIO:
+                        return String.Format("Nome do local não pode ser vazio.");
+                    case EntityExcCode.LOCALPOSSUIRESERVAS:
+                        return String.Format("Local possui reservas: ", Detalhe);
+                    case EntityExcCode.EQUIPAMENTONOLIMITEDERESERVAS:
+                        return String.Format("O equipamento não pode ser removido, pois a quantidade de reservas da sua categoria está no limite na seguinte data, turno e horário: ", Detalhe);
                     default: return "Erro desconhecido";
                 }
             }

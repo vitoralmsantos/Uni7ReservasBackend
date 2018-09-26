@@ -101,7 +101,12 @@ namespace Uni7ReservasBackend.Models
             }
         }
 
-        public static void Remover(int id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="verificaQtde">Verifica se existe algum dia/turno/horário com o limite de reservas daquele equipamento.</param>
+        public static void Remover(int id, bool verificaQtde)
         {
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
@@ -112,21 +117,37 @@ namespace Uni7ReservasBackend.Models
                 if (equipamento_.Count() == 0)
                     throw new EntidadesException(EntityExcCode.EQUIPAMENTOINEXISTENTE, id.ToString());
 
-
-
-                int reservas = categoria_.First().Reservas.Count();
-                if (reservas > 0)
+                if (verificaQtde)
                 {
-                    throw new EntidadesException(EntityExcCode.CATEGORIAPOSSUIRESERVAS, reservas.ToString());
+                    var categoria_ = from CategoriaEquipamento ce in context.Categorias.Include("Equipamentos")
+                                     where ce.Id == id
+                                     select ce;
+
+                    if (categoria_.Count() == 0)
+                        throw new EntidadesException(EntityExcCode.CATEGORIAINEXISTENTE, id.ToString());
+
+                    CategoriaEquipamento categoria = categoria_.First();
+                    int qtdeCategoria = categoria_.First().Equipamentos.Where(e => e.Disponivel).Count();
+
+                    var reservas_ = from Reserva r in context.Reservas
+                                    where r.CategoriasEquipamentos.Contains(categoria) && r.Data > DateTime.Today.AddDays(-1)
+                                    group r by new { r.Data, r.Turno, r.Horario } into g
+                                    where g.Count() >= qtdeCategoria
+                                    select new { Reserva = g.Key, Qtde = g.Count() };
+
+                    if (reservas_.Count() > 0)
+                    {
+                        string info = "";
+                        foreach (var r in reservas_)
+                        {
+                            info += String.Format("[{0} {1} {2}] ", r.Reserva.Data.ToShortDateString(),
+                                r.Reserva.Turno, r.Reserva.Horario);
+                        }
+                        throw new EntidadesException(EntityExcCode.EQUIPAMENTONOLIMITEDERESERVAS, info);
+                    }
                 }
 
-                int equips = categoria_.First().Equipamentos.Count();
-                if (equips > 0)
-                {
-                    throw new EntidadesException(EntityExcCode.CATEGORIAPOSSUIEQUIPAMENTOS, equips.ToString());
-                }
-
-                context.Categorias.Remove(categoria_.First());
+                context.Equipamentos.Remove(equipamento_.First());
                 context.SaveChanges();
             }
         }
