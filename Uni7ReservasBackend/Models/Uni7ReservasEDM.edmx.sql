@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/25/2018 15:10:53
+-- Date Created: 09/26/2018 09:50:23
 -- Generated from EDMX file: C:\Users\NIP\source\repos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
 -- --------------------------------------------------
 
@@ -47,8 +47,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SoftwareSoftwareLocal]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[SoftwaresLocais] DROP CONSTRAINT [FK_SoftwareSoftwareLocal];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CategoriaEquipamentoReserva]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reservas] DROP CONSTRAINT [FK_CategoriaEquipamentoReserva];
+IF OBJECT_ID(N'[dbo].[FK_ReservaCategoriaEquipamento_Reserva]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ReservaCategoriaEquipamento] DROP CONSTRAINT [FK_ReservaCategoriaEquipamento_Reserva];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ReservaCategoriaEquipamento_CategoriaEquipamento]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ReservaCategoriaEquipamento] DROP CONSTRAINT [FK_ReservaCategoriaEquipamento_CategoriaEquipamento];
 GO
 
 -- --------------------------------------------------
@@ -84,6 +87,9 @@ IF OBJECT_ID(N'[dbo].[SoftwaresLocais]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Restricoes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Restricoes];
+GO
+IF OBJECT_ID(N'[dbo].[ReservaCategoriaEquipamento]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ReservaCategoriaEquipamento];
 GO
 
 -- --------------------------------------------------
@@ -127,6 +133,7 @@ GO
 CREATE TABLE [dbo].[Equipamentos] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Modelo] nvarchar(max)  NOT NULL,
+    [Serie] nvarchar(max)  NOT NULL,
     [Disponivel] bit  NOT NULL,
     [CategoriaEquipamento_Id] int  NOT NULL
 );

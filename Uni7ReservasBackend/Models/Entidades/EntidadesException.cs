@@ -29,8 +29,10 @@ namespace Uni7ReservasBackend.Models.Entidades
         CATEGORIAJACADASTRADA = 1203,
         CATEGORIAPOSSUIRESERVAS = 1204,
         CATEGORIAPOSSUIEQUIPAMENTOS = 1205,
-        LOCALINEXISTENTE = 1301
-        
+        LOCALINEXISTENTE = 1301,
+        EQUIPAMENTOINEXISTENTE = 1401,
+        MODELOEQUIPAMENTOVAZIO = 1402
+
     }
 
     public class EntidadesException : Exception
@@ -83,6 +85,8 @@ namespace Uni7ReservasBackend.Models.Entidades
                         return "Equipamentos não podem ser iguais.";
                     case EntityExcCode.RESTRICALLOCALEQUIPAMENTO:
                         return "O equipamento especificado não pode ser reservado para o local: " + Detalhe;
+                    case EntityExcCode.EQUIPAMENTOINEXISTENTE:
+                        return "Equipamento inexistente: " + Detalhe;
                     case EntityExcCode.RESERVAINEXISTENTE:
                         return "Reserva inexistente: " + Detalhe;
                     case EntityExcCode.CATEGORIAINEXISTENTE:

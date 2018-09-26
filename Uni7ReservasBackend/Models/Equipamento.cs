@@ -16,6 +16,7 @@ namespace Uni7ReservasBackend.Models
     {
         public int Id { get; set; }
         public string Modelo { get; set; }
+        public string Serie { get; set; }
         public bool Disponivel { get; set; }
     
         public virtual CategoriaEquipamento CategoriaEquipamento { get; set; }

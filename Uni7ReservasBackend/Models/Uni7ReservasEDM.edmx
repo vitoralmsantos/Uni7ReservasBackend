@@ -105,6 +105,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Modelo" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Serie" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Disponivel" Type="bit" Nullable="false" />
     <Property Name="CategoriaEquipamento_Id" Type="int" Nullable="false" />
   </EntityType>
@@ -418,6 +419,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="CategoriaEquipamento" Relationship="Uni7ReservasModel.CategoriaEquipamentoEquipamento" FromRole="Equipamento" ToRole="CategoriaEquipamento" />
           <Property Name="Modelo" Type="String" Nullable="false" />
+          <Property Name="Serie" Type="String" Nullable="false" />
           <Property Name="Disponivel" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="CategoriaEquipamento">
@@ -583,6 +585,7 @@
         <MappingFragment StoreEntitySet="Equipamentos">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+          <ScalarProperty Name="Serie" ColumnName="Serie" />
           <ScalarProperty Name="Disponivel" ColumnName="Disponivel" />
         </MappingFragment>
       </EntityTypeMapping>

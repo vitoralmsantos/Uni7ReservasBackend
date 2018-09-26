@@ -143,6 +143,7 @@
     <Compile Include="Models\Controle.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entidades\Equipamento.cs" />
     <Compile Include="Models\Entidades\EntidadesException.cs" />
     <Compile Include="Models\Entidades\Reserva.cs" />
     <Compile Include="Models\Entidades\CategoriaEquipamento.cs" />
