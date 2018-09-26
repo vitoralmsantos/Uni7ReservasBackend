@@ -18,10 +18,10 @@ namespace Uni7ReservasBackend.Models
 
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
-                var equipamento_ = from Local l in context.Locais
+                var local_ = from Local l in context.Locais
                                    select l;
 
-                Locais = equipamento_.ToList();
+                Locais = local_.ToList();
             }
 
             return Locais;

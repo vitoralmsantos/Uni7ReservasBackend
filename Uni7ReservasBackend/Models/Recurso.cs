@@ -12,19 +12,20 @@ namespace Uni7ReservasBackend.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Software
+    public partial class Recurso
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Software()
+        public Recurso()
         {
-            this.Locais = new HashSet<SoftwareLocal>();
+            this.Locais = new HashSet<RecursoLocal>();
         }
     
         public int Id { get; set; }
         public string Nome { get; set; }
-        public string Versao { get; set; }
+        public string Detalhes { get; set; }
+        public TIPORECURSO Tipo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SoftwareLocal> Locais { get; set; }
+        public virtual ICollection<RecursoLocal> Locais { get; set; }
     }
 }

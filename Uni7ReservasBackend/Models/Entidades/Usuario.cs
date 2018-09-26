@@ -65,8 +65,10 @@ namespace Uni7ReservasBackend.Models
             return usuario;
         }
 
-        public static void Cadastrar(string nome, string email, TIPOUSUARIO tipo)
+        public static int Cadastrar(string nome, string email, TIPOUSUARIO tipo)
         {
+            Usuario usuario = null;
+
             if (nome == null || nome.Length == 0)
                 throw new EntidadesException(EntityExcCode.NOMEUSUARIOVAZIO, "");
 
@@ -98,7 +100,7 @@ namespace Uni7ReservasBackend.Models
                     throw new EntidadesException(EntityExcCode.EMAILJACADASTRADO, email);
                 else
                 {
-                    Usuario usuario = new Usuario();
+                    usuario = new Usuario();
                     usuario.Nome = nome;
                     usuario.Email = email;
                     usuario.Tipo = tipo;
@@ -117,6 +119,8 @@ namespace Uni7ReservasBackend.Models
             {
                 throw new EntidadesException(EntityExcCode.SENHANAOENVIADA, ex.Message);
             }
+
+            return usuario.Id;
         }
 
         public static void Atualizar(int idUsuario, string nome, string email, TIPOUSUARIO tipo)

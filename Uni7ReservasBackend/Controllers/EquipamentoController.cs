@@ -80,10 +80,11 @@ namespace Uni7ReservasBackend.Controllers
         public IHttpActionResult Post([FromBody]EquipamentoTO equipamento)
         {
             EquipamentoResponse response = new EquipamentoResponse();
+            response.Equipamento = equipamento;
 
             try
             {
-                Equipamento.Cadastrar(equipamento.Modelo, equipamento.Serie, equipamento.Disponivel, equipamento.IdCategoria);
+                response.Equipamento.Id = Equipamento.Cadastrar(equipamento.Modelo, equipamento.Serie, equipamento.Disponivel, equipamento.IdCategoria);
             }
             catch (EntidadesException eex)
             {
@@ -101,12 +102,11 @@ namespace Uni7ReservasBackend.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Put(int id, [FromBody]EquipamentoTO equipamento)
         {
-            EquipamentoResponse response = new EquipamentoResponse();
+            BaseResponse response = new BaseResponse();
 
             try
             {
                 Equipamento.Atualizar(id, equipamento.Modelo, equipamento.Serie, equipamento.Disponivel, equipamento.IdCategoria);
-                response.Equipamento = equipamento;
             }
             catch (EntidadesException eex)
             {
@@ -125,7 +125,7 @@ namespace Uni7ReservasBackend.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Delete(int id)
         {
-            EquipamentoResponse response = new EquipamentoResponse();
+            BaseResponse response = new BaseResponse();
 
             try
             {

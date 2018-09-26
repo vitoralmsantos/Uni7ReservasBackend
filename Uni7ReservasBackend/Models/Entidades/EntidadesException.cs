@@ -34,7 +34,11 @@ namespace Uni7ReservasBackend.Models.Entidades
         LOCALPOSSUIRESERVAS = 1303,
         EQUIPAMENTOINEXISTENTE = 1401,
         MODELOEQUIPAMENTOVAZIO = 1402,
-        EQUIPAMENTONOLIMITEDERESERVAS = 1403
+        EQUIPAMENTONOLIMITEDERESERVAS = 1403,
+        RECURSOINEXISTENTE = 1501,
+        NOMERECURSOVAZIO = 1502,
+        RECURSOPOSSUILOCAIS = 1503,
+        RECURSOLOCALINEXISTENTE = 1506
     }
 
     public class EntidadesException : Exception
@@ -109,6 +113,14 @@ namespace Uni7ReservasBackend.Models.Entidades
                         return String.Format("Local possui reservas: ", Detalhe);
                     case EntityExcCode.EQUIPAMENTONOLIMITEDERESERVAS:
                         return String.Format("O equipamento não pode ser removido, pois a quantidade de reservas da sua categoria está no limite na seguinte data, turno e horário: ", Detalhe);
+                    case EntityExcCode.RECURSOINEXISTENTE:
+                        return "Recurso inexistente: " + Detalhe;
+                    case EntityExcCode.NOMERECURSOVAZIO:
+                        return "Nome do recurso não pode ser vazio.";
+                    case EntityExcCode.RECURSOPOSSUILOCAIS:
+                        return String.Format("Recurso possui locais: ", Detalhe);
+                    case EntityExcCode.RECURSOLOCALINEXISTENTE:
+                        return String.Format("Recurso não existe no local especificado.");
                     default: return "Erro desconhecido";
                 }
             }

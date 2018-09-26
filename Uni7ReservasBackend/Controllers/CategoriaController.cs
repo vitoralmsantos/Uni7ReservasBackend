@@ -77,10 +77,11 @@ namespace Uni7ReservasBackend.Controllers
         public IHttpActionResult Post([FromBody]CategoriaTO categoria)
         {
             CategoriaResponse response = new CategoriaResponse();
+            response.Categoria = categoria;
 
             try
             {
-                CategoriaEquipamento.Cadastrar(categoria.Nome);
+                response.Categoria.Id = CategoriaEquipamento.Cadastrar(categoria.Nome);
             }
             catch (EntidadesException eex)
             {
@@ -98,12 +99,11 @@ namespace Uni7ReservasBackend.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Put(int id, [FromBody]CategoriaTO categoria)
         {
-            CategoriaResponse response = new CategoriaResponse();
+            BaseResponse response = new BaseResponse();
 
             try
             {
                 CategoriaEquipamento.Atualizar(id, categoria.Nome);
-                response.Categoria = categoria;
             }
             catch (EntidadesException eex)
             {

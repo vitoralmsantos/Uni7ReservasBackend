@@ -117,12 +117,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\RecursoController.cs" />
     <Compile Include="Controllers\LocalController.cs" />
     <Compile Include="Controllers\EquipamentoController.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\ReservaController.cs" />
     <Compile Include="Controllers\Response\BaseResponse.cs" />
+    <Compile Include="Controllers\Response\RecursosResponse.cs" />
     <Compile Include="Controllers\Response\LocaisResponse.cs" />
+    <Compile Include="Controllers\Response\RecursoResponse.cs" />
     <Compile Include="Controllers\Response\LocalResponse.cs" />
     <Compile Include="Controllers\Response\CategoriasResponse.cs" />
     <Compile Include="Controllers\Response\ReservasResponse.cs" />
@@ -132,6 +135,8 @@
     <Compile Include="Controllers\Response\ReservaResponse.cs" />
     <Compile Include="Controllers\Response\EquipamentosResponse.cs" />
     <Compile Include="Controllers\Response\UsuariosResponse.cs" />
+    <Compile Include="Controllers\TransferObjects\RecursoLocalTO.cs" />
+    <Compile Include="Controllers\TransferObjects\RecursoTO.cs" />
     <Compile Include="Controllers\TransferObjects\LocalTO.cs" />
     <Compile Include="Controllers\TransferObjects\EquipamentoTO.cs" />
     <Compile Include="Controllers\TransferObjects\ReservaRegistroTO.cs" />
@@ -147,6 +152,7 @@
     <Compile Include="Models\Controle.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entidades\Recurso.cs" />
     <Compile Include="Models\Entidades\Local.cs" />
     <Compile Include="Models\Entidades\Equipamento.cs" />
     <Compile Include="Models\Entidades\EntidadesException.cs" />
@@ -163,13 +169,13 @@
     <Compile Include="Models\Local.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Recurso.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RecursoLocal.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SATISFACAO.cs">
-      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Software.cs">
-      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SoftwareLocal.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STATUSCHAMADO.cs">

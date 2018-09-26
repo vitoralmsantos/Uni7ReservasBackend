@@ -102,6 +102,7 @@ namespace Uni7ReservasBackend.Controllers
         public IHttpActionResult Post([FromBody]ReservaRegistroTO reserva)
         {
             BaseResponse response = new BaseResponse();
+
             try
             {
                 DateTime data = DateTime.ParseExact(reserva.Data, "dd/MM/yyyy", CultureInfo.InvariantCulture);

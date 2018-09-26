@@ -32,7 +32,7 @@ namespace Uni7ReservasBackend.Models
         public virtual DbSet<CategoriaEquipamento> Categorias { get; set; }
         public virtual DbSet<Controle> Controles { get; set; }
         public virtual DbSet<Chamado> Chamados { get; set; }
-        public virtual DbSet<Software> Softwares { get; set; }
-        public virtual DbSet<SoftwareLocal> SoftwaresLocais { get; set; }
+        public virtual DbSet<Recurso> Recursos { get; set; }
+        public virtual DbSet<RecursoLocal> RecursosLocais { get; set; }
     }
 }

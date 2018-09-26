@@ -12,12 +12,12 @@ namespace Uni7ReservasBackend.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SoftwareLocal
+    public partial class RecursoLocal
     {
         public int Id { get; set; }
         public int Qtde { get; set; }
     
         public virtual Local Local { get; set; }
-        public virtual Software Software { get; set; }
+        public virtual Recurso Recurso { get; set; }
     }
 }

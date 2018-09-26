@@ -45,8 +45,10 @@ namespace Uni7ReservasBackend.Models
             return equipamento;
         }
 
-        public static void Cadastrar(string modelo, string serie, bool disponivel, int idCategoria)
+        public static int Cadastrar(string modelo, string serie, bool disponivel, int idCategoria)
         {
+            Equipamento equipamento = null;
+
             if (modelo == null || modelo.Length == 0)
                 throw new EntidadesException(EntityExcCode.MODELOEQUIPAMENTOVAZIO, "");
 
@@ -59,7 +61,7 @@ namespace Uni7ReservasBackend.Models
                 if (categoria_.Count() == 0)
                     throw new EntidadesException(EntityExcCode.CATEGORIAINEXISTENTE, idCategoria.ToString());
 
-                Equipamento equipamento = new Equipamento();
+                equipamento = new Equipamento();
                 equipamento.Modelo = modelo;
                 equipamento.Serie = serie;
                 equipamento.Disponivel = disponivel;
@@ -68,6 +70,8 @@ namespace Uni7ReservasBackend.Models
                 context.Equipamentos.Add(equipamento);
                 context.SaveChanges();
             }
+
+            return equipamento.Id;
         }
 
         public static void Atualizar(int id, string modelo, string serie, bool disponivel, int idCategoria)

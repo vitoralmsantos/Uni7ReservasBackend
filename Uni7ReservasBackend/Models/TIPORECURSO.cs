@@ -13,8 +13,8 @@ namespace Uni7ReservasBackend.Models
     
     public enum TIPORECURSO : int
     {
-        SOFTWARE = 0,
-        HARDWARE = 1,
-        EQUIPAMENTO = 2
+        HARDWARE = 0,
+        SOFTWARE = 1,
+        OUTRO = 2
     }
 }

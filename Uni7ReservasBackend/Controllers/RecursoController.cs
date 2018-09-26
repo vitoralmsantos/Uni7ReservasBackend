@@ -13,28 +13,28 @@ using Uni7ReservasBackend.Models.Entidades;
 namespace Uni7ReservasBackend.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    [RoutePrefix("api/usuario")]
-    public class UsuarioController : ApiController
+    [RoutePrefix("api/recurso")]
+    public class RecursoController : ApiController
     {
         [Route("")]
         public IHttpActionResult Get()
         {
-            UsuariosResponse response = new UsuariosResponse();
-            response.Usuarios = new List<UsuarioTO>();
+            RecursosResponse response = new RecursosResponse();
+            response.Recursos = new List<RecursoTO>();
 
             try
             {
-                List<Usuario> usuarios = Usuario.ConsultarUsuarios();
+                List<Recurso> recursos = Recurso.Consultar();
 
-                foreach (Usuario u in usuarios)
+                foreach (Recurso r in recursos)
                 {
-                    UsuarioTO uTO = new UsuarioTO();
-                    uTO.Id = u.Id;
-                    uTO.Nome = u.Nome;
-                    uTO.Email = u.Email;
-                    uTO.Tipo = (int)u.Tipo;
+                    RecursoTO rTO = new RecursoTO();
+                    rTO.Id = r.Id;
+                    rTO.Nome = r.Nome;
+                    rTO.Detalhes = r.Detalhes;
+                    rTO.Tipo = (int)r.Tipo;
 
-                    response.Usuarios.Add(uTO);
+                    response.Recursos.Add(rTO);
                 }
             }
             catch (EntidadesException eex)
@@ -50,19 +50,19 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
-        [Route("consulta/{id:int}")]
+        [Route("{id:int}")]
         public IHttpActionResult Get(int id)
         {
-            UsuarioResponse response = new UsuarioResponse();
+            RecursoResponse response = new RecursoResponse();
 
             try
             {
-                Usuario u = Usuario.ConsultarUsuarioPorId(id);
-                response.Usuario = new UsuarioTO();
-                response.Usuario.Id = u.Id;
-                response.Usuario.Nome = u.Nome;
-                response.Usuario.Email = u.Email;
-                response.Usuario.Tipo = (int)u.Tipo;
+                Recurso r = Recurso.ConsultarPorId(id);
+                response.Recurso = new RecursoTO();
+                response.Recurso.Id = r.Id;
+                response.Recurso.Nome = r.Nome;
+                response.Recurso.Detalhes = r.Detalhes;
+                response.Recurso.Tipo = (int)r.Tipo;
             }
             catch (EntidadesException eex)
             {
@@ -77,44 +77,15 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
-        [Route("consulta")]
-        public IHttpActionResult Get([FromUri]string email)
-        {
-            UsuarioResponse response = new UsuarioResponse();
-
-            try
-            {
-                Usuario u = Usuario.ConsultarUsuarioPorEmail(email);
-                response.Usuario = new UsuarioTO();
-                response.Usuario.Id = u.Id;
-                response.Usuario.Nome = u.Nome;
-                response.Usuario.Email = u.Email;
-                response.Usuario.Tipo = (int)u.Tipo;
-            }
-            catch (EntidadesException eex)
-            {
-                response.Status = (int)eex.Codigo;
-                response.Detalhes = eex.Message;
-            }
-            catch (Exception ex)
-            {
-                response.Status = -1;
-                response.Detalhes = ex.Message;
-            }
-            return Ok(response);
-        }
-
-        // POST: api/Usuario
         [Route("")]
-        public IHttpActionResult Post([FromBody]UsuarioTO usuario)
+        public IHttpActionResult Post([FromBody]RecursoTO recurso)
         {
-            UsuarioResponse response = new UsuarioResponse();
-            response.Usuario = usuario;
+            RecursoResponse response = new RecursoResponse();
+            response.Recurso = recurso;
 
             try
             {
-                response.Usuario.Id = Usuario.Cadastrar(usuario.Nome, usuario.Email, (TIPOUSUARIO)usuario.Tipo);
-                
+                response.Recurso.Id = Recurso.Cadastrar(recurso.Nome, recurso.Detalhes, (TIPORECURSO)recurso.Tipo);   
             }
             catch (EntidadesException eex)
             {
@@ -129,15 +100,14 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
-        // PUT: api/Usuario/5
         [Route("{id:int}")]
-        public IHttpActionResult Put(int id, [FromBody]UsuarioTO usuario)
+        public IHttpActionResult Put(int id, [FromBody]RecursoTO recurso)
         {
             BaseResponse response = new BaseResponse();
-            
+
             try
             {
-                Usuario.Atualizar(id, usuario.Nome, usuario.Email, (TIPOUSUARIO)usuario.Tipo);
+                Recurso.Atualizar(id, recurso.Nome, recurso.Detalhes, (TIPORECURSO)recurso.Tipo);
             }
             catch (EntidadesException eex)
             {
@@ -160,7 +130,53 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                Usuario.Remover(id);
+                Recurso.Remover(id);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("cadastrarlocal")]
+        [HttpPost]
+        public IHttpActionResult CadastrarPorLocal([FromBody]RecursoLocalTO recursoLocal)
+        {
+            BaseResponse response = new BaseResponse();
+
+            try
+            {
+                Recurso.CadastrarPorLocal(recursoLocal.IdRecurso, recursoLocal.IdLocal, recursoLocal.Qtde);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("removerlocal")]
+        [HttpPost]
+        public IHttpActionResult RemoverPorLocal([FromBody]RecursoLocalTO recursoLocal)
+        {
+            BaseResponse response = new BaseResponse();
+
+            try
+            {
+                Recurso.RemoverPorLocal(recursoLocal.IdRecurso, recursoLocal.IdLocal);
             }
             catch (EntidadesException eex)
             {
