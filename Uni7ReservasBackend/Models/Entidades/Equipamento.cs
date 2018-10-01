@@ -18,7 +18,7 @@ namespace Uni7ReservasBackend.Models
 
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
-                var equipamento_ = from Equipamento e in context.Equipamentos
+                var equipamento_ = from Equipamento e in context.Equipamentos.Include("CategoriaEquipamento")
                                    select e;
 
                 Equipamentos = equipamento_.ToList();

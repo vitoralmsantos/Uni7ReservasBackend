@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -65,6 +66,40 @@ namespace Uni7ReservasBackend.Controllers
                 response.Local.Disponivel = l.Disponivel;
                 response.Local.Reservavel = l.Reservavel;
                 response.Local.Tipo = (int)l.Tipo;
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("disponibilidade")]
+        public IHttpActionResult Get([FromUri]string data, [FromUri]string horario, [FromUri]string turno)
+        {
+            LocaisResponse response = new LocaisResponse();
+
+            try
+            {
+                DateTime d = DateTime.ParseExact(data, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                List<Local> locais = Reserva.ConsultarLocaisDisponiveis(d, horario, turno, false);
+                foreach (Local l in locais)
+                {
+                    LocalTO lTO = new LocalTO();
+                    lTO.Id = l.Id;
+                    lTO.Nome = l.Nome;
+                    lTO.Disponivel = l.Disponivel;
+                    lTO.Reservavel = l.Reservavel;
+                    lTO.Tipo = (int)l.Tipo;
+
+                    response.Locais.Add(lTO);
+                }
             }
             catch (EntidadesException eex)
             {

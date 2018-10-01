@@ -8,7 +8,7 @@ namespace Uni7ReservasBackend.Models
 {
     public partial class Reserva
     {
-        public static void Reservar(DateTime data, string horario, string turno, int idLocal, 
+        public static void Reservar(DateTime data, string horario, string turno, int idLocal,
             string obs, int idCatEquipamento1, int idCatEquipamento2)
         {
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
@@ -30,14 +30,14 @@ namespace Uni7ReservasBackend.Models
                 {
                     throw new EntidadesException(EntityExcCode.EQUIPAMENTOSIGUAIS, "");
                 }
-                
+
                 IEnumerable<CategoriaEquipamento> catequip1_ = null;
                 if (idCatEquipamento1 > 0)
                 {
                     //Consulta categoria do equipamento 1
                     catequip1_ = from CategoriaEquipamento ce in context.Categorias
-                                     where ce.Id == idCatEquipamento1
-                                     select ce;
+                                 where ce.Id == idCatEquipamento1
+                                 select ce;
 
                     if (catequip1_.Count() == 0)
                     {
@@ -66,7 +66,7 @@ namespace Uni7ReservasBackend.Models
                     //Consulta categoria do equipamento 2
                     catequip2_ = from CategoriaEquipamento ce in context.Categorias
                                  where ce.Id == idCatEquipamento2
-                                     select ce;
+                                 select ce;
 
                     if (catequip2_.Count() == 0)
                     {
@@ -91,9 +91,9 @@ namespace Uni7ReservasBackend.Models
 
                 //Verifica disponibilidade do local
                 var reserva_ = from Reserva r in context.Reservas
-                              where r.Data.Equals(data) && r.Turno.Equals(turno) && r.Horario.Equals(horario)
-                                && r.Local.Id == idLocal
-                              select r.Local.Id;
+                               where r.Data.Equals(data) && r.Turno.Equals(turno) && r.Horario.Equals(horario)
+                                 && r.Local.Id == idLocal
+                               select r.Local.Id;
 
                 if (reserva_.Count() > 0)
                 {
@@ -122,30 +122,34 @@ namespace Uni7ReservasBackend.Models
         /// <param name="data"></param>
         /// <param name="horario"></param>
         /// <param name="turno"></param>
-        /// <param name="reservaveis">Somente os reserváveis (true) ou os não reserváveis (false)</param>
+        /// <param name="reservaveis">Somente os reserváveis (true) ou todos (false)</param>
         /// <returns></returns>
-        public List<Local> ConsultarLocaisDisponiveis(DateTime data, string horario, string turno, bool reservaveis)
+        public static List<Local> ConsultarLocaisDisponiveis(DateTime data, string horario, string turno, bool somenteReservaveis)
         {
             List<Local> Locais = new List<Local>();
 
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
-                if (reservaveis)
+                if (somenteReservaveis)
                 {
                     var local1_ = from Local l in context.Locais
-                                 where l.Disponivel && l.Reservavel &&
-                                 !(from Reserva r in context.Reservas
-                                   where r.Data.Equals(data) && r.Turno.Equals(turno) && r.Horario.Equals(horario)
-                                   select r.Local.Id).Contains(l.Id)
-                                 select l;
+                                  where l.Disponivel && l.Reservavel &&
+                                  !(from Reserva r in context.Reservas
+                                    where r.Data.Equals(data) && r.Turno.Equals(turno) && r.Horario.Equals(horario)
+                                    select r.Local.Id).Contains(l.Id)
+                                  select l;
 
                     Locais = local1_.ToList();
                 }
                 else
                 {
+                    //Inclui não reserváveis mesmo que estejam em algum reserva 
                     var local2_ = from Local l in context.Locais
-                                 where l.Disponivel && !l.Reservavel
-                                 select l;
+                                  where l.Disponivel && (!l.Reservavel || (l.Reservavel &&
+                                  !(from Reserva r in context.Reservas
+                                    where r.Data.Equals(data) && r.Turno.Equals(turno) && r.Horario.Equals(horario)
+                                    select r.Local.Id).Contains(l.Id)))
+                                  select l;
 
                     Locais = local2_.ToList();
                 }
@@ -169,7 +173,7 @@ namespace Uni7ReservasBackend.Models
                 {
                     throw new EntidadesException(EntityExcCode.RESERVAINEXISTENTE, id.ToString());
                 }
-                
+
                 reserva = reservas_.First();
             }
 
