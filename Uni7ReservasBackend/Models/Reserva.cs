@@ -26,11 +26,16 @@ namespace Uni7ReservasBackend.Models
         public string Obs { get; set; }
         public string Horario { get; set; }
         public string Turno { get; set; }
+        public Nullable<bool> Atraso { get; set; }
+        public string ComentarioUsuario { get; set; }
+        public Nullable<SATISFACAO> Satisfacao { get; set; }
+        public Nullable<bool> FoiUsado { get; set; }
+        public string ObsControle { get; set; }
     
         public virtual Usuario Usuario { get; set; }
         public virtual Local Local { get; set; }
-        public virtual Controle Controle { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CategoriaEquipamento> CategoriasEquipamentos { get; set; }
+        public virtual Usuario Bolsista { get; set; }
     }
 }

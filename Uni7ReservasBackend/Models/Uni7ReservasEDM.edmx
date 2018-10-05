@@ -11,7 +11,6 @@
     <EntitySet Name="Locais" EntityType="Uni7ReservasModel.Store.Locais" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Equipamentos" EntityType="Uni7ReservasModel.Store.Equipamentos" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Categorias" EntityType="Uni7ReservasModel.Store.Categorias" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Controles" EntityType="Uni7ReservasModel.Store.Controles" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Chamados" EntityType="Uni7ReservasModel.Store.Chamados" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Recursos" EntityType="Uni7ReservasModel.Store.Recursos" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RecursosLocais" EntityType="Uni7ReservasModel.Store.RecursosLocais" store:Type="Tables" Schema="dbo" />
@@ -28,14 +27,6 @@
     <AssociationSet Name="CategoriaEquipamentoEquipamento" Association="Uni7ReservasModel.Store.CategoriaEquipamentoEquipamento">
       <End Role="CategoriaEquipamento" EntitySet="Categorias" />
       <End Role="Equipamento" EntitySet="Equipamentos" />
-    </AssociationSet>
-    <AssociationSet Name="UsuarioControle" Association="Uni7ReservasModel.Store.UsuarioControle">
-      <End Role="Usuario" EntitySet="Usuarios" />
-      <End Role="Controle" EntitySet="Controles" />
-    </AssociationSet>
-    <AssociationSet Name="ReservaControle" Association="Uni7ReservasModel.Store.ReservaControle">
-      <End Role="Reserva" EntitySet="Reservas" />
-      <End Role="Controle" EntitySet="Controles" />
     </AssociationSet>
     <AssociationSet Name="FK_Restricoes_Local" Association="Uni7ReservasModel.Store.FK_Restricoes_Local">
       <End Role="Local" EntitySet="Locais" />
@@ -65,6 +56,10 @@
       <End Role="CategoriaEquipamento" EntitySet="Categorias" />
       <End Role="ReservaCategoriaEquipamento" EntitySet="ReservaCategoriaEquipamento" />
     </AssociationSet>
+    <AssociationSet Name="BolsistaReserva" Association="Uni7ReservasModel.Store.BolsistaReserva">
+      <End Role="Usuario" EntitySet="Usuarios" />
+      <End Role="Reserva" EntitySet="Reservas" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Usuarios">
     <Key>
@@ -86,8 +81,14 @@
     <Property Name="Obs" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Horario" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Turno" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Atraso" Type="bit" Nullable="true" />
+    <Property Name="ComentarioUsuario" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Satisfacao" Type="int" Nullable="true" />
+    <Property Name="FoiUsado" Type="bit" Nullable="true" />
+    <Property Name="ObsControle" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Usuario_Id" Type="int" Nullable="false" />
     <Property Name="Local_Id" Type="int" Nullable="false" />
+    <Property Name="Bolsista_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Locais">
     <Key>
@@ -116,19 +117,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="Controles">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Abertura" Type="datetime" Nullable="false" />
-    <Property Name="Fechamento" Type="datetime" Nullable="false" />
-    <Property Name="ObsBolsista" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ObsUsuario" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Satisfacao" Type="int" Nullable="false" />
-    <Property Name="Bolsista_Id" Type="int" Nullable="false" />
-    <Property Name="Reserva_Id" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="Chamados">
     <Key>
       <PropertyRef Name="Id" />
@@ -137,6 +125,7 @@
     <Property Name="Descricao" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Status" Type="int" Nullable="false" />
     <Property Name="Observacoes" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DataLimite" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Usuario_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Recursos">
@@ -147,6 +136,7 @@
     <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Detalhes" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Tipo" Type="int" Nullable="false" />
+    <Property Name="Vencimento" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="RecursosLocais">
     <Key>
@@ -209,30 +199,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="UsuarioControle">
-    <End Role="Usuario" Type="Uni7ReservasModel.Store.Usuarios" Multiplicity="1" />
-    <End Role="Controle" Type="Uni7ReservasModel.Store.Controles" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Controle">
-        <PropertyRef Name="Bolsista_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ReservaControle">
-    <End Role="Reserva" Type="Uni7ReservasModel.Store.Reservas" Multiplicity="1" />
-    <End Role="Controle" Type="Uni7ReservasModel.Store.Controles" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Reserva">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Controle">
-        <PropertyRef Name="Reserva_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="UsuarioChamado">
     <End Role="Usuario" Type="Uni7ReservasModel.Store.Usuarios" Multiplicity="1" />
     <End Role="Chamado" Type="Uni7ReservasModel.Store.Chamados" Multiplicity="*" />
@@ -266,6 +232,18 @@
       </Principal>
       <Dependent Role="RecursoLocal">
         <PropertyRef Name="Recurso_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BolsistaReserva">
+    <End Role="Usuario" Type="Uni7ReservasModel.Store.Usuarios" Multiplicity="1" />
+    <End Role="Reserva" Type="Uni7ReservasModel.Store.Reservas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reserva">
+        <PropertyRef Name="Bolsista_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -339,15 +317,6 @@
             <End Role="CategoriaEquipamento" EntitySet="Categorias" />
             <End Role="Equipamento" EntitySet="Equipamentos" />
           </AssociationSet>
-          <EntitySet Name="Controles" EntityType="Uni7ReservasModel.Controle" />
-          <AssociationSet Name="UsuarioControle" Association="Uni7ReservasModel.UsuarioControle">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="Controle" EntitySet="Controles" />
-          </AssociationSet>
-          <AssociationSet Name="ReservaControle" Association="Uni7ReservasModel.ReservaControle">
-            <End Role="Reserva" EntitySet="Reservas" />
-            <End Role="Controle" EntitySet="Controles" />
-          </AssociationSet>
           <AssociationSet Name="Restricoes" Association="Uni7ReservasModel.Restricoes">
             <End Role="Local" EntitySet="Locais" />
             <End Role="CategoriaEquipamento" EntitySet="Categorias" />
@@ -371,6 +340,10 @@
             <End Role="Reserva" EntitySet="Reservas" />
             <End Role="CategoriaEquipamento" EntitySet="Categorias" />
           </AssociationSet>
+          <AssociationSet Name="BolsistaReserva" Association="Uni7ReservasModel.BolsistaReserva">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Reserva" EntitySet="Reservas" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Usuario">
           <Key>
@@ -382,8 +355,8 @@
           <Property Name="Email" Type="String" Nullable="false" />
           <Property Name="Senha" Type="String" Nullable="false" />
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPOUSUARIO" Nullable="false" />
-          <NavigationProperty Name="Controles" Relationship="Uni7ReservasModel.UsuarioControle" FromRole="Usuario" ToRole="Controle" />
           <NavigationProperty Name="Chamados" Relationship="Uni7ReservasModel.UsuarioChamado" FromRole="Usuario" ToRole="Chamado" />
+          <NavigationProperty Name="ReservasBolsista" Relationship="Uni7ReservasModel.BolsistaReserva" FromRole="Usuario" ToRole="Reserva" />
         </EntityType>
         <EntityType Name="Reserva">
           <Key>
@@ -397,8 +370,13 @@
           <Property Name="Obs" Type="String" Nullable="false" />
           <Property Name="Horario" Type="String" Nullable="false" />
           <Property Name="Turno" Type="String" Nullable="false" />
-          <NavigationProperty Name="Controle" Relationship="Uni7ReservasModel.ReservaControle" FromRole="Reserva" ToRole="Controle" />
+          <Property Name="Atraso" Type="Boolean" Nullable="true" />
           <NavigationProperty Name="CategoriasEquipamentos" Relationship="Uni7ReservasModel.ReservaCategoriaEquipamento" FromRole="Reserva" ToRole="CategoriaEquipamento" />
+          <Property Name="ComentarioUsuario" Type="String" Nullable="true" />
+          <Property Name="Satisfacao" Type="Uni7ReservasModel.SATISFACAO" Nullable="true" />
+          <Property Name="FoiUsado" Type="Boolean" Nullable="true" />
+          <Property Name="ObsControle" Type="String" Nullable="true" />
+          <NavigationProperty Name="Bolsista" Relationship="Uni7ReservasModel.BolsistaReserva" FromRole="Reserva" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Local">
           <Key>
@@ -457,32 +435,11 @@
           <Member Name="SALA" Value="1" />
           <Member Name="AUDITORIO" Value="2" />
         </EnumType>
-        <EntityType Name="Controle">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Bolsista" Relationship="Uni7ReservasModel.UsuarioControle" FromRole="Controle" ToRole="Usuario" />
-          <Property Name="Abertura" Type="DateTime" Nullable="false" />
-          <Property Name="Fechamento" Type="DateTime" Nullable="false" />
-          <Property Name="ObsBolsista" Type="String" Nullable="false" />
-          <Property Name="ObsUsuario" Type="String" Nullable="false" />
-          <Property Name="Satisfacao" Type="Uni7ReservasModel.SATISFACAO" Nullable="false" />
-          <NavigationProperty Name="Reserva" Relationship="Uni7ReservasModel.ReservaControle" FromRole="Controle" ToRole="Reserva" />
-        </EntityType>
-        <Association Name="UsuarioControle">
-          <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="Uni7ReservasModel.Controle" Role="Controle" Multiplicity="*" />
-        </Association>
         <EnumType Name="SATISFACAO">
           <Member Name="OTIMO" Value="0" />
           <Member Name="REGULAR" Value="1" />
           <Member Name="RUIM" Value="2" />
         </EnumType>
-        <Association Name="ReservaControle">
-          <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="1" />
-          <End Type="Uni7ReservasModel.Controle" Role="Controle" Multiplicity="0..1" />
-        </Association>
         <Association Name="Restricoes">
           <End Type="Uni7ReservasModel.Local" Role="Local" Multiplicity="*" />
           <End Type="Uni7ReservasModel.CategoriaEquipamento" Role="CategoriaEquipamento" Multiplicity="*" />
@@ -496,6 +453,7 @@
           <Property Name="Status" Type="Uni7ReservasModel.STATUSCHAMADO" Nullable="false" />
           <Property Name="Observacoes" Type="String" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="Uni7ReservasModel.UsuarioChamado" FromRole="Chamado" ToRole="Usuario" />
+          <Property Name="DataLimite" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="UsuarioChamado">
           <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
@@ -520,6 +478,7 @@
           <Property Name="Detalhes" Type="String" Nullable="false" />
           <NavigationProperty Name="Locais" Relationship="Uni7ReservasModel.RecursoRecursoLocal" FromRole="Recurso" ToRole="RecursoLocal" />
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPORECURSO" Nullable="false" />
+          <Property Name="Vencimento" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="RecursoLocal">
           <Key>
@@ -541,6 +500,10 @@
         <Association Name="ReservaCategoriaEquipamento">
           <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="*" />
           <End Type="Uni7ReservasModel.CategoriaEquipamento" Role="CategoriaEquipamento" Multiplicity="*" />
+        </Association>
+        <Association Name="BolsistaReserva">
+          <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -568,6 +531,11 @@
           <ScalarProperty Name="Obs" ColumnName="Obs" />
           <ScalarProperty Name="Horario" ColumnName="Horario" />
           <ScalarProperty Name="Turno" ColumnName="Turno" />
+          <ScalarProperty Name="Atraso" ColumnName="Atraso" />
+          <ScalarProperty Name="ComentarioUsuario" ColumnName="ComentarioUsuario" />
+          <ScalarProperty Name="Satisfacao" ColumnName="Satisfacao" />
+          <ScalarProperty Name="FoiUsado" ColumnName="FoiUsado" />
+          <ScalarProperty Name="ObsControle" ColumnName="ObsControle" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -600,18 +568,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Controles">
-      <EntityTypeMapping TypeName="IsTypeOf(Uni7ReservasModel.Controle)">
-        <MappingFragment StoreEntitySet="Controles">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Abertura" ColumnName="Abertura" />
-          <ScalarProperty Name="Fechamento" ColumnName="Fechamento" />
-          <ScalarProperty Name="ObsBolsista" ColumnName="ObsBolsista" />
-          <ScalarProperty Name="ObsUsuario" ColumnName="ObsUsuario" />
-          <ScalarProperty Name="Satisfacao" ColumnName="Satisfacao" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Chamados">
       <EntityTypeMapping TypeName="IsTypeOf(Uni7ReservasModel.Chamado)">
         <MappingFragment StoreEntitySet="Chamados">
@@ -619,6 +575,7 @@
           <ScalarProperty Name="Descricao" ColumnName="Descricao" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Observacoes" ColumnName="Observacoes" />
+          <ScalarProperty Name="DataLimite" ColumnName="DataLimite" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -629,6 +586,7 @@
           <ScalarProperty Name="Nome" ColumnName="Nome" />
           <ScalarProperty Name="Detalhes" ColumnName="Detalhes" />
           <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Vencimento" ColumnName="Vencimento" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -661,22 +619,6 @@
         <ScalarProperty Name="Id" ColumnName="CategoriaEquipamento_Id" />
       </EndProperty>
       <EndProperty Name="Equipamento">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="UsuarioControle" TypeName="Uni7ReservasModel.UsuarioControle" StoreEntitySet="Controles">
-      <EndProperty Name="Usuario">
-        <ScalarProperty Name="Id" ColumnName="Bolsista_Id" />
-      </EndProperty>
-      <EndProperty Name="Controle">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ReservaControle" TypeName="Uni7ReservasModel.ReservaControle" StoreEntitySet="Controles">
-      <EndProperty Name="Reserva">
-        <ScalarProperty Name="Id" ColumnName="Reserva_Id" />
-      </EndProperty>
-      <EndProperty Name="Controle">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -718,6 +660,14 @@
       </EndProperty>
       <EndProperty Name="CategoriaEquipamento">
         <ScalarProperty Name="Id" ColumnName="CategoriasEquipamentos_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="BolsistaReserva" TypeName="Uni7ReservasModel.BolsistaReserva" StoreEntitySet="Reservas">
+      <EndProperty Name="Usuario">
+        <ScalarProperty Name="Id" ColumnName="Bolsista_Id" />
+      </EndProperty>
+      <EndProperty Name="Reserva">
+        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

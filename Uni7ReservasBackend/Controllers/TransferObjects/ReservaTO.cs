@@ -16,6 +16,10 @@ namespace Uni7ReservasBackend.Controllers.TransferObjects
         public string NomeLocal { get; set; }
         public string NomeUsuario { get; set; }
         public string EmailUsuario { get; set; }
+        public bool FoiUsado { get; set; }
+        public string ComentarioUsuario { get; set; }
+        public string ObsControle { get; set; }
+
         public List<string> Equipamentos { get; set; }
     }
 }

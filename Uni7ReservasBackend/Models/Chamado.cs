@@ -18,6 +18,7 @@ namespace Uni7ReservasBackend.Models
         public string Descricao { get; set; }
         public STATUSCHAMADO Status { get; set; }
         public string Observacoes { get; set; }
+        public string DataLimite { get; set; }
     
         public virtual Usuario Usuario { get; set; }
     }

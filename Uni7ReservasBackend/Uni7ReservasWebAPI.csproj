@@ -111,6 +111,7 @@
       <DependentUpon>Uni7ReservasEDM.edmx</DependentUpon>
       <LastGenOutput>Uni7ReservasEDM.cs</LastGenOutput>
     </Content>
+    <Content Include="Notas.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -147,9 +148,6 @@
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Chamado.cs">
-      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Controle.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entidades\Recurso.cs" />

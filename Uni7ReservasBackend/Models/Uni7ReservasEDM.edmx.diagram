@@ -9,21 +9,19 @@
         <EntityTypeShape EntityType="Uni7ReservasModel.Reserva" Width="1.5" PointX="6.5" PointY="0.5" />
         <EntityTypeShape EntityType="Uni7ReservasModel.Local" Width="1.75" PointX="9.25" PointY="0.5" />
         <EntityTypeShape EntityType="Uni7ReservasModel.Equipamento" Width="1.5" PointX="9.625" PointY="3.875" />
-        <EntityTypeShape EntityType="Uni7ReservasModel.CategoriaEquipamento" Width="1.5" PointX="6.625" PointY="4" />
+        <EntityTypeShape EntityType="Uni7ReservasModel.CategoriaEquipamento" Width="1.5" PointX="6.75" PointY="5" />
         <AssociationConnector Association="Uni7ReservasModel.UsuarioReserva" />
         <AssociationConnector Association="Uni7ReservasModel.ReservaLocal" />
         <AssociationConnector Association="Uni7ReservasModel.CategoriaEquipamentoEquipamento" />
-        <EntityTypeShape EntityType="Uni7ReservasModel.Controle" Width="1.5" PointX="4.25" PointY="3.875" />
-        <AssociationConnector Association="Uni7ReservasModel.UsuarioControle" />
-        <AssociationConnector Association="Uni7ReservasModel.ReservaControle" />
         <AssociationConnector Association="Uni7ReservasModel.Restricoes" />
-        <EntityTypeShape EntityType="Uni7ReservasModel.Chamado" Width="1.5" PointX="1.25" PointY="1.625" />
+        <EntityTypeShape EntityType="Uni7ReservasModel.Chamado" Width="1.5" PointX="3.875" PointY="3.75" />
         <AssociationConnector Association="Uni7ReservasModel.UsuarioChamado" />
         <EntityTypeShape EntityType="Uni7ReservasModel.Recurso" Width="1.5" PointX="12.125" PointY="3.5" />
         <EntityTypeShape EntityType="Uni7ReservasModel.RecursoLocal" Width="1.5" PointX="12.125" PointY="0.875" />
         <AssociationConnector Association="Uni7ReservasModel.LocalRecursoLocal" />
         <AssociationConnector Association="Uni7ReservasModel.RecursoRecursoLocal" />
         <AssociationConnector Association="Uni7ReservasModel.ReservaCategoriaEquipamento" />
+        <AssociationConnector Association="Uni7ReservasModel.BolsistaReserva" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

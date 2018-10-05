@@ -1,0 +1,2 @@
+- Aplicativo do bolsista para registro de observações e "FoiUsado"
+- Botão de "Avaliar" em cada reserva para avaliar atraso, satisfação e incluir observações

@@ -18,8 +18,8 @@ namespace Uni7ReservasBackend.Models
         public Usuario()
         {
             this.Reservas = new HashSet<Reserva>();
-            this.Controles = new HashSet<Controle>();
             this.Chamados = new HashSet<Chamado>();
+            this.ReservasBolsista = new HashSet<Reserva>();
         }
     
         public int Id { get; set; }
@@ -31,8 +31,8 @@ namespace Uni7ReservasBackend.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reserva> Reservas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Controle> Controles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Chamado> Chamados { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Reserva> ReservasBolsista { get; set; }
     }
 }
