@@ -273,22 +273,26 @@ namespace Uni7ReservasBackend.Models
         {
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
-                var usuario_ = from Usuario u in context.Usuarios.Include("Reservas")
+                var usuario_ = from Usuario u in context.Usuarios.Include("Reservas").Include("ReservasBolsista").Include("Chamados")
                                where u.Id == idUsuario
                                select u;
 
                 if (usuario_.Count() == 0)
                     throw new EntidadesException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
 
+                if (usuario_.First().Chamados.Count() > 0)
+                    throw new EntidadesException(EntityExcCode.USUARIOPOSSUICHAMADOS, usuario_.First().Chamados.Count().ToString());
+
+                if (usuario_.First().ReservasBolsista.Count() > 0)
+                    throw new EntidadesException(EntityExcCode.USUARIOPOSSUIRESERVASBOLSISTA, usuario_.First().ReservasBolsista.Count().ToString());
+
+                //Consulta reservas futuras
                 List<Reserva> reservas = usuario_.First().Reservas.Where(r => r.Data > DateTime.Now.AddDays(-1)).ToList();
                 if (reservas.Count() > 0)
-                {
                     throw new EntidadesException(EntityExcCode.USUARIOPOSSUIRESERVAS, reservas.Count().ToString());
-                }
 
-                //Remove as reservas e controles antigos
-                context.Reservas.RemoveRange(reservas);
-                context.Controles.RemoveRange(usuario_.First().Controles);
+                //Remove as reservas antigas
+                context.Reservas.RemoveRange(usuario_.First().Reservas);
                 context.Usuarios.Remove(usuario_.First());
                 context.SaveChanges();
             }
