@@ -31,6 +31,7 @@ namespace Uni7ReservasBackend.Controllers
                     EquipamentoTO eTO = new EquipamentoTO();
                     eTO.Id = e.Id;
                     eTO.Modelo = e.Modelo;
+                    eTO.Serie = e.Serie;
                     eTO.Disponivel = e.Disponivel;
                     eTO.IdCategoria = e.CategoriaEquipamento.Id;
 
@@ -61,6 +62,7 @@ namespace Uni7ReservasBackend.Controllers
                 response.Equipamento = new EquipamentoTO();
                 response.Equipamento.Id = e.Id;
                 response.Equipamento.Modelo = e.Modelo;
+                response.Equipamento.Serie = e.Serie;
                 response.Equipamento.Disponivel = e.Disponivel;
             }
             catch (EntidadesException eex)

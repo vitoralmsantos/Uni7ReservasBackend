@@ -45,6 +45,42 @@ namespace Uni7ReservasBackend.Models
             return categoria;
         }
 
+        /// <summary>
+        /// Locais disponíveis para reserva.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="horario"></param>
+        /// <param name="turno"></param>
+        /// <param name="reservaveis">Somente os reserváveis (true) ou todos (false)</param>
+        /// <returns></returns>
+        public static List<CategoriaEquipamento> ConsultarCategoriasDisponiveis(DateTime data, string horario, string turno)
+        {
+            List<CategoriaEquipamento> categorias = new List<CategoriaEquipamento>();
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var categoria_ = from CategoriaEquipamento ce in context.Categorias.Include("Equipamentos")
+                                 select ce;
+                List<CategoriaEquipamento> catCandidatas = categoria_.ToList();
+
+                foreach (CategoriaEquipamento ce in catCandidatas)
+                {
+                    //Reservas daquela categoria
+                    var reserva_ = from Reserva r in context.Reservas
+                                   where r.Data.Equals(data) && r.Turno.Equals(turno) && r.Horario.Equals(horario)
+                                   && r.CategoriasEquipamentos.Contains(ce)
+                                   select r;
+
+                    if (reserva_.Count() < ce.Equipamentos.Count())
+                    {
+                        categorias.Add(ce);
+                    }
+                }
+            }
+
+            return categorias;
+        }
+
         public static int Cadastrar(string nome)
         {
             CategoriaEquipamento categoria = null;

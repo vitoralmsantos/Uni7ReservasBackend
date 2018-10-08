@@ -88,7 +88,7 @@ namespace Uni7ReservasBackend.Controllers
             try
             {
                 DateTime d = DateTime.ParseExact(data, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                List<Local> locais = Reserva.ConsultarLocaisDisponiveis(d, horario, turno, false);
+                List<Local> locais = Local.ConsultarLocaisDisponiveis(d, horario, turno, false);
                 foreach (Local l in locais)
                 {
                     LocalTO lTO = new LocalTO();

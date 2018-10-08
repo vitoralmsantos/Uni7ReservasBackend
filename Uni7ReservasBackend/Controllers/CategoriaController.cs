@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -59,6 +60,39 @@ namespace Uni7ReservasBackend.Controllers
                 response.Categoria = new CategoriaTO();
                 response.Categoria.Id = ce.Id;
                 response.Categoria.Nome = ce.Nome;
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("disponibilidade")]
+        public IHttpActionResult Get([FromUri]string data, [FromUri]string horario, [FromUri]string turno)
+        {
+            CategoriasResponse response = new CategoriasResponse();
+            response.Categorias = new List<CategoriaTO>();
+
+            try
+            {
+                DateTime d = DateTime.ParseExact(data, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                List<CategoriaEquipamento> categorias = CategoriaEquipamento.ConsultarCategoriasDisponiveis(d, horario, turno);
+
+                foreach (CategoriaEquipamento ce in categorias)
+                {
+                    CategoriaTO cTO = new CategoriaTO();
+                    cTO.Id = ce.Id;
+                    cTO.Nome = ce.Nome;
+
+                    response.Categorias.Add(cTO);
+                }
             }
             catch (EntidadesException eex)
             {

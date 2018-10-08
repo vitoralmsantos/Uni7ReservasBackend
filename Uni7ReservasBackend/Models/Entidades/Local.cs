@@ -61,6 +61,48 @@ namespace Uni7ReservasBackend.Models
             return local;
         }
 
+        /// <summary>
+        /// Locais disponíveis para reserva.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="horario"></param>
+        /// <param name="turno"></param>
+        /// <param name="reservaveis">Somente os reserváveis (true) ou todos (false)</param>
+        /// <returns></returns>
+        public static List<Local> ConsultarLocaisDisponiveis(DateTime data, string horario, string turno, bool somenteReservaveis)
+        {
+            List<Local> Locais = new List<Local>();
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                if (somenteReservaveis)
+                {
+                    var local1_ = from Local l in context.Locais
+                                  where l.Disponivel && l.Reservavel &&
+                                  !(from Reserva r in context.Reservas
+                                    where r.Data.Equals(data) && r.Turno.Equals(turno) && r.Horario.Equals(horario)
+                                    select r.Local.Id).Contains(l.Id)
+                                  select l;
+
+                    Locais = local1_.ToList();
+                }
+                else
+                {
+                    //Inclui não reserváveis mesmo que estejam em algum reserva 
+                    var local2_ = from Local l in context.Locais
+                                  where l.Disponivel && (!l.Reservavel || (l.Reservavel &&
+                                  !(from Reserva r in context.Reservas
+                                    where r.Data.Equals(data) && r.Turno.Equals(turno) && r.Horario.Equals(horario)
+                                    select r.Local.Id).Contains(l.Id)))
+                                  select l;
+
+                    Locais = local2_.ToList();
+                }
+            }
+
+            return Locais;
+        }
+
         public static void Cadastrar(string nome, bool reservavel, bool disponivel, TIPOLOCAL tipo)
         {
             if (nome == null || nome.Length == 0)
