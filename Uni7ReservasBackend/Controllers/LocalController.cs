@@ -84,6 +84,7 @@ namespace Uni7ReservasBackend.Controllers
         public IHttpActionResult Get([FromUri]string data, [FromUri]string horario, [FromUri]string turno)
         {
             LocaisResponse response = new LocaisResponse();
+            response.Locais = new List<LocalTO>();
 
             try
             {

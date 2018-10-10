@@ -68,7 +68,9 @@ namespace Uni7ReservasBackend.Models
                     //Reservas daquela categoria
                     var reserva_ = from Reserva r in context.Reservas
                                    where r.Data.Equals(data) && r.Turno.Equals(turno) && r.Horario.Equals(horario)
-                                   && r.CategoriasEquipamentos.Contains(ce)
+                                   && ((from CategoriaEquipamento cer in r.CategoriasEquipamentos
+                                       where cer.Id == ce.Id
+                                       select cer).Count() > 0)
                                    select r;
 
                     if (reserva_.Count() < ce.Equipamentos.Count())
