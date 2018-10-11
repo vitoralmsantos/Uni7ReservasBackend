@@ -137,7 +137,7 @@
     <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Detalhes" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Tipo" Type="int" Nullable="false" />
-    <Property Name="Vencimento" Type="datetime" Nullable="false" />
+    <Property Name="Vencimento" Type="datetime" Nullable="true" />
   </EntityType>
   <EntityType Name="RecursosLocais">
     <Key>

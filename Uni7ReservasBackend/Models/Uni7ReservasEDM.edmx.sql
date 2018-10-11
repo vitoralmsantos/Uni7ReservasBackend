@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/11/2018 14:57:26
+-- Date Created: 10/11/2018 16:10:57
 -- Generated from EDMX file: C:\Users\NIP\source\repos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
 -- --------------------------------------------------
 
@@ -164,7 +164,7 @@ CREATE TABLE [dbo].[Recursos] (
     [Nome] nvarchar(max)  NOT NULL,
     [Detalhes] nvarchar(max)  NOT NULL,
     [Tipo] int  NOT NULL,
-    [Vencimento] datetime  NOT NULL
+    [Vencimento] datetime  NULL
 );
 GO
 
