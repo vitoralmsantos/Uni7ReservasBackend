@@ -1,0 +1,7 @@
+﻿Insert into Categorias(Nome)
+Values
+('Projetor com Computador'),
+('Projetor VGA'),
+('Projetor HDMI'),
+('Caixa Amplificada'),
+('Aparelho de Televisão')

@@ -70,6 +70,7 @@
     <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Senha" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Tipo" Type="int" Nullable="false" />
+    <Property Name="Token" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="Reservas">
     <Key>
@@ -357,6 +358,7 @@
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPOUSUARIO" Nullable="false" />
           <NavigationProperty Name="Chamados" Relationship="Uni7ReservasModel.UsuarioChamado" FromRole="Usuario" ToRole="Chamado" />
           <NavigationProperty Name="ReservasBolsista" Relationship="Uni7ReservasModel.BolsistaReserva" FromRole="Usuario" ToRole="Reserva" />
+          <Property Name="Token" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="Reserva">
           <Key>
@@ -478,7 +480,7 @@
           <Property Name="Detalhes" Type="String" Nullable="false" />
           <NavigationProperty Name="Locais" Relationship="Uni7ReservasModel.RecursoRecursoLocal" FromRole="Recurso" ToRole="RecursoLocal" />
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPORECURSO" Nullable="false" />
-          <Property Name="Vencimento" Type="DateTime" Nullable="false" />
+          <Property Name="Vencimento" Type="DateTime" Nullable="true" />
         </EntityType>
         <EntityType Name="RecursoLocal">
           <Key>
@@ -519,6 +521,7 @@
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Senha" ColumnName="Senha" />
           <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Token" ColumnName="Token" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

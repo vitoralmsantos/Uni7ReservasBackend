@@ -27,6 +27,7 @@ namespace Uni7ReservasBackend.Models
         public string Email { get; set; }
         public string Senha { get; set; }
         public TIPOUSUARIO Tipo { get; set; }
+        public string Token { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reserva> Reservas { get; set; }

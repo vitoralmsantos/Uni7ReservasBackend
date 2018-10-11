@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/05/2018 08:51:37
+-- Date Created: 10/11/2018 14:57:26
 -- Generated from EDMX file: C:\Users\NIP\source\repos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
 -- --------------------------------------------------
 
@@ -96,7 +96,8 @@ CREATE TABLE [dbo].[Usuarios] (
     [Nome] nvarchar(max)  NOT NULL,
     [Email] nvarchar(max)  NOT NULL,
     [Senha] nvarchar(max)  NOT NULL,
-    [Tipo] int  NOT NULL
+    [Tipo] int  NOT NULL,
+    [Token] nvarchar(max)  NULL
 );
 GO
 

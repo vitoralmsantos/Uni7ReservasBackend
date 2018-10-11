@@ -10,6 +10,7 @@ namespace Uni7ReservasBackend.Controllers.TransferObjects
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Detalhes { get; set; }
+        public string Vencimento { get; set; }
         public int Tipo { get; set; }
     }
 }

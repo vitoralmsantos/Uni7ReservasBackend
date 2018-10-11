@@ -13,6 +13,7 @@ namespace Uni7ReservasBackend.Models
     public partial class Usuario
     {
         public static readonly int TAMANHOSENHA = 6;
+        public static readonly int TEMPOSESSAO = 20;
 
         public static List<Usuario> ConsultarUsuarios()
         {
@@ -45,6 +46,71 @@ namespace Uni7ReservasBackend.Models
             }
 
             return usuario;
+        }
+
+        public static bool ValidarToken(string email, string token)
+        {
+            bool tokenValido = false;
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var usuario_ = from Usuario u in context.Usuarios
+                               where u.Email == email
+                               select u;
+
+                if (usuario_.Count() == 0)
+                    throw new EntidadesException(EntityExcCode.EMAILNAOCADASTRADO, email);
+                else
+                {
+                    Usuario usuario = usuario_.First();
+                    byte[] data = Convert.FromBase64String(token);
+                    DateTime hora = DateTime.FromBinary(BitConverter.ToInt64(data, 0));
+
+                    //Token coincide e está não expirou
+                    if (usuario.Token.Equals(token) && hora < DateTime.UtcNow.AddMinutes(-1 * TEMPOSESSAO))
+                    {
+                        tokenValido = true;
+                    }
+                }
+            }
+
+            return tokenValido;
+        }
+
+        /// <summary>
+        /// Retorna o token da sessão.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="senha"></param>
+        /// <returns></returns>
+        public static string Autenticar(string email, string senha)
+        {
+            string token = null;
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var usuario_ = from Usuario u in context.Usuarios
+                               where u.Email == email
+                               select u;
+
+                if (usuario_.Count() == 0)
+                    throw new EntidadesException(EntityExcCode.EMAILNAOCADASTRADO, email);
+                else
+                {
+                    string senhaBD = usuario_.First().Senha;
+                    if (senhaBD.Equals(Util.GerarHashMd5(senha)))
+                    {
+                        byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+                        byte[] key = Guid.NewGuid().ToByteArray();
+                        token = Convert.ToBase64String(time.Concat(key).ToArray());
+
+                        usuario_.First().Token = token;
+                        context.SaveChanges();
+                    }
+                    else
+                        throw new EntidadesException(EntityExcCode.AUTENTICACAO, email);
+                }
+            }
+
+            return token;
         }
 
         public static Usuario ConsultarUsuarioPorId(int idUsuario)

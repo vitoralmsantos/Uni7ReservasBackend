@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -32,6 +33,7 @@ namespace Uni7ReservasBackend.Controllers
                     rTO.Id = r.Id;
                     rTO.Nome = r.Nome;
                     rTO.Detalhes = r.Detalhes;
+                    rTO.Vencimento = r.Vencimento.HasValue ? r.Vencimento.Value.ToString("dd/MM/yyyy") : "";
                     rTO.Tipo = (int)r.Tipo;
 
                     response.Recursos.Add(rTO);
@@ -62,6 +64,7 @@ namespace Uni7ReservasBackend.Controllers
                 response.Recurso.Id = r.Id;
                 response.Recurso.Nome = r.Nome;
                 response.Recurso.Detalhes = r.Detalhes;
+                response.Recurso.Vencimento = r.Vencimento.HasValue ? r.Vencimento.Value.ToString("dd/MM/yyyy") : "";
                 response.Recurso.Tipo = (int)r.Tipo;
             }
             catch (EntidadesException eex)
@@ -85,7 +88,13 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                response.Recurso.Id = Recurso.Cadastrar(recurso.Nome, recurso.Detalhes, (TIPORECURSO)recurso.Tipo);   
+                DateTime? vencimento = null;
+                if (!recurso.Vencimento.Equals(""))
+                {
+                    vencimento = DateTime.ParseExact(recurso.Vencimento, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                }
+
+                response.Recurso.Id = Recurso.Cadastrar(recurso.Nome, recurso.Detalhes, vencimento, (TIPORECURSO)recurso.Tipo);   
             }
             catch (EntidadesException eex)
             {
@@ -107,7 +116,12 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                Recurso.Atualizar(id, recurso.Nome, recurso.Detalhes, (TIPORECURSO)recurso.Tipo);
+                DateTime? vencimento = null;
+                if (!recurso.Vencimento.Equals(""))
+                {
+                    vencimento = DateTime.ParseExact(recurso.Vencimento, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                }
+                Recurso.Atualizar(id, recurso.Nome, recurso.Detalhes, vencimento, (TIPORECURSO)recurso.Tipo);
             }
             catch (EntidadesException eex)
             {

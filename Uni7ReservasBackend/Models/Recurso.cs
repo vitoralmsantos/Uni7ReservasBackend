@@ -24,7 +24,7 @@ namespace Uni7ReservasBackend.Models
         public string Nome { get; set; }
         public string Detalhes { get; set; }
         public TIPORECURSO Tipo { get; set; }
-        public System.DateTime Vencimento { get; set; }
+        public Nullable<System.DateTime> Vencimento { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RecursoLocal> Locais { get; set; }

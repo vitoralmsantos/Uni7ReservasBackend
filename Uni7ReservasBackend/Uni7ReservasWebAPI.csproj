@@ -117,6 +117,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutenticacaoHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\RecursoController.cs" />
     <Compile Include="Controllers\LocalController.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Controllers\Response\ReservasResponse.cs" />
     <Compile Include="Controllers\Response\CategoriaResponse.cs" />
     <Compile Include="Controllers\Response\EquipamentoResponse.cs" />
+    <Compile Include="Controllers\Response\TokenResponse.cs" />
     <Compile Include="Controllers\Response\UsuarioResponse.cs" />
     <Compile Include="Controllers\Response\ReservaResponse.cs" />
     <Compile Include="Controllers\Response\EquipamentosResponse.cs" />

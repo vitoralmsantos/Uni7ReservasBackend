@@ -45,7 +45,7 @@ namespace Uni7ReservasBackend.Models
             return recurso;
         }
 
-        public static int Cadastrar(string nome, string detalhes, TIPORECURSO tipo)
+        public static int Cadastrar(string nome, string detalhes, DateTime? vencimento, TIPORECURSO tipo)
         {
             Recurso recurso = null;
 
@@ -57,6 +57,7 @@ namespace Uni7ReservasBackend.Models
                 recurso = new Recurso();
                 recurso.Nome = nome;
                 recurso.Detalhes = detalhes;
+                recurso.Vencimento = vencimento;
                 recurso.Tipo = tipo;
 
                 context.Recursos.Add(recurso);
@@ -66,7 +67,7 @@ namespace Uni7ReservasBackend.Models
             return recurso.Id;
         }
 
-        public static void Atualizar(int id, string nome, string detalhes, TIPORECURSO tipo)
+        public static void Atualizar(int id, string nome, string detalhes, DateTime? vencimento, TIPORECURSO tipo)
         {
             if (nome == null || nome.Length == 0)
                 throw new EntidadesException(EntityExcCode.NOMERECURSOVAZIO, "");
@@ -83,6 +84,7 @@ namespace Uni7ReservasBackend.Models
                 Recurso recurso = recurso_.First();
                 recurso.Nome = nome;
                 recurso.Detalhes = detalhes;
+                recurso.Vencimento = vencimento;
                 recurso.Tipo = tipo;
 
                 context.SaveChanges();

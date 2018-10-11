@@ -129,6 +129,29 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
+        // POST: api/Usuario
+        [Route("login")]
+        public IHttpActionResult Autenticar([FromBody]string email, [FromBody]string senha)
+        {
+            TokenResponse response = new TokenResponse();
+            
+            try
+            {
+                response.Token = Usuario.Autenticar(email, senha);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
         // PUT: api/Usuario/5
         [Route("{id:int}")]
         public IHttpActionResult Put(int id, [FromBody]UsuarioTO usuario)

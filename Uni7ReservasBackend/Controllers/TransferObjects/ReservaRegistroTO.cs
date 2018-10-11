@@ -15,7 +15,6 @@ namespace Uni7ReservasBackend.Controllers.TransferObjects
         public string Obs { get; set; }
         public int IdUsuario { get; set; }
         public int IdLocal { get; set; }
-        public int IdEquipamento1 { get; set; }
-        public int IdEquipamento2 { get; set; }
+        public int IdCategoria { get; set; }
     }
 }
