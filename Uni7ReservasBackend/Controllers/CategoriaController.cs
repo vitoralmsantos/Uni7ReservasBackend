@@ -20,8 +20,7 @@ namespace Uni7ReservasBackend.Controllers
         [Route("")]
         public IHttpActionResult Get()
         {
-            CategoriasResponse response = new CategoriasResponse();
-            response.Categorias = new List<CategoriaTO>();
+            EntidadesResponse<CategoriaTO> response = new EntidadesResponse<CategoriaTO>();
 
             try
             {
@@ -33,7 +32,7 @@ namespace Uni7ReservasBackend.Controllers
                     cTO.Id = ce.Id;
                     cTO.Nome = ce.Nome;
 
-                    response.Categorias.Add(cTO);
+                    response.Elementos.Add(cTO);
                 }
             }
             catch (EntidadesException eex)
@@ -52,14 +51,14 @@ namespace Uni7ReservasBackend.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Get(int id)
         {
-            CategoriaResponse response = new CategoriaResponse();
+            EntidadeResponse<CategoriaTO> response = new EntidadeResponse<CategoriaTO>();
 
             try
             {
                 CategoriaEquipamento ce = CategoriaEquipamento.ConsultarCategoriaPorId(id);
-                response.Categoria = new CategoriaTO();
-                response.Categoria.Id = ce.Id;
-                response.Categoria.Nome = ce.Nome;
+                response.Elemento = new CategoriaTO();
+                response.Elemento.Id = ce.Id;
+                response.Elemento.Nome = ce.Nome;
             }
             catch (EntidadesException eex)
             {
@@ -77,8 +76,7 @@ namespace Uni7ReservasBackend.Controllers
         [Route("disponibilidade")]
         public IHttpActionResult Get([FromUri]string data, [FromUri]string horario, [FromUri]string turno)
         {
-            CategoriasResponse response = new CategoriasResponse();
-            response.Categorias = new List<CategoriaTO>();
+            EntidadesResponse<CategoriaTO> response = new EntidadesResponse<CategoriaTO>();
 
             try
             {
@@ -91,7 +89,7 @@ namespace Uni7ReservasBackend.Controllers
                     cTO.Id = ce.Id;
                     cTO.Nome = ce.Nome;
 
-                    response.Categorias.Add(cTO);
+                    response.Elementos.Add(cTO);
                 }
             }
             catch (EntidadesException eex)
@@ -110,12 +108,12 @@ namespace Uni7ReservasBackend.Controllers
         [Route("")]
         public IHttpActionResult Post([FromBody]CategoriaTO categoria)
         {
-            CategoriaResponse response = new CategoriaResponse();
-            response.Categoria = categoria;
+            EntidadeResponse<CategoriaTO> response = new EntidadeResponse<CategoriaTO>();
+            response.Elemento = categoria;
 
             try
             {
-                response.Categoria.Id = CategoriaEquipamento.Cadastrar(categoria.Nome);
+                response.Elemento.Id = CategoriaEquipamento.Cadastrar(categoria.Nome);
             }
             catch (EntidadesException eex)
             {

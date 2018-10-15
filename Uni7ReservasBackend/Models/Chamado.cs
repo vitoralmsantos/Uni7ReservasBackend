@@ -18,7 +18,9 @@ namespace Uni7ReservasBackend.Models
         public string Descricao { get; set; }
         public STATUSCHAMADO Status { get; set; }
         public string Observacoes { get; set; }
-        public string DataLimite { get; set; }
+        public System.DateTime DataLimite { get; set; }
+        public Nullable<System.DateTime> DataPrevista { get; set; }
+        public string Telefone { get; set; }
     
         public virtual Usuario Usuario { get; set; }
     }

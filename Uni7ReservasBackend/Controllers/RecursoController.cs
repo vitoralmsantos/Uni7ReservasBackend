@@ -20,8 +20,7 @@ namespace Uni7ReservasBackend.Controllers
         [Route("")]
         public IHttpActionResult Get()
         {
-            RecursosResponse response = new RecursosResponse();
-            response.Recursos = new List<RecursoTO>();
+            EntidadesResponse<RecursoTO> response = new EntidadesResponse<RecursoTO>();
 
             try
             {
@@ -36,7 +35,7 @@ namespace Uni7ReservasBackend.Controllers
                     rTO.Vencimento = r.Vencimento.HasValue ? r.Vencimento.Value.ToString("dd/MM/yyyy") : "";
                     rTO.Tipo = (int)r.Tipo;
 
-                    response.Recursos.Add(rTO);
+                    response.Elementos.Add(rTO);
                 }
             }
             catch (EntidadesException eex)
@@ -55,17 +54,17 @@ namespace Uni7ReservasBackend.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Get(int id)
         {
-            RecursoResponse response = new RecursoResponse();
+            EntidadeResponse<RecursoTO> response = new EntidadeResponse<RecursoTO>();
 
             try
             {
                 Recurso r = Recurso.ConsultarPorId(id);
-                response.Recurso = new RecursoTO();
-                response.Recurso.Id = r.Id;
-                response.Recurso.Nome = r.Nome;
-                response.Recurso.Detalhes = r.Detalhes;
-                response.Recurso.Vencimento = r.Vencimento.HasValue ? r.Vencimento.Value.ToString("dd/MM/yyyy") : "";
-                response.Recurso.Tipo = (int)r.Tipo;
+                response.Elemento = new RecursoTO();
+                response.Elemento.Id = r.Id;
+                response.Elemento.Nome = r.Nome;
+                response.Elemento.Detalhes = r.Detalhes;
+                response.Elemento.Vencimento = r.Vencimento.HasValue ? r.Vencimento.Value.ToString("dd/MM/yyyy") : "";
+                response.Elemento.Tipo = (int)r.Tipo;
             }
             catch (EntidadesException eex)
             {
@@ -83,8 +82,8 @@ namespace Uni7ReservasBackend.Controllers
         [Route("")]
         public IHttpActionResult Post([FromBody]RecursoTO recurso)
         {
-            RecursoResponse response = new RecursoResponse();
-            response.Recurso = recurso;
+            EntidadeResponse<RecursoTO> response = new EntidadeResponse<RecursoTO>();
+            response.Elemento = recurso;
 
             try
             {
@@ -94,7 +93,7 @@ namespace Uni7ReservasBackend.Controllers
                     vencimento = DateTime.ParseExact(recurso.Vencimento, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 }
 
-                response.Recurso.Id = Recurso.Cadastrar(recurso.Nome, recurso.Detalhes, vencimento, (TIPORECURSO)recurso.Tipo);   
+                response.Elemento.Id = Recurso.Cadastrar(recurso.Nome, recurso.Detalhes, vencimento, (TIPORECURSO)recurso.Tipo);   
             }
             catch (EntidadesException eex)
             {

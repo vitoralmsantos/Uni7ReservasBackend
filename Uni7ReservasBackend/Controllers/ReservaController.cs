@@ -21,8 +21,7 @@ namespace Uni7ReservasBackend.Controllers
         [Route("")]
         public IHttpActionResult Get()
         {
-            ReservasResponse rResponse = new ReservasResponse();
-            rResponse.Reservas = new List<ReservaTO>();
+            EntidadesResponse<ReservaTO> response = new EntidadesResponse<ReservaTO>();
 
             try
             {
@@ -44,57 +43,57 @@ namespace Uni7ReservasBackend.Controllers
                         rTO.Equipamentos.Add(ce.Nome);
                     }
 
-                    rResponse.Reservas.Add(rTO);
+                    response.Elementos.Add(rTO);
                 }
             }
             catch (EntidadesException eex)
             {
-                rResponse.Status = (int)eex.Codigo;
-                rResponse.Detalhes = eex.Message;
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
             }
             catch (Exception ex)
             {
-                rResponse.Status = -1;
-                rResponse.Detalhes = ex.Message;
+                response.Status = -1;
+                response.Detalhes = ex.Message;
             }
-            return Ok(rResponse);
+            return Ok(response);
         }
 
         // GET api/<controller>/5
         [Route("{id:int}")]
         public IHttpActionResult Get(int id)
         {
-            ReservaResponse rResponse = new ReservaResponse();
-            rResponse.Reserva = new ReservaTO();
+            EntidadeResponse<ReservaTO> response = new EntidadeResponse<ReservaTO>();
+            response.Elemento = new ReservaTO();
 
             try
             {
                 Reserva r = Reserva.ConsultarReservaPorId(id);
 
-                rResponse.Reserva.Data = r.Data.ToString("ddMMyyyy");
-                rResponse.Reserva.Horario = r.Horario;
-                rResponse.Reserva.Turno = r.Turno;
-                rResponse.Reserva.Obs = r.Obs;
-                rResponse.Reserva.ReservadoEm = r.ReservadoEm.ToString("ddMMyyyy HHmm");
-                rResponse.Reserva.NomeLocal = r.Local.Nome;
-                rResponse.Reserva.NomeUsuario = r.Usuario.Nome;
-                rResponse.Reserva.EmailUsuario = r.Usuario.Email;
+                response.Elemento.Data = r.Data.ToString("ddMMyyyy");
+                response.Elemento.Horario = r.Horario;
+                response.Elemento.Turno = r.Turno;
+                response.Elemento.Obs = r.Obs;
+                response.Elemento.ReservadoEm = r.ReservadoEm.ToString("ddMMyyyy HHmm");
+                response.Elemento.NomeLocal = r.Local.Nome;
+                response.Elemento.NomeUsuario = r.Usuario.Nome;
+                response.Elemento.EmailUsuario = r.Usuario.Email;
                 foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
                 {
-                    rResponse.Reserva.Equipamentos.Add(ce.Nome);
+                    response.Elemento.Equipamentos.Add(ce.Nome);
                 }
             }
             catch (EntidadesException eex)
             {
-                rResponse.Status = (int)eex.Codigo;
-                rResponse.Detalhes = eex.Message;
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
             }
             catch (Exception ex)
             {
-                rResponse.Status = -1;
-                rResponse.Detalhes = ex.Message;
+                response.Status = -1;
+                response.Detalhes = ex.Message;
             }
-            return Ok(rResponse);
+            return Ok(response);
         }
 
         // POST api/<controller>
@@ -135,22 +134,22 @@ namespace Uni7ReservasBackend.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Delete(int id)
         {
-            BaseResponse bResponse = new BaseResponse();
+            BaseResponse response = new BaseResponse();
             try
             {
                 Reserva.Remover(id);
             }
             catch (EntidadesException eex)
             {
-                bResponse.Status = (int)eex.Codigo;
-                bResponse.Detalhes = eex.Message;
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
             }
             catch (Exception ex)
             {
-                bResponse.Status = -1;
-                bResponse.Detalhes = ex.Message;
+                response.Status = -1;
+                response.Detalhes = ex.Message;
             }
-            return Ok(bResponse);
+            return Ok(response);
         }
     }
 }

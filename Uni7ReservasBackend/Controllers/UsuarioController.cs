@@ -19,8 +19,7 @@ namespace Uni7ReservasBackend.Controllers
         [Route("")]
         public IHttpActionResult Get()
         {
-            UsuariosResponse response = new UsuariosResponse();
-            response.Usuarios = new List<UsuarioTO>();
+            EntidadesResponse<UsuarioTO> response = new EntidadesResponse<UsuarioTO>();
 
             try
             {
@@ -34,7 +33,7 @@ namespace Uni7ReservasBackend.Controllers
                     uTO.Email = u.Email;
                     uTO.Tipo = (int)u.Tipo;
 
-                    response.Usuarios.Add(uTO);
+                    response.Elementos.Add(uTO);
                 }
             }
             catch (EntidadesException eex)
@@ -53,16 +52,16 @@ namespace Uni7ReservasBackend.Controllers
         [Route("consulta/{id:int}")]
         public IHttpActionResult Get(int id)
         {
-            UsuarioResponse response = new UsuarioResponse();
+            EntidadeResponse<UsuarioTO> response = new EntidadeResponse<UsuarioTO>();
 
             try
             {
                 Usuario u = Usuario.ConsultarUsuarioPorId(id);
-                response.Usuario = new UsuarioTO();
-                response.Usuario.Id = u.Id;
-                response.Usuario.Nome = u.Nome;
-                response.Usuario.Email = u.Email;
-                response.Usuario.Tipo = (int)u.Tipo;
+                response.Elemento = new UsuarioTO();
+                response.Elemento.Id = u.Id;
+                response.Elemento.Nome = u.Nome;
+                response.Elemento.Email = u.Email;
+                response.Elemento.Tipo = (int)u.Tipo;
             }
             catch (EntidadesException eex)
             {
@@ -80,16 +79,16 @@ namespace Uni7ReservasBackend.Controllers
         [Route("consulta")]
         public IHttpActionResult Get([FromUri]string email)
         {
-            UsuarioResponse response = new UsuarioResponse();
+            EntidadeResponse<UsuarioTO> response = new EntidadeResponse<UsuarioTO>();
 
             try
             {
                 Usuario u = Usuario.ConsultarUsuarioPorEmail(email);
-                response.Usuario = new UsuarioTO();
-                response.Usuario.Id = u.Id;
-                response.Usuario.Nome = u.Nome;
-                response.Usuario.Email = u.Email;
-                response.Usuario.Tipo = (int)u.Tipo;
+                response.Elemento = new UsuarioTO();
+                response.Elemento.Id = u.Id;
+                response.Elemento.Nome = u.Nome;
+                response.Elemento.Email = u.Email;
+                response.Elemento.Tipo = (int)u.Tipo;
             }
             catch (EntidadesException eex)
             {
@@ -108,12 +107,12 @@ namespace Uni7ReservasBackend.Controllers
         [Route("")]
         public IHttpActionResult Post([FromBody]UsuarioTO usuario)
         {
-            UsuarioResponse response = new UsuarioResponse();
-            response.Usuario = usuario;
+            EntidadeResponse<UsuarioTO> response = new EntidadeResponse<UsuarioTO>();
+            response.Elemento = usuario;
 
             try
             {
-                response.Usuario.Id = Usuario.Cadastrar(usuario.Nome, usuario.Email, (TIPOUSUARIO)usuario.Tipo);
+                response.Elemento.Id = Usuario.Cadastrar(usuario.Nome, usuario.Email, (TIPOUSUARIO)usuario.Tipo);
                 
             }
             catch (EntidadesException eex)

@@ -103,14 +103,15 @@ namespace Uni7ReservasBackend.Models
             return Locais;
         }
 
-        public static void Cadastrar(string nome, bool reservavel, bool disponivel, TIPOLOCAL tipo)
+        public static int Cadastrar(string nome, bool reservavel, bool disponivel, TIPOLOCAL tipo)
         {
             if (nome == null || nome.Length == 0)
                 throw new EntidadesException(EntityExcCode.NOMELOCALVAZIO, "");
 
+            Local local = null;
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
-                Local local = new Local();
+                local = new Local();
                 local.Nome = nome;
                 local.Reservavel = reservavel;
                 local.Disponivel = disponivel;
@@ -119,6 +120,8 @@ namespace Uni7ReservasBackend.Models
                 context.Locais.Add(local);
                 context.SaveChanges();
             }
+
+            return local == null ? 0 : local.Id;
         }
 
         public static void Atualizar(int id, string nome, bool reservavel, bool disponivel, TIPOLOCAL tipo)

@@ -20,8 +20,7 @@ namespace Uni7ReservasBackend.Controllers
         [Route("")]
         public IHttpActionResult Get()
         {
-            LocaisResponse response = new LocaisResponse();
-            response.Locais = new List<LocalTO>();
+            EntidadesResponse<LocalTO> response = new EntidadesResponse<LocalTO>();
 
             try
             {
@@ -36,7 +35,7 @@ namespace Uni7ReservasBackend.Controllers
                     lTO.Reservavel = l.Reservavel;
                     lTO.Tipo = (int)l.Tipo;
 
-                    response.Locais.Add(lTO);
+                    response.Elementos.Add(lTO);
                 }
             }
             catch (EntidadesException eex)
@@ -55,17 +54,17 @@ namespace Uni7ReservasBackend.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Get(int id)
         {
-            LocalResponse response = new LocalResponse();
+            EntidadeResponse<LocalTO> response = new EntidadeResponse<LocalTO>();
 
             try
             {
                 Local l = Local.ConsultarPorId(id);
-                response.Local = new LocalTO();
-                response.Local.Id = l.Id;
-                response.Local.Nome = l.Nome;
-                response.Local.Disponivel = l.Disponivel;
-                response.Local.Reservavel = l.Reservavel;
-                response.Local.Tipo = (int)l.Tipo;
+                response.Elemento = new LocalTO();
+                response.Elemento.Id = l.Id;
+                response.Elemento.Nome = l.Nome;
+                response.Elemento.Disponivel = l.Disponivel;
+                response.Elemento.Reservavel = l.Reservavel;
+                response.Elemento.Tipo = (int)l.Tipo;
             }
             catch (EntidadesException eex)
             {
@@ -83,8 +82,7 @@ namespace Uni7ReservasBackend.Controllers
         [Route("disponibilidade")]
         public IHttpActionResult Get([FromUri]string data, [FromUri]string horario, [FromUri]string turno)
         {
-            LocaisResponse response = new LocaisResponse();
-            response.Locais = new List<LocalTO>();
+            EntidadesResponse<LocalTO> response = new EntidadesResponse<LocalTO>();
 
             try
             {
@@ -99,7 +97,7 @@ namespace Uni7ReservasBackend.Controllers
                     lTO.Reservavel = l.Reservavel;
                     lTO.Tipo = (int)l.Tipo;
 
-                    response.Locais.Add(lTO);
+                    response.Elementos.Add(lTO);
                 }
             }
             catch (EntidadesException eex)
@@ -118,11 +116,11 @@ namespace Uni7ReservasBackend.Controllers
         [Route("")]
         public IHttpActionResult Post([FromBody]LocalTO local)
         {
-            LocalResponse response = new LocalResponse();
+            EntidadeResponse<LocalTO> response = new EntidadeResponse<LocalTO>();
 
             try
             {
-                Local.Cadastrar(local.Nome, local.Reservavel, local.Disponivel, (TIPOLOCAL)local.Tipo);
+                response.Elemento.Id = Local.Cadastrar(local.Nome, local.Reservavel, local.Disponivel, (TIPOLOCAL)local.Tipo);
             }
             catch (EntidadesException eex)
             {
@@ -140,12 +138,11 @@ namespace Uni7ReservasBackend.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Put(int id, [FromBody]LocalTO local)
         {
-            LocalResponse response = new LocalResponse();
+            BaseResponse response = new BaseResponse();
 
             try
             {
                 Local.Atualizar(id, local.Nome, local.Reservavel, local.Disponivel, (TIPOLOCAL)local.Tipo);
-                response.Local = local;
             }
             catch (EntidadesException eex)
             {

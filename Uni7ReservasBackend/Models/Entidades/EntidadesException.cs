@@ -40,7 +40,9 @@ namespace Uni7ReservasBackend.Models.Entidades
         RECURSOINEXISTENTE = 1501,
         NOMERECURSOVAZIO = 1502,
         RECURSOPOSSUILOCAIS = 1503,
-        RECURSOLOCALINEXISTENTE = 1506
+        RECURSOLOCALINEXISTENTE = 1506,
+        CHAMADOINEXISTENTE = 1601,
+        DESCRICAOCHAMADOVAZIO = 1602
     }
 
     public class EntidadesException : Exception
@@ -127,6 +129,10 @@ namespace Uni7ReservasBackend.Models.Entidades
                         return String.Format("Recurso possui locais: ", Detalhe);
                     case EntityExcCode.RECURSOLOCALINEXISTENTE:
                         return String.Format("Recurso não existe no local especificado.");
+                    case EntityExcCode.CHAMADOINEXISTENTE:
+                        return String.Format("Chamado inexistente: ", Detalhe);
+                    case EntityExcCode.DESCRICAOCHAMADOVAZIO:
+                        return String.Format("Descrição do chamado não pode ser vazia.");
                     default: return "Erro desconhecido";
                 }
             }

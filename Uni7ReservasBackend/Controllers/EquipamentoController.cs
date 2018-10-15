@@ -19,8 +19,7 @@ namespace Uni7ReservasBackend.Controllers
         [Route("")]
         public IHttpActionResult Get()
         {
-            EquipamentosResponse response = new EquipamentosResponse();
-            response.Equipamentos = new List<EquipamentoTO>();
+            EntidadesResponse<EquipamentoTO> response = new EntidadesResponse<EquipamentoTO>();
 
             try
             {
@@ -35,7 +34,7 @@ namespace Uni7ReservasBackend.Controllers
                     eTO.Disponivel = e.Disponivel;
                     eTO.IdCategoria = e.CategoriaEquipamento.Id;
 
-                    response.Equipamentos.Add(eTO);
+                    response.Elementos.Add(eTO);
                 }
             }
             catch (EntidadesException eex)
@@ -54,16 +53,16 @@ namespace Uni7ReservasBackend.Controllers
         [Route("{id:int}")]
         public IHttpActionResult Get(int id)
         {
-            EquipamentoResponse response = new EquipamentoResponse();
+            EntidadeResponse<EquipamentoTO> response = new EntidadeResponse<EquipamentoTO>();
 
             try
             {
                 Equipamento e = Equipamento.ConsultarPorId(id);
-                response.Equipamento = new EquipamentoTO();
-                response.Equipamento.Id = e.Id;
-                response.Equipamento.Modelo = e.Modelo;
-                response.Equipamento.Serie = e.Serie;
-                response.Equipamento.Disponivel = e.Disponivel;
+                response.Elemento = new EquipamentoTO();
+                response.Elemento.Id = e.Id;
+                response.Elemento.Modelo = e.Modelo;
+                response.Elemento.Serie = e.Serie;
+                response.Elemento.Disponivel = e.Disponivel;
             }
             catch (EntidadesException eex)
             {
@@ -81,12 +80,12 @@ namespace Uni7ReservasBackend.Controllers
         [Route("")]
         public IHttpActionResult Post([FromBody]EquipamentoTO equipamento)
         {
-            EquipamentoResponse response = new EquipamentoResponse();
-            response.Equipamento = equipamento;
+            EntidadeResponse<EquipamentoTO> response = new EntidadeResponse<EquipamentoTO>();
+            response.Elemento = equipamento;
 
             try
             {
-                response.Equipamento.Id = Equipamento.Cadastrar(equipamento.Modelo, equipamento.Serie, equipamento.Disponivel, equipamento.IdCategoria);
+                response.Elemento.Id = Equipamento.Cadastrar(equipamento.Modelo, equipamento.Serie, equipamento.Disponivel, equipamento.IdCategoria);
             }
             catch (EntidadesException eex)
             {

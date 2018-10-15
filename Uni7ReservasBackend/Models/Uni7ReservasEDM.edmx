@@ -125,8 +125,10 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Descricao" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Status" Type="int" Nullable="false" />
-    <Property Name="Observacoes" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DataLimite" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Observacoes" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DataLimite" Type="datetime" Nullable="false" />
+    <Property Name="DataPrevista" Type="datetime" Nullable="true" />
+    <Property Name="Telefone" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Usuario_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Recursos">
@@ -453,9 +455,11 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Descricao" Type="String" Nullable="false" />
           <Property Name="Status" Type="Uni7ReservasModel.STATUSCHAMADO" Nullable="false" />
-          <Property Name="Observacoes" Type="String" Nullable="false" />
+          <Property Name="Observacoes" Type="String" Nullable="true" />
           <NavigationProperty Name="Usuario" Relationship="Uni7ReservasModel.UsuarioChamado" FromRole="Chamado" ToRole="Usuario" />
-          <Property Name="DataLimite" Type="String" Nullable="false" />
+          <Property Name="DataLimite" Type="DateTime" Nullable="false" />
+          <Property Name="DataPrevista" Type="DateTime" Nullable="true" />
+          <Property Name="Telefone" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="UsuarioChamado">
           <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
@@ -579,6 +583,8 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Observacoes" ColumnName="Observacoes" />
           <ScalarProperty Name="DataLimite" ColumnName="DataLimite" />
+          <ScalarProperty Name="DataPrevista" ColumnName="DataPrevista" />
+          <ScalarProperty Name="Telefone" ColumnName="Telefone" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
