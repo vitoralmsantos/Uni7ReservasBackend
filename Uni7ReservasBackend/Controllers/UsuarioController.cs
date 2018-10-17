@@ -130,13 +130,13 @@ namespace Uni7ReservasBackend.Controllers
 
         // POST: api/Usuario
         [Route("login")]
-        public IHttpActionResult Autenticar([FromBody]string email, [FromBody]string senha)
+        public IHttpActionResult Autenticar([FromBody]LoginTO login)
         {
             TokenResponse response = new TokenResponse();
             
             try
             {
-                response.Token = Usuario.Autenticar(email, senha);
+                response.Token = Usuario.Autenticar(login.Email, login.Senha);
             }
             catch (EntidadesException eex)
             {
