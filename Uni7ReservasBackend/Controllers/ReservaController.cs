@@ -30,14 +30,15 @@ namespace Uni7ReservasBackend.Controllers
                 foreach (Reserva r in reservas)
                 {
                     ReservaTO rTO = new ReservaTO();
-                    rTO.Data = r.Data.ToString("ddMMyyyy");
+                    rTO.Data = r.Data.DayOfWeek.ToString() + " " + r.Data.ToString("dd/MM/yyyy");
                     rTO.Horario = r.Horario;
                     rTO.Turno = r.Turno;
                     rTO.Obs = r.Obs;
-                    rTO.ReservadoEm = r.ReservadoEm.ToString("ddMMyyyy HHmm");
+                    rTO.ReservadoEm = r.ReservadoEm.ToString("dd/MM/yyyy HH:mm");
                     rTO.NomeLocal = r.Local.Nome;
                     rTO.NomeUsuario = r.Usuario.Nome;
                     rTO.EmailUsuario = r.Usuario.Email;
+                    rTO.Equipamentos = new List<string>();
                     foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
                     {
                         rTO.Equipamentos.Add(ce.Nome);
@@ -105,9 +106,7 @@ namespace Uni7ReservasBackend.Controllers
             try
             {
                 DateTime data = DateTime.ParseExact(reserva.Data, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                DateTime dataReservado = DateTime.Now;
-
-                Reserva.Reservar(data, reserva.Horario, reserva.Turno, reserva.IdLocal, reserva.Obs, reserva.IdCategoria);
+                Reserva.Reservar(reserva.IdUsuario, data, reserva.Horario, reserva.Turno, reserva.IdLocal, reserva.Obs, reserva.IdCategoria);
             }
             catch (EntidadesException eex)
             {

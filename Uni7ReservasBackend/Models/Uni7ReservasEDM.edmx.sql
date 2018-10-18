@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/15/2018 16:55:49
--- Generated from EDMX file: D:\Projetos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
+-- Date Created: 10/18/2018 15:01:50
+-- Generated from EDMX file: C:\Users\NIP\source\repos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -106,7 +106,7 @@ CREATE TABLE [dbo].[Reservas] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Data] datetime  NOT NULL,
     [ReservadoEm] datetime  NOT NULL,
-    [Obs] nvarchar(max)  NOT NULL,
+    [Obs] nvarchar(max)  NULL,
     [Horario] nvarchar(max)  NOT NULL,
     [Turno] nvarchar(max)  NOT NULL,
     [Atraso] bit  NULL,
@@ -116,7 +116,7 @@ CREATE TABLE [dbo].[Reservas] (
     [ObsControle] nvarchar(max)  NULL,
     [Usuario_Id] int  NOT NULL,
     [Local_Id] int  NOT NULL,
-    [Bolsista_Id] int  NOT NULL
+    [Bolsista_Id] int  NULL
 );
 GO
 

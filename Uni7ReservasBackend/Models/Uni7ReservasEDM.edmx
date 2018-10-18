@@ -79,7 +79,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Data" Type="datetime" Nullable="false" />
     <Property Name="ReservadoEm" Type="datetime" Nullable="false" />
-    <Property Name="Obs" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Obs" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Horario" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Turno" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Atraso" Type="bit" Nullable="true" />
@@ -89,7 +89,7 @@
     <Property Name="ObsControle" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Usuario_Id" Type="int" Nullable="false" />
     <Property Name="Local_Id" Type="int" Nullable="false" />
-    <Property Name="Bolsista_Id" Type="int" Nullable="false" />
+    <Property Name="Bolsista_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Locais">
     <Key>
@@ -239,7 +239,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="BolsistaReserva">
-    <End Role="Usuario" Type="Uni7ReservasModel.Store.Usuarios" Multiplicity="1" />
+    <End Role="Usuario" Type="Uni7ReservasModel.Store.Usuarios" Multiplicity="0..1" />
     <End Role="Reserva" Type="Uni7ReservasModel.Store.Reservas" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Usuario">
@@ -359,8 +359,8 @@
           <Property Name="Senha" Type="String" Nullable="false" />
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPOUSUARIO" Nullable="false" />
           <NavigationProperty Name="Chamados" Relationship="Uni7ReservasModel.UsuarioChamado" FromRole="Usuario" ToRole="Chamado" />
-          <NavigationProperty Name="ReservasBolsista" Relationship="Uni7ReservasModel.BolsistaReserva" FromRole="Usuario" ToRole="Reserva" />
           <Property Name="Token" Type="String" Nullable="true" />
+          <NavigationProperty Name="ReservasBolsista" Relationship="Uni7ReservasModel.BolsistaReserva" FromRole="Usuario" ToRole="Reserva" />
         </EntityType>
         <EntityType Name="Reserva">
           <Key>
@@ -371,7 +371,7 @@
           <NavigationProperty Name="Local" Relationship="Uni7ReservasModel.ReservaLocal" FromRole="Reserva" ToRole="Local" />
           <Property Name="Data" Type="DateTime" Nullable="false" />
           <Property Name="ReservadoEm" Type="DateTime" Nullable="false" />
-          <Property Name="Obs" Type="String" Nullable="false" />
+          <Property Name="Obs" Type="String" Nullable="true" />
           <Property Name="Horario" Type="String" Nullable="false" />
           <Property Name="Turno" Type="String" Nullable="false" />
           <Property Name="Atraso" Type="Boolean" Nullable="true" />
@@ -508,7 +508,7 @@
           <End Type="Uni7ReservasModel.CategoriaEquipamento" Role="CategoriaEquipamento" Multiplicity="*" />
         </Association>
         <Association Name="BolsistaReserva">
-          <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="0..1" />
           <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="*" />
         </Association>
       </Schema>
@@ -678,6 +678,7 @@
       <EndProperty Name="Reserva">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
+      <Condition ColumnName="Bolsista_Id" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

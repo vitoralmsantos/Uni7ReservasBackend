@@ -8,11 +8,19 @@ namespace Uni7ReservasBackend.Models
 {
     public partial class Reserva
     {
-        public static void Reservar(DateTime data, string horario, string turno, int idLocal,
+        public static void Reservar(int idUsuario, DateTime data, string horario, string turno, int idLocal,
             string obs, int idCatEquipamento)
         {
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
+                //Consulta usuário
+                var usuario_ = from Usuario u in context.Usuarios
+                               where u.Id == idUsuario
+                               select u;
+
+                if (usuario_.Count() == 0)
+                    throw new EntidadesException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
+
                 //Consulta local
                 var local_ = from Local l in context.Locais.Include("RestricoesCategoriaEquipamento")
                              where l.Id == idLocal
@@ -70,13 +78,16 @@ namespace Uni7ReservasBackend.Models
                 //Realiza a reserva
                 Reserva reserva = new Reserva();
                 reserva.Data = data;
+                reserva.ReservadoEm = DateTime.Now;
                 reserva.Turno = turno;
                 reserva.Horario = horario;
                 reserva.Obs = obs;
+                reserva.Usuario = usuario_.First();
                 reserva.Local = local_.First();
                 if (idCatEquipamento > 0)
                     reserva.CategoriasEquipamentos.Add(catequip1_.First());
 
+                context.Reservas.Add(reserva);
                 context.SaveChanges();
             }
         }
