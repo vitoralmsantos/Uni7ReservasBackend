@@ -105,7 +105,7 @@ namespace Uni7ReservasBackend.Controllers
             try
             {
                 DateTime data = DateTime.ParseExact(reserva.Data, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                DateTime dataReservado = DateTime.ParseExact(reserva.ReservadoEm, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime dataReservado = DateTime.Now;
 
                 Reserva.Reservar(data, reserva.Horario, reserva.Turno, reserva.IdLocal, reserva.Obs, reserva.IdCategoria);
             }

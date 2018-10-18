@@ -109,9 +109,10 @@ namespace Uni7ReservasBackend.Models
 
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
+                DateTime ontem = DateTime.Today.AddDays(-1);
                 var reservas_ = from Reserva r in context.Reservas.Include("Local")
                                 .Include("CategoriasEquipamentos").Include("Usuario")
-                                where r.Data > DateTime.Today.AddDays(-1)
+                                where r.Data > ontem
                                 select r;
 
                 Reservas = reservas_.ToList();
