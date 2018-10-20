@@ -92,7 +92,7 @@ namespace Uni7ReservasBackend.Models
             }
         }
 
-        public static Reserva ConsultarReservaPorId(int id)
+        public static Reserva ConsultarPorId(int id)
         {
             Reserva reserva = new Reserva();
 
@@ -114,7 +114,7 @@ namespace Uni7ReservasBackend.Models
             return reserva;
         }
 
-        public static List<Reserva> ConsultarReservas()
+        public static List<Reserva> Consultar()
         {
             List<Reserva> Reservas = new List<Reserva>();
 
@@ -124,6 +124,24 @@ namespace Uni7ReservasBackend.Models
                 var reservas_ = from Reserva r in context.Reservas.Include("Local")
                                 .Include("CategoriasEquipamentos").Include("Usuario")
                                 where r.Data > ontem
+                                select r;
+
+                Reservas = reservas_.ToList();
+            }
+
+            return Reservas;
+        }
+
+        public static List<Reserva> ConsultarPorUsuario(int idUsuario)
+        {
+            List<Reserva> Reservas = new List<Reserva>();
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                DateTime ontem = DateTime.Today.AddDays(-1);
+                var reservas_ = from Reserva r in context.Reservas.Include("Local")
+                                .Include("CategoriasEquipamentos").Include("Usuario")
+                                where r.Usuario.Id == idUsuario && r.Data > ontem
                                 select r;
 
                 Reservas = reservas_.ToList();

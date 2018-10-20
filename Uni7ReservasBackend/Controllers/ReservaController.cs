@@ -25,11 +25,56 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                List<Reserva> reservas = Reserva.ConsultarReservas();
+                List<Reserva> reservas = Reserva.Consultar();
 
                 foreach (Reserva r in reservas)
                 {
                     ReservaTO rTO = new ReservaTO();
+                    rTO.Id = r.Id;
+                    rTO.Data = r.Data.ToString("dd/MM/yyyy");
+                    rTO.DiaSemana = 
+                    rTO.Horario = r.Horario;
+                    rTO.Turno = r.Turno;
+                    rTO.Obs = r.Obs;
+                    rTO.ReservadoEm = r.ReservadoEm.ToString("dd/MM/yyyy HH:mm");
+                    rTO.NomeLocal = r.Local.Nome;
+                    rTO.NomeUsuario = r.Usuario.Nome;
+                    rTO.EmailUsuario = r.Usuario.Email;
+                    rTO.Equipamentos = new List<string>();
+                    foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
+                    {
+                        rTO.Equipamentos.Add(ce.Nome);
+                    }
+
+                    response.Elementos.Add(rTO);
+                }
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("usuario/{idUsuario:int}")]
+        public IHttpActionResult GetPorUsuario(int idUsuario)
+        {
+            EntidadesResponse<ReservaTO> response = new EntidadesResponse<ReservaTO>();
+
+            try
+            {
+                List<Reserva> reservas = Reserva.ConsultarPorUsuario(idUsuario);
+
+                foreach (Reserva r in reservas)
+                {
+                    ReservaTO rTO = new ReservaTO();
+                    rTO.Id = r.Id;
                     rTO.Data = r.Data.DayOfWeek.ToString() + " " + r.Data.ToString("dd/MM/yyyy");
                     rTO.Horario = r.Horario;
                     rTO.Turno = r.Turno;
@@ -69,7 +114,7 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                Reserva r = Reserva.ConsultarReservaPorId(id);
+                Reserva r = Reserva.ConsultarPorId(id);
 
                 response.Elemento.Data = r.Data.ToString("ddMMyyyy");
                 response.Elemento.Horario = r.Horario;

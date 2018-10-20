@@ -9,6 +9,7 @@ namespace Uni7ReservasBackend.Controllers.TransferObjects
     {
         public int Id { get; set; }
         public string Data { get; set; }
+        public string DiaSemana { get; set; }
         public string ReservadoEm { get; set; }
         public string Horario { get; set; }
         public string Turno { get; set; }
