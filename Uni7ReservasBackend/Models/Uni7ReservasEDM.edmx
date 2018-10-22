@@ -505,7 +505,8 @@
         </Association>
         <Association Name="ReservaCategoriaEquipamento">
           <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="*" />
-          <End Type="Uni7ReservasModel.CategoriaEquipamento" Role="CategoriaEquipamento" Multiplicity="*" />
+          <End Type="Uni7ReservasModel.CategoriaEquipamento" Role="CategoriaEquipamento" Multiplicity="*" >
+          </End>
         </Association>
         <Association Name="BolsistaReserva">
           <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="0..1" />

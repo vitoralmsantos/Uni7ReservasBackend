@@ -163,7 +163,7 @@ namespace Uni7ReservasBackend.Models
 
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
-                var reservas_ = from Reserva r in context.Reservas
+                var reservas_ = from Reserva r in context.Reservas.Include("CategoriasEquipamentos")
                                 where r.Id == id
                                 select r;
 
@@ -172,6 +172,8 @@ namespace Uni7ReservasBackend.Models
                     throw new EntidadesException(EntityExcCode.RESERVAINEXISTENTE, id.ToString());
                 }
 
+                reservas_.First().CategoriasEquipamentos.Clear();
+                context.SaveChanges();
                 context.Reservas.Remove(reservas_.First());
                 context.SaveChanges();
             }
