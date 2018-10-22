@@ -26,6 +26,7 @@ namespace Uni7ReservasBackend.Models.Entidades
         EQUIPAMENTOSIGUAIS = 1104,
         RESTRICAOLOCALEQUIPAMENTO = 1105,
         RESERVAINEXISTENTE = 1106,
+        LOCALINDISPONIVELPROPRIOUSUARIO = 1107,
         CATEGORIAINEXISTENTE = 1201,
         NOMECATEGORIAVAZIO = 1202,
         CATEGORIAJACADASTRADA = 1203,
@@ -90,7 +91,9 @@ namespace Uni7ReservasBackend.Models.Entidades
                     case EntityExcCode.USUARIOPOSSUIRESERVASBOLSISTA:
                         return String.Format("Bolsita possui {0} reservas vinculadas a ele(a).", Detalhe);
                     case EntityExcCode.LOCALINDISPONIVEL:
-                        return "O local está indisponível.";
+                        return String.Format("O local já possui reserva nesta data e horário por {0}.", Detalhe);
+                    case EntityExcCode.LOCALINDISPONIVELPROPRIOUSUARIO:
+                        return "O local já possui reserva em seu nome nesta data e horário. Se desejar incluir um equipamento, por favor, selecione a opção de edição ao lado da reserva realizada.";
                     case EntityExcCode.EQUIPAMENTOINDISPONIVEL:
                         return "O equipamento está indisponível: " + Detalhe;
                     case EntityExcCode.EQUIPAMENTONECESSARIO:

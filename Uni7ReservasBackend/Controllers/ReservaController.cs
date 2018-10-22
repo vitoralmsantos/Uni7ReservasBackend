@@ -75,7 +75,7 @@ namespace Uni7ReservasBackend.Controllers
                 {
                     ReservaTO rTO = new ReservaTO();
                     rTO.Id = r.Id;
-                    rTO.Data = r.Data.DayOfWeek.ToString() + " " + r.Data.ToString("dd/MM/yyyy");
+                    rTO.Data = r.Data.ToString("dd/MM/yyyy");
                     rTO.Horario = r.Horario;
                     rTO.Turno = r.Turno;
                     rTO.Obs = r.Obs;

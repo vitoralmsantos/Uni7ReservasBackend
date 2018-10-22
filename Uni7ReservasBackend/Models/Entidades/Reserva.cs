@@ -68,11 +68,14 @@ namespace Uni7ReservasBackend.Models
                 var reserva_ = from Reserva r in context.Reservas
                                where r.Data.Equals(data) && r.Turno.Equals(turno) && r.Horario.Equals(horario)
                                  && r.Local.Id == idLocal
-                               select r.Local.Id;
+                               select new { localId = r.Local.Id, usuarioId = r.Usuario.Id, r.Usuario.Nome };
 
                 if (reserva_.Count() > 0)
                 {
-                    throw new EntidadesException(EntityExcCode.LOCALINDISPONIVEL, "");
+                    if (reserva_.First().usuarioId == idUsuario)
+                        throw new EntidadesException(EntityExcCode.LOCALINDISPONIVELPROPRIOUSUARIO, "");
+                    else
+                        throw new EntidadesException(EntityExcCode.LOCALINDISPONIVEL, reserva_.First().Nome);
                 }
 
                 //Realiza a reserva
@@ -144,7 +147,11 @@ namespace Uni7ReservasBackend.Models
                                 where r.Usuario.Id == idUsuario && r.Data > ontem
                                 select r;
 
-                Reservas = reservas_.ToList();
+                string[] customOrder = { "M", "T", "N" };
+                Reservas = reservas_.ToList()
+                    .OrderBy(res => res.Data)
+                    .ThenBy(res => Array.IndexOf(customOrder, res.Turno))
+                    .ThenBy(res => res.Horario).ToList();
             }
 
             return Reservas;
