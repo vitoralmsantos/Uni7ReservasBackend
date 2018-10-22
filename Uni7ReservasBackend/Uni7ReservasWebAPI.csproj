@@ -154,11 +154,12 @@
     <Compile Include="Models\Entidades\CategoriaEquipamento.cs" />
     <Compile Include="Models\Entidades\Usuario.cs" />
     <Compile Include="Models\Entidades\Util.cs" />
-    <Compile Include="Models\Equipamento.cs">
-      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\TransferObjects\ReservaTO.cs" />
+    <Compile Include="Models\Equipamento.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Local.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
@@ -169,10 +170,16 @@
     <Compile Include="Models\RecursoLocal.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Reserva.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SATISFACAO.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STATUSCHAMADO.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TIPOLOCAL.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIPORECURSO.cs">
@@ -181,14 +188,10 @@
     <Compile Include="Models\TIPOUSUARIO.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\TransferObjects\ReservaTO.cs" />
+    <Compile Include="Models\Usuario.cs">
+      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Reserva.cs">
-      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TIPOLOCAL.cs">
-      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Uni7ReservasEDM.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -203,9 +206,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Uni7ReservasEDM.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Usuario.cs">
-      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
