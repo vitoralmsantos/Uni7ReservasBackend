@@ -114,17 +114,19 @@ namespace Uni7ReservasBackend.Models
         {
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
-                var equipamento_ = from Equipamento e in context.Equipamentos
+                var equipamento_ = from Equipamento e in context.Equipamentos.Include("CategoriaEquipamento")
                                    where e.Id == id
                                    select e;
 
                 if (equipamento_.Count() == 0)
                     throw new EntidadesException(EntityExcCode.EQUIPAMENTOINEXISTENTE, id.ToString());
 
+                int idCategoria = equipamento_.First().CategoriaEquipamento.Id;
+
                 if (verificaQtde)
                 {
                     var categoria_ = from CategoriaEquipamento ce in context.Categorias.Include("Equipamentos")
-                                     where ce.Id == id
+                                     where ce.Id == idCategoria
                                      select ce;
 
                     if (categoria_.Count() == 0)
@@ -132,9 +134,13 @@ namespace Uni7ReservasBackend.Models
 
                     CategoriaEquipamento categoria = categoria_.First();
                     int qtdeCategoria = categoria_.First().Equipamentos.Where(e => e.Disponivel).Count();
+                    DateTime ontem = DateTime.Today.AddDays(-1);
 
                     var reservas_ = from Reserva r in context.Reservas
-                                    where r.CategoriasEquipamentos.Contains(categoria) && r.Data > DateTime.Today.AddDays(-1)
+                                    where r.Data > ontem && 
+                                    (from c in r.CategoriasEquipamentos
+                                     where c.Id == categoria.Id
+                                     select c).Count() > 0
                                     group r by new { r.Data, r.Turno, r.Horario } into g
                                     where g.Count() >= qtdeCategoria
                                     select new { Reserva = g.Key, Qtde = g.Count() };
