@@ -12,6 +12,5 @@ namespace Uni7ReservasBackend.Controllers.TransferObjects
         public string Serie { get; set; }
         public bool Disponivel { get; set; }
         public int IdCategoria { get; set; }
-        public string NomeCategoria { get; set; }
     }
 }

@@ -33,7 +33,6 @@ namespace Uni7ReservasBackend.Controllers
                     eTO.Serie = e.Serie;
                     eTO.Disponivel = e.Disponivel;
                     eTO.IdCategoria = e.CategoriaEquipamento.Id;
-                    eTO.NomeCategoria = e.CategoriaEquipamento.Nome;
 
                     response.Elementos.Add(eTO);
                 }
