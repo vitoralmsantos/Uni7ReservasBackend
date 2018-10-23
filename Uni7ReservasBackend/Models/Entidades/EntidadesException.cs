@@ -123,7 +123,7 @@ namespace Uni7ReservasBackend.Models.Entidades
                     case EntityExcCode.LOCALPOSSUIRESERVAS:
                         return String.Format("Local possui reservas: ", Detalhe);
                     case EntityExcCode.EQUIPAMENTONOLIMITEDERESERVAS:
-                        return String.Format("O equipamento não pode ser removido, pois a quantidade de reservas da sua categoria está no limite na seguinte data, turno e horário: ", Detalhe);
+                        return String.Format("O equipamento não pode ser removido, pois a quantidade de reservas da sua categoria está no limite na(s) seguinte(s) data(s), turno(s) e horário(s): {0}", Detalhe);
                     case EntityExcCode.RECURSOINEXISTENTE:
                         return "Recurso inexistente: " + Detalhe;
                     case EntityExcCode.NOMERECURSOVAZIO:
