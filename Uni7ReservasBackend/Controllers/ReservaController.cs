@@ -37,12 +37,16 @@ namespace Uni7ReservasBackend.Controllers
                     rTO.Turno = r.Turno;
                     rTO.Obs = r.Obs;
                     rTO.ReservadoEm = r.ReservadoEm.ToString("dd/MM/yyyy HH:mm");
+                    rTO.IdLocal = r.Local.Id;
                     rTO.NomeLocal = r.Local.Nome;
+                    rTO.IdUsuario = r.Usuario.Id;
                     rTO.NomeUsuario = r.Usuario.Nome;
                     rTO.EmailUsuario = r.Usuario.Email;
                     rTO.Equipamentos = new List<string>();
+                    rTO.IdEquipamentos = new List<int>();
                     foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
                     {
+                        rTO.IdEquipamentos.Add(ce.Id);
                         rTO.Equipamentos.Add(ce.Nome);
                     }
 
@@ -80,12 +84,16 @@ namespace Uni7ReservasBackend.Controllers
                     rTO.Turno = r.Turno;
                     rTO.Obs = r.Obs;
                     rTO.ReservadoEm = r.ReservadoEm.ToString("dd/MM/yyyy HH:mm");
+                    rTO.IdLocal = r.Local.Id;
                     rTO.NomeLocal = r.Local.Nome;
+                    rTO.IdUsuario = r.Usuario.Id;
                     rTO.NomeUsuario = r.Usuario.Nome;
                     rTO.EmailUsuario = r.Usuario.Email;
                     rTO.Equipamentos = new List<string>();
+                    rTO.IdEquipamentos = new List<int>();
                     foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
                     {
+                        rTO.IdEquipamentos.Add(ce.Id);
                         rTO.Equipamentos.Add(ce.Nome);
                     }
 
