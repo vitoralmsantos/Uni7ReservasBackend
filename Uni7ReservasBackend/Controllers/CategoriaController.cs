@@ -31,6 +31,7 @@ namespace Uni7ReservasBackend.Controllers
                     CategoriaTO cTO = new CategoriaTO();
                     cTO.Id = ce.Id;
                     cTO.Nome = ce.Nome;
+                    cTO.ComentarioReserva = ce.ComentarioReserva;
 
                     response.Elementos.Add(cTO);
                 }
@@ -59,6 +60,7 @@ namespace Uni7ReservasBackend.Controllers
                 response.Elemento = new CategoriaTO();
                 response.Elemento.Id = ce.Id;
                 response.Elemento.Nome = ce.Nome;
+                response.Elemento.ComentarioReserva = ce.ComentarioReserva;
             }
             catch (EntidadesException eex)
             {
@@ -88,6 +90,7 @@ namespace Uni7ReservasBackend.Controllers
                     CategoriaTO cTO = new CategoriaTO();
                     cTO.Id = ce.Id;
                     cTO.Nome = ce.Nome;
+                    cTO.ComentarioReserva = ce.ComentarioReserva;
 
                     response.Elementos.Add(cTO);
                 }
@@ -113,7 +116,7 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                response.Elemento.Id = CategoriaEquipamento.Cadastrar(categoria.Nome);
+                response.Elemento.Id = CategoriaEquipamento.Cadastrar(categoria.Nome, categoria.ComentarioReserva);
             }
             catch (EntidadesException eex)
             {
@@ -135,7 +138,7 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                CategoriaEquipamento.Atualizar(id, categoria.Nome);
+                CategoriaEquipamento.Atualizar(id, categoria.Nome, categoria.ComentarioReserva);
             }
             catch (EntidadesException eex)
             {

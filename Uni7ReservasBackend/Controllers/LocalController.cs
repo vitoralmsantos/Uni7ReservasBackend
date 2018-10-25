@@ -34,6 +34,7 @@ namespace Uni7ReservasBackend.Controllers
                     lTO.Disponivel = l.Disponivel;
                     lTO.Reservavel = l.Reservavel;
                     lTO.Tipo = (int)l.Tipo;
+                    lTO.ComentarioReserva = l.ComentarioReserva;
 
                     response.Elementos.Add(lTO);
                 }
@@ -65,6 +66,7 @@ namespace Uni7ReservasBackend.Controllers
                 response.Elemento.Disponivel = l.Disponivel;
                 response.Elemento.Reservavel = l.Reservavel;
                 response.Elemento.Tipo = (int)l.Tipo;
+                response.Elemento.ComentarioReserva = l.ComentarioReserva;
             }
             catch (EntidadesException eex)
             {
@@ -96,6 +98,7 @@ namespace Uni7ReservasBackend.Controllers
                     lTO.Disponivel = l.Disponivel;
                     lTO.Reservavel = l.Reservavel;
                     lTO.Tipo = (int)l.Tipo;
+                    lTO.ComentarioReserva = l.ComentarioReserva;
 
                     response.Elementos.Add(lTO);
                 }
@@ -120,7 +123,8 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                response.Elemento.Id = Local.Cadastrar(local.Nome, local.Reservavel, local.Disponivel, (TIPOLOCAL)local.Tipo);
+                response.Elemento.Id = Local.Cadastrar(local.Nome, local.Reservavel, local.Disponivel, (TIPOLOCAL)local.Tipo,
+                    local.ComentarioReserva);
             }
             catch (EntidadesException eex)
             {
@@ -142,7 +146,7 @@ namespace Uni7ReservasBackend.Controllers
 
             try
             {
-                Local.Atualizar(id, local.Nome, local.Reservavel, local.Disponivel, (TIPOLOCAL)local.Tipo);
+                Local.Atualizar(id, local.Nome, local.Reservavel, local.Disponivel, (TIPOLOCAL)local.Tipo, local.ComentarioReserva);
             }
             catch (EntidadesException eex)
             {

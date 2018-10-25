@@ -12,5 +12,6 @@ namespace Uni7ReservasBackend.Controllers.TransferObjects
         public bool Disponivel { get; set; }
         public bool Reservavel { get; set; }
         public int Tipo { get; set; }
+        public string ComentarioReserva { get; set; }
     }
 }

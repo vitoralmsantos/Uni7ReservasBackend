@@ -174,6 +174,29 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
+        // POST api/<controller>
+        [Route("obs")]
+        public IHttpActionResult AtualizarObs([FromBody]ReservaRegistroTO reserva)
+        {
+            BaseResponse response = new BaseResponse();
+
+            try
+            {
+                Reserva.AtualizarObs(reserva.Id, reserva.Obs);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
         // PUT api/<controller>/5
         [Route("{id:int}")]
         public IHttpActionResult Put(int id, [FromBody]string categoria)

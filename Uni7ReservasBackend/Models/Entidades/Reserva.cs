@@ -95,6 +95,28 @@ namespace Uni7ReservasBackend.Models
             }
         }
 
+        public static Reserva AtualizarObs(int id, string obs)
+        {
+            Reserva reserva = new Reserva();
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var reservas_ = from Reserva r in context.Reservas
+                                where r.Id == id
+                                select r;
+
+                if (reservas_.Count() == 0)
+                {
+                    throw new EntidadesException(EntityExcCode.RESERVAINEXISTENTE, id.ToString());
+                }
+
+                reservas_.First().Obs = obs;
+                context.SaveChanges();
+            }
+
+            return reserva;
+        }
+
         public static Reserva ConsultarPorId(int id)
         {
             Reserva reserva = new Reserva();

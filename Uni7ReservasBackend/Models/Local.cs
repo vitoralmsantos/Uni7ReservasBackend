@@ -27,6 +27,7 @@ namespace Uni7ReservasBackend.Models
         public bool Reservavel { get; set; }
         public bool Disponivel { get; set; }
         public TIPOLOCAL Tipo { get; set; }
+        public string ComentarioReserva { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reserva> Reservas { get; set; }

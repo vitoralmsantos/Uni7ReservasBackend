@@ -83,7 +83,7 @@ namespace Uni7ReservasBackend.Models
             return categorias;
         }
 
-        public static int Cadastrar(string nome)
+        public static int Cadastrar(string nome, string comentarioReserva)
         {
             CategoriaEquipamento categoria = null;
             if (nome == null || nome.Length == 0)
@@ -100,6 +100,7 @@ namespace Uni7ReservasBackend.Models
 
                 categoria = new CategoriaEquipamento();
                 categoria.Nome = nome;
+                categoria.ComentarioReserva = comentarioReserva;
 
                 context.Categorias.Add(categoria);
                 context.SaveChanges();
@@ -108,7 +109,7 @@ namespace Uni7ReservasBackend.Models
             return categoria.Id;
         }
 
-        public static void Atualizar(int idCategoria, string nome)
+        public static void Atualizar(int idCategoria, string nome, string comentarioReserva)
         {
             if (nome == null || nome.Length == 0)
                 throw new EntidadesException(EntityExcCode.NOMECATEGORIAVAZIO, "");
@@ -124,6 +125,7 @@ namespace Uni7ReservasBackend.Models
 
                 CategoriaEquipamento categoria = categoria_.First();
                 categoria.Nome = nome;
+                categoria.ComentarioReserva = comentarioReserva;
 
                 context.SaveChanges();
             }

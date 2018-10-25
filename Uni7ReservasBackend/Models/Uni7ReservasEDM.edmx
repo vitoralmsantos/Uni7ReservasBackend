@@ -100,6 +100,7 @@
     <Property Name="Reservavel" Type="bit" Nullable="false" />
     <Property Name="Disponivel" Type="bit" Nullable="false" />
     <Property Name="Tipo" Type="int" Nullable="false" />
+    <Property Name="ComentarioReserva" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="Equipamentos">
     <Key>
@@ -117,6 +118,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ComentarioReserva" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="Chamados">
     <Key>
@@ -394,6 +396,7 @@
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPOLOCAL" Nullable="false" />
           <NavigationProperty Name="RestricoesCategoriaEquipamento" Relationship="Uni7ReservasModel.Restricoes" FromRole="Local" ToRole="CategoriaEquipamento" />
           <NavigationProperty Name="Recursos" Relationship="Uni7ReservasModel.LocalRecursoLocal" FromRole="Local" ToRole="RecursoLocal" />
+          <Property Name="ComentarioReserva" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="Equipamento">
           <Key>
@@ -414,6 +417,7 @@
           <Property Name="Nome" Type="String" Nullable="false" />
           <NavigationProperty Name="RestricoesLocais" Relationship="Uni7ReservasModel.Restricoes" FromRole="CategoriaEquipamento" ToRole="Local" />
           <NavigationProperty Name="Reservas" Relationship="Uni7ReservasModel.ReservaCategoriaEquipamento" FromRole="CategoriaEquipamento" ToRole="Reserva" />
+          <Property Name="ComentarioReserva" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="UsuarioReserva">
           <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
@@ -555,6 +559,7 @@
           <ScalarProperty Name="Reservavel" ColumnName="Reservavel" />
           <ScalarProperty Name="Disponivel" ColumnName="Disponivel" />
           <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="ComentarioReserva" ColumnName="ComentarioReserva" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -573,6 +578,7 @@
         <MappingFragment StoreEntitySet="Categorias">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="ComentarioReserva" ColumnName="ComentarioReserva" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

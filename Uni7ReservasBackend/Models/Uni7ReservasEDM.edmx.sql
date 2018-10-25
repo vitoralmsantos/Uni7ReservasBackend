@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/22/2018 10:44:21
--- Generated from EDMX file: D:\Projetos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
+-- Date Created: 10/25/2018 15:09:14
+-- Generated from EDMX file: C:\Users\NIP\source\repos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -126,7 +126,8 @@ CREATE TABLE [dbo].[Locais] (
     [Nome] nvarchar(max)  NOT NULL,
     [Reservavel] bit  NOT NULL,
     [Disponivel] bit  NOT NULL,
-    [Tipo] int  NOT NULL
+    [Tipo] int  NOT NULL,
+    [ComentarioReserva] nvarchar(max)  NULL
 );
 GO
 
@@ -143,7 +144,8 @@ GO
 -- Creating table 'Categorias'
 CREATE TABLE [dbo].[Categorias] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Nome] nvarchar(max)  NOT NULL
+    [Nome] nvarchar(max)  NOT NULL,
+    [ComentarioReserva] nvarchar(max)  NULL
 );
 GO
 
