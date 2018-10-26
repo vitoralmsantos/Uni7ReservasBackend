@@ -73,7 +73,7 @@ namespace Uni7ReservasBackend.Models
                                        select cer).Count() > 0)
                                    select r;
 
-                    if (reserva_.Count() < ce.Equipamentos.Count())
+                    if (reserva_.Count() < ce.Equipamentos.Where(e => e.Disponivel).Count())
                     {
                         categorias.Add(ce);
                     }
