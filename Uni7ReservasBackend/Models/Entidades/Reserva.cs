@@ -322,6 +322,30 @@ namespace Uni7ReservasBackend.Models
             return Reservas;
         }
 
+        public static List<Reserva> ConsultarPorFiltro(DateTime? dataDe, DateTime? dataAte)
+        {
+            List<Reserva> Reservas = new List<Reserva>();
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                if (!dataDe.HasValue) dataDe = DateTime.MinValue;
+                if (!dataAte.HasValue) dataAte = DateTime.MaxValue;
+
+                var reservas_ = from Reserva r in context.Reservas.Include("Local").Include("CategoriasEquipamentos").Include("Usuario")
+                                where r.Data >= dataDe && r.Data <= dataAte
+                                select r;
+
+                string[] customOrder = { "M", "T", "N" };
+
+                Reservas = reservas_.ToList()
+                    .OrderBy(res => res.Data)
+                    .ThenBy(res => Array.IndexOf(customOrder, res.Turno))
+                    .ThenBy(res => res.Horario).ToList();
+            }
+
+            return Reservas;
+        }
+
         public static void Remover(int id)
         {
             Reserva reserva = new Reserva();

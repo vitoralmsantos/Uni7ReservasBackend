@@ -113,6 +113,59 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
+        [Route("filtro")]
+        public IHttpActionResult GetPorFiltro([FromUri]string dataDe, [FromUri]string dataAte)
+        {
+            EntidadesResponse<ReservaTO> response = new EntidadesResponse<ReservaTO>();
+
+            try
+            {
+                DateTime? dateTimeDe=null, dateTimeAte=null;
+                if (dataDe.Length > 0)
+                    dateTimeDe = DateTime.ParseExact(dataDe, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                if (dataAte.Length > 0)
+                    dateTimeAte = DateTime.ParseExact(dataAte, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                List<Reserva> reservas = Reserva.ConsultarPorFiltro(dateTimeDe, dateTimeAte);
+
+                foreach (Reserva r in reservas)
+                {
+                    ReservaTO rTO = new ReservaTO();
+                    rTO.Id = r.Id;
+                    rTO.Data = r.Data.ToString("dd/MM/yyyy");
+                    rTO.Horario = r.Horario;
+                    rTO.Turno = r.Turno;
+                    rTO.Obs = r.Obs;
+                    rTO.ReservadoEm = r.ReservadoEm.ToString("dd/MM/yyyy HH:mm");
+                    rTO.IdLocal = r.Local.Id;
+                    rTO.NomeLocal = r.Local.Nome;
+                    rTO.IdUsuario = r.Usuario.Id;
+                    rTO.NomeUsuario = r.Usuario.Nome;
+                    rTO.EmailUsuario = r.Usuario.Email;
+                    rTO.Equipamentos = new List<string>();
+                    rTO.IdEquipamentos = new List<int>();
+                    foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
+                    {
+                        rTO.IdEquipamentos.Add(ce.Id);
+                        rTO.Equipamentos.Add(ce.Nome);
+                    }
+
+                    response.Elementos.Add(rTO);
+                }
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
         // GET api/<controller>/5
         [Route("{id:int}")]
         public IHttpActionResult Get(int id)
