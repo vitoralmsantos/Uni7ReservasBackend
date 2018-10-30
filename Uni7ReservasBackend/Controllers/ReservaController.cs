@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Uni7ReservasBackend.Controllers.Response;
@@ -70,7 +71,6 @@ namespace Uni7ReservasBackend.Controllers
         public IHttpActionResult GetPorUsuario(int idUsuario)
         {
             EntidadesResponse<ReservaTO> response = new EntidadesResponse<ReservaTO>();
-
             try
             {
                 List<Reserva> reservas = Reserva.ConsultarPorUsuario(idUsuario);

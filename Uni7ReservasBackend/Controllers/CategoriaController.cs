@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Uni7ReservasBackend.Controllers.Response;
@@ -79,7 +80,6 @@ namespace Uni7ReservasBackend.Controllers
         public IHttpActionResult Get([FromUri]string data, [FromUri]string horario, [FromUri]string turno)
         {
             EntidadesResponse<CategoriaTO> response = new EntidadesResponse<CategoriaTO>();
-
             try
             {
                 DateTime d = DateTime.ParseExact(data, "dd/MM/yyyy", CultureInfo.InvariantCulture);
