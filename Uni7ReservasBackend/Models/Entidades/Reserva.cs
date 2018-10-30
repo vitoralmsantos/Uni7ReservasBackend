@@ -322,7 +322,8 @@ namespace Uni7ReservasBackend.Models
             return Reservas;
         }
 
-        public static List<Reserva> ConsultarPorFiltro(DateTime? dataDe, DateTime? dataAte)
+        public static List<Reserva> ConsultarPorFiltro(DateTime? dataDe, DateTime? dataAte, int tipo, int idLocal, 
+            int idCategoria, string obs)
         {
             List<Reserva> Reservas = new List<Reserva>();
 
@@ -331,7 +332,8 @@ namespace Uni7ReservasBackend.Models
                 if (!dataDe.HasValue) dataDe = DateTime.MinValue;
                 if (!dataAte.HasValue) dataAte = DateTime.MaxValue;
 
-                var reservas_ = from Reserva r in context.Reservas.Include("Local").Include("CategoriasEquipamentos").Include("Usuario")
+                var reservas_ = from Reserva r in context.Reservas.Include("Local")
+                                    .Include("CategoriasEquipamentos.Equipamentos").Include("Usuario")
                                 where r.Data >= dataDe && r.Data <= dataAte
                                 select r;
 
@@ -341,6 +343,35 @@ namespace Uni7ReservasBackend.Models
                     .OrderBy(res => res.Data)
                     .ThenBy(res => Array.IndexOf(customOrder, res.Turno))
                     .ThenBy(res => res.Horario).ToList();
+
+                //Somente laboratórios
+                if (tipo == 1)
+                {
+                    Reservas = Reservas.Where(r => r.Local.Reservavel).ToList();
+                }
+                //Equipamentos
+                else if (tipo == 2)
+                {
+                    Reservas = Reservas.Where(r => r.CategoriasEquipamentos.Count() > 0).ToList();
+                }
+                //Local e/ou equipamento específico
+                else if (tipo == 3)
+                {
+                    if (idLocal > 0)
+                    {
+                        Reservas = Reservas.Where(r => r.Local.Id == idLocal).ToList();
+                    }
+
+                    if (idCategoria > 0)
+                    {
+                        Reservas = Reservas.Where(r => r.CategoriasEquipamentos.Where(c=>c.Id == idCategoria).Count()>0).ToList();
+                    }
+                }
+
+                if (obs != null && obs.Length > 0)
+                {
+                    Reservas = Reservas.Where(r => r.Obs != null && r.Obs.Contains(obs)).ToList();
+                }
             }
 
             return Reservas;

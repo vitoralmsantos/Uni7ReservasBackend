@@ -120,6 +120,7 @@ namespace Uni7ReservasBackend.Controllers
         public IHttpActionResult Post([FromBody]LocalTO local)
         {
             EntidadeResponse<LocalTO> response = new EntidadeResponse<LocalTO>();
+            response.Elemento = local;
 
             try
             {

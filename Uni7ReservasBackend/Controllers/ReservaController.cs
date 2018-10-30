@@ -114,7 +114,8 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         [Route("filtro")]
-        public IHttpActionResult GetPorFiltro([FromUri]string dataDe, [FromUri]string dataAte)
+        public IHttpActionResult GetPorFiltro([FromUri]string dataDe, [FromUri]string dataAte, [FromUri]int tipo,
+            [FromUri]int idLocal, [FromUri]int idCategoria, [FromUri]string obs)
         {
             EntidadesResponse<ReservaTO> response = new EntidadesResponse<ReservaTO>();
 
@@ -126,7 +127,7 @@ namespace Uni7ReservasBackend.Controllers
                 if (dataAte.Length > 0)
                     dateTimeAte = DateTime.ParseExact(dataAte, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-                List<Reserva> reservas = Reserva.ConsultarPorFiltro(dateTimeDe, dateTimeAte);
+                List<Reserva> reservas = Reserva.ConsultarPorFiltro(dateTimeDe, dateTimeAte, tipo, idLocal, idCategoria, obs);
 
                 foreach (Reserva r in reservas)
                 {

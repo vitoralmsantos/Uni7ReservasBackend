@@ -154,7 +154,7 @@ namespace Uni7ReservasBackend.Models
         {
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
-                var local_ = from Local l in context.Locais.Include("Reservas").Include("Locais")
+                var local_ = from Local l in context.Locais.Include("Reservas")
                                  where l.Id == id
                                  select l;
 
