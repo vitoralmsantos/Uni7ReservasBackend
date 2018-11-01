@@ -227,6 +227,43 @@ namespace Uni7ReservasBackend.Models
             }
         }
 
+        public static void Atualizar(int idUsuario, string nome, string email)
+        {
+            if (nome == null || nome.Length == 0)
+                throw new EntidadesException(EntityExcCode.NOMEUSUARIOVAZIO, "");
+
+            Regex regexEmail = new Regex(@"^(([^<>()[\]\\.,;:\s@\""]+"
+                        + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
+                        + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"
+                        + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
+                        + @"[a-zA-Z]{2,}))$");
+            if (!regexEmail.IsMatch(email))
+                throw new EntidadesException(EntityExcCode.EMAILINVALIDO, email);
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var usuario1_ = from Usuario u in context.Usuarios
+                                where u.Id == idUsuario
+                                select u;
+
+                if (usuario1_.Count() == 0)
+                    throw new EntidadesException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
+
+                var usuario2_ = from Usuario u in context.Usuarios
+                                where u.Email == email
+                                select u;
+
+                if (usuario2_.Count() > 0 && !usuario1_.First().Email.Equals(email))
+                    throw new EntidadesException(EntityExcCode.EMAILJACADASTRADO, email);
+
+                Usuario usuario = usuario1_.First();
+                usuario.Nome = nome;
+                usuario.Email = email;
+
+                context.SaveChanges();
+            }
+        }
+
         public static void EnviarNovaSenha(string email)
         {
             string nomeUsuario = "";
