@@ -116,6 +116,39 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
+        [Route("restricoes/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult ConsultarRestricoes(int id)
+        {
+            EntidadesResponse<CategoriaTO> response = new EntidadesResponse<CategoriaTO>();
+
+            try
+            {
+                List<CategoriaEquipamento> categorias = Local.ConsultarRestricoes(id);
+
+                foreach (CategoriaEquipamento ce in categorias)
+                {
+                    CategoriaTO cTO = new CategoriaTO();
+                    cTO.Id = ce.Id;
+                    cTO.Nome = ce.Nome;
+                    cTO.ComentarioReserva = ce.ComentarioReserva;
+
+                    response.Elementos.Add(cTO);
+                }
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
         [Route("")]
         public IHttpActionResult Post([FromBody]LocalTO local)
         {
@@ -126,6 +159,52 @@ namespace Uni7ReservasBackend.Controllers
             {
                 response.Elemento.Id = Local.Cadastrar(local.Nome, local.Reservavel, local.Disponivel, (TIPOLOCAL)local.Tipo,
                     local.ComentarioReserva);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("cadastrarrestricao")]
+        [HttpPost]
+        public IHttpActionResult CadastrarRestricao([FromBody]RestricaoTO restricao)
+        {
+            BaseResponse response = new BaseResponse();
+
+            try
+            {
+                Local.CadastrarRestricao(restricao.IdLocal, restricao.IdCategoria);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("removerrestricao")]
+        [HttpPost]
+        public IHttpActionResult RemoverRestricao([FromBody]RestricaoTO restricao)
+        {
+            BaseResponse response = new BaseResponse();
+
+            try
+            {
+                Local.RemoverRestricao(restricao.IdLocal, restricao.IdCategoria);
             }
             catch (EntidadesException eex)
             {

@@ -36,6 +36,8 @@ namespace Uni7ReservasBackend.Models.Entidades
         LOCALINEXISTENTE = 1301,
         NOMELOCALVAZIO = 1302,
         LOCALPOSSUIRESERVAS = 1303,
+        RESTRICAOJACADASTRADA = 1304,
+        RESTRICAOINEXISTENTE = 1305,
         EQUIPAMENTOINEXISTENTE = 1401,
         MODELOEQUIPAMENTOVAZIO = 1402,
         EQUIPAMENTONOLIMITEDERESERVAS = 1403,
@@ -125,6 +127,10 @@ namespace Uni7ReservasBackend.Models.Entidades
                         return String.Format("Nome do local não pode ser vazio.");
                     case EntityExcCode.LOCALPOSSUIRESERVAS:
                         return String.Format("Local possui reservas: ", Detalhe);
+                    case EntityExcCode.RESTRICAOJACADASTRADA:
+                        return String.Format("A restrição já está cadastrada: ", Detalhe);
+                    case EntityExcCode.RESTRICAOINEXISTENTE:
+                        return String.Format("A restrição inexistente: ", Detalhe);
                     case EntityExcCode.EQUIPAMENTONOLIMITEDERESERVAS:
                         return String.Format("O equipamento não pode ser removido, pois a quantidade de reservas da sua categoria está no limite na(s) seguinte(s) data(s), turno(s) e horário(s): {0}", Detalhe);
                     case EntityExcCode.RECURSOINEXISTENTE:

@@ -103,6 +103,25 @@ namespace Uni7ReservasBackend.Models
             return Locais;
         }
 
+        public static List<CategoriaEquipamento> ConsultarRestricoes(int idLocal)
+        {
+            List<CategoriaEquipamento> Categorias = new List<CategoriaEquipamento>();
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var local_ = from Local l in context.Locais.Include("RestricoesCategoriaEquipamento")
+                             where l.Id == idLocal
+                             select l;
+
+                if (local_.Count() == 0)
+                    throw new EntidadesException(EntityExcCode.LOCALINEXISTENTE, idLocal.ToString());
+
+                Categorias = local_.First().RestricoesCategoriaEquipamento.ToList();
+            }
+
+            return Categorias;
+        }
+
         public static int Cadastrar(string nome, bool reservavel, bool disponivel, TIPOLOCAL tipo, string comentarioReserva)
         {
             if (nome == null || nome.Length == 0)
@@ -146,6 +165,62 @@ namespace Uni7ReservasBackend.Models
                 local.Tipo = tipo;
                 local.ComentarioReserva = comentarioReserva;
 
+                context.SaveChanges();
+            }
+        }
+
+        public static void CadastrarRestricao(int idLocal, int idCategoria)
+        {
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var local_ = from Local l in context.Locais.Include("RestricoesCategoriaEquipamento")
+                             where l.Id == idLocal
+                             select l;
+
+                if (local_.Count() == 0)
+                    throw new EntidadesException(EntityExcCode.LOCALINEXISTENTE, idLocal.ToString());
+
+                Local local = local_.First();
+
+                var categoria_ = from CategoriaEquipamento c in context.Categorias
+                             where c.Id == idCategoria
+                             select c;
+
+                if (categoria_.Count() == 0)
+                    throw new EntidadesException(EntityExcCode.CATEGORIAINEXISTENTE, idCategoria.ToString());
+
+                if (local.RestricoesCategoriaEquipamento.Contains(categoria_.First()))
+                    throw new EntidadesException(EntityExcCode.RESTRICAOJACADASTRADA, categoria_.First().Nome + " em " + local.Nome);
+
+                local.RestricoesCategoriaEquipamento.Add(categoria_.First());
+                context.SaveChanges();
+            }
+        }
+
+        public static void RemoverRestricao(int idLocal, int idCategoria)
+        {
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var local_ = from Local l in context.Locais.Include("RestricoesCategoriaEquipamento")
+                             where l.Id == idLocal
+                             select l;
+
+                if (local_.Count() == 0)
+                    throw new EntidadesException(EntityExcCode.LOCALINEXISTENTE, idLocal.ToString());
+
+                Local local = local_.First();
+
+                var categoria_ = from CategoriaEquipamento c in context.Categorias
+                                 where c.Id == idCategoria
+                                 select c;
+
+                if (categoria_.Count() == 0)
+                    throw new EntidadesException(EntityExcCode.CATEGORIAINEXISTENTE, idCategoria.ToString());
+
+                if (local.RestricoesCategoriaEquipamento.Contains(categoria_.First()))
+                    throw new EntidadesException(EntityExcCode.RESTRICAOINEXISTENTE, categoria_.First().Nome + " em " + local.Nome);
+
+                local.RestricoesCategoriaEquipamento.Remove(categoria_.First());
                 context.SaveChanges();
             }
         }

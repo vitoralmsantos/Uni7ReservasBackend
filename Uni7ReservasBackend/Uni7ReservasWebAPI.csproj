@@ -129,6 +129,7 @@
     <Compile Include="Controllers\Response\EntidadeResponse.cs" />
     <Compile Include="Controllers\Response\TokenResponse.cs" />
     <Compile Include="Controllers\TransferObjects\ChamadoTO.cs" />
+    <Compile Include="Controllers\TransferObjects\RestricaoTO.cs" />
     <Compile Include="Controllers\TransferObjects\RecursoLocalTO.cs" />
     <Compile Include="Controllers\TransferObjects\RecursoTO.cs" />
     <Compile Include="Controllers\TransferObjects\LocalTO.cs" />
