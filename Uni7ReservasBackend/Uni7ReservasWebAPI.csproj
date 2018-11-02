@@ -137,6 +137,7 @@
     <Compile Include="Controllers\TransferObjects\ReservaRegistroTO.cs" />
     <Compile Include="Controllers\TransferObjects\CategoriaTO.cs" />
     <Compile Include="Controllers\TransferObjects\LoginTO.cs" />
+    <Compile Include="Controllers\TransferObjects\UsuarioSenhaTO.cs" />
     <Compile Include="Controllers\TransferObjects\UsuarioTO.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Models\CategoriaEquipamento.cs">

@@ -174,6 +174,50 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
+        [Route("{alterarsenha/id:int}")]
+        public IHttpActionResult AlterarSenha(int id, [FromBody]UsuarioSenhaTO usuario)
+        {
+            BaseResponse response = new BaseResponse();
+
+            try
+            {
+                Usuario.AtualizarSenha(id, usuario.SenhaAntiga, usuario.SenhaNova);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("{atualizardados/id:int}")]
+        public IHttpActionResult AtualizarDados(int id, [FromBody]UsuarioTO usuario)
+        {
+            BaseResponse response = new BaseResponse();
+
+            try
+            {
+                Usuario.Atualizar(id, usuario.Nome, usuario.Email);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
         // DELETE: api/Usuario/5
         [Route("{id:int}")]
         public IHttpActionResult Delete(int id)
