@@ -116,7 +116,7 @@ namespace Uni7ReservasBackend.Models.Entidades
                     case EntityExcCode.NOMECATEGORIAVAZIO:
                         return "Nome da categoria não pode ser vazio.";
                     case EntityExcCode.CATEGORIAPOSSUIRESERVAS:
-                        return String.Format("Categoria possui reservas: ", Detalhe);
+                        return String.Format("Categoria possui reservas: {0}", Detalhe);
                     case EntityExcCode.CATEGORIAPOSSUIEQUIPAMENTOS:
                         return String.Format("Categoria possui {0} equipamentos.", Detalhe);
                     case EntityExcCode.MODELOEQUIPAMENTOVAZIO:
@@ -126,11 +126,11 @@ namespace Uni7ReservasBackend.Models.Entidades
                     case EntityExcCode.NOMELOCALVAZIO:
                         return String.Format("Nome do local não pode ser vazio.");
                     case EntityExcCode.LOCALPOSSUIRESERVAS:
-                        return String.Format("Local possui reservas: ", Detalhe);
+                        return String.Format("Local possui reservas: {0}", Detalhe);
                     case EntityExcCode.RESTRICAOJACADASTRADA:
-                        return String.Format("A restrição já está cadastrada: ", Detalhe);
+                        return String.Format("A restrição já está cadastrada: {0}", Detalhe);
                     case EntityExcCode.RESTRICAOINEXISTENTE:
-                        return String.Format("A restrição inexistente: ", Detalhe);
+                        return String.Format("A restrição inexistente: {0}", Detalhe);
                     case EntityExcCode.EQUIPAMENTONOLIMITEDERESERVAS:
                         return String.Format("O equipamento não pode ser removido, pois a quantidade de reservas da sua categoria está no limite na(s) seguinte(s) data(s), turno(s) e horário(s): {0}", Detalhe);
                     case EntityExcCode.RECURSOINEXISTENTE:
@@ -138,11 +138,11 @@ namespace Uni7ReservasBackend.Models.Entidades
                     case EntityExcCode.NOMERECURSOVAZIO:
                         return "Nome do recurso não pode ser vazio.";
                     case EntityExcCode.RECURSOPOSSUILOCAIS:
-                        return String.Format("Recurso possui locais: ", Detalhe);
+                        return String.Format("Recurso possui locais: {0}", Detalhe);
                     case EntityExcCode.RECURSOLOCALINEXISTENTE:
                         return String.Format("Recurso não existe no local especificado.");
                     case EntityExcCode.CHAMADOINEXISTENTE:
-                        return String.Format("Chamado inexistente: ", Detalhe);
+                        return String.Format("Chamado inexistente: {0}", Detalhe);
                     case EntityExcCode.DESCRICAOCHAMADOVAZIO:
                         return String.Format("Descrição do chamado não pode ser vazia.");
                     default: return "Erro desconhecido";

@@ -149,6 +149,39 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
+        [Route("naorestricoes/{id:int}")]
+        [HttpGet]
+        public IHttpActionResult ConsultarNaoRestricoes(int id)
+        {
+            EntidadesResponse<CategoriaTO> response = new EntidadesResponse<CategoriaTO>();
+
+            try
+            {
+                List<CategoriaEquipamento> categorias = Local.ConsultarNaoRestricoes(id);
+
+                foreach (CategoriaEquipamento ce in categorias)
+                {
+                    CategoriaTO cTO = new CategoriaTO();
+                    cTO.Id = ce.Id;
+                    cTO.Nome = ce.Nome;
+                    cTO.ComentarioReserva = ce.ComentarioReserva;
+
+                    response.Elementos.Add(cTO);
+                }
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
         [Route("")]
         public IHttpActionResult Post([FromBody]LocalTO local)
         {
