@@ -43,6 +43,8 @@ namespace Uni7ReservasBackend.Controllers
                     rTO.IdUsuario = r.Usuario.Id;
                     rTO.NomeUsuario = r.Usuario.Nome;
                     rTO.EmailUsuario = r.Usuario.Email;
+                    rTO.ComentarioUsuario = r.ComentarioUsuario;
+                    rTO.Satisfacao = r.Satisfacao.HasValue ? r.Satisfacao.Value : 0;
                     rTO.Equipamentos = new List<string>();
                     rTO.IdEquipamentos = new List<int>();
                     foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
@@ -89,6 +91,8 @@ namespace Uni7ReservasBackend.Controllers
                     rTO.IdUsuario = r.Usuario.Id;
                     rTO.NomeUsuario = r.Usuario.Nome;
                     rTO.EmailUsuario = r.Usuario.Email;
+                    rTO.ComentarioUsuario = r.ComentarioUsuario;
+                    rTO.Satisfacao = r.Satisfacao.HasValue ? r.Satisfacao.Value : 0;
                     rTO.Equipamentos = new List<string>();
                     rTO.IdEquipamentos = new List<int>();
                     foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
@@ -143,6 +147,8 @@ namespace Uni7ReservasBackend.Controllers
                     rTO.IdUsuario = r.Usuario.Id;
                     rTO.NomeUsuario = r.Usuario.Nome;
                     rTO.EmailUsuario = r.Usuario.Email;
+                    rTO.ComentarioUsuario = r.ComentarioUsuario;
+                    rTO.Satisfacao = r.Satisfacao.HasValue ? r.Satisfacao.Value : 0;
                     rTO.Equipamentos = new List<string>();
                     rTO.IdEquipamentos = new List<int>();
                     foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
@@ -186,6 +192,8 @@ namespace Uni7ReservasBackend.Controllers
                 response.Elemento.NomeLocal = r.Local.Nome;
                 response.Elemento.NomeUsuario = r.Usuario.Nome;
                 response.Elemento.EmailUsuario = r.Usuario.Email;
+                response.Elemento.ComentarioUsuario = r.ComentarioUsuario;
+                response.Elemento.Satisfacao = r.Satisfacao.HasValue ? r.Satisfacao.Value : 0;
                 foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
                 {
                     response.Elemento.Equipamentos.Add(ce.Nome);
@@ -237,6 +245,29 @@ namespace Uni7ReservasBackend.Controllers
             try
             {
                 Reserva.AtualizarObs(reserva.Id, reserva.Obs);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        // POST api/<controller>
+        [Route("avaliacao")]
+        public IHttpActionResult AtualizarAvaliacao([FromBody]ReservaRegistroTO reserva)
+        {
+            BaseResponse response = new BaseResponse();
+
+            try
+            {
+                Reserva.AtualizarAvaliacao(reserva.Id, reserva.Satisfacao, reserva.ComentarioUsuario);
             }
             catch (EntidadesException eex)
             {

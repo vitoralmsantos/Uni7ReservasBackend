@@ -82,7 +82,6 @@
     <Property Name="Obs" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Horario" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Turno" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Atraso" Type="bit" Nullable="true" />
     <Property Name="ComentarioUsuario" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Satisfacao" Type="int" Nullable="true" />
     <Property Name="FoiUsado" Type="bit" Nullable="true" />
@@ -376,7 +375,6 @@
           <Property Name="Obs" Type="String" Nullable="true" />
           <Property Name="Horario" Type="String" Nullable="false" />
           <Property Name="Turno" Type="String" Nullable="false" />
-          <Property Name="Atraso" Type="Boolean" Nullable="true" />
           <NavigationProperty Name="CategoriasEquipamentos" Relationship="Uni7ReservasModel.ReservaCategoriaEquipamento" FromRole="Reserva" ToRole="CategoriaEquipamento" />
           <Property Name="ComentarioUsuario" Type="String" Nullable="true" />
           <Property Name="Satisfacao" Type="Int32" Nullable="true" />
@@ -538,7 +536,6 @@
           <ScalarProperty Name="Obs" ColumnName="Obs" />
           <ScalarProperty Name="Horario" ColumnName="Horario" />
           <ScalarProperty Name="Turno" ColumnName="Turno" />
-          <ScalarProperty Name="Atraso" ColumnName="Atraso" />
           <ScalarProperty Name="ComentarioUsuario" ColumnName="ComentarioUsuario" />
           <ScalarProperty Name="Satisfacao" ColumnName="Satisfacao" />
           <ScalarProperty Name="FoiUsado" ColumnName="FoiUsado" />

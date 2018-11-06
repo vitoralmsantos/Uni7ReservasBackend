@@ -260,6 +260,29 @@ namespace Uni7ReservasBackend.Models
             return reserva;
         }
 
+        public static Reserva AtualizarAvaliacao(int id, int satisfacao, string comentarioUsuario)
+        {
+            Reserva reserva = new Reserva();
+
+            using (Uni7ReservasEntities context = new Uni7ReservasEntities())
+            {
+                var reservas_ = from Reserva r in context.Reservas
+                                where r.Id == id
+                                select r;
+
+                if (reservas_.Count() == 0)
+                {
+                    throw new EntidadesException(EntityExcCode.RESERVAINEXISTENTE, id.ToString());
+                }
+
+                reservas_.First().ComentarioUsuario = comentarioUsuario;
+                reservas_.First().Satisfacao = satisfacao;
+                context.SaveChanges();
+            }
+
+            return reserva;
+        }
+
         public static Reserva ConsultarPorId(int id)
         {
             Reserva reserva = new Reserva();
@@ -309,7 +332,7 @@ namespace Uni7ReservasBackend.Models
                 DateTime ontem = DateTime.Today.AddDays(-1);
                 var reservas_ = from Reserva r in context.Reservas.Include("Local")
                                 .Include("CategoriasEquipamentos").Include("Usuario")
-                                where r.Usuario.Id == idUsuario && r.Data > ontem
+                                where r.Usuario.Id == idUsuario && (r.Data > ontem || r.Satisfacao == null)
                                 select r;
 
                 string[] customOrder = { "M", "T", "N" };
