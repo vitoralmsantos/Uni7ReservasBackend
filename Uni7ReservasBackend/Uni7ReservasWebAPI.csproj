@@ -174,9 +174,6 @@
     <Compile Include="Models\Reserva.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SATISFACAO.cs">
-      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\STATUSCHAMADO.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>

@@ -379,7 +379,7 @@
           <Property Name="Atraso" Type="Boolean" Nullable="true" />
           <NavigationProperty Name="CategoriasEquipamentos" Relationship="Uni7ReservasModel.ReservaCategoriaEquipamento" FromRole="Reserva" ToRole="CategoriaEquipamento" />
           <Property Name="ComentarioUsuario" Type="String" Nullable="true" />
-          <Property Name="Satisfacao" Type="Uni7ReservasModel.SATISFACAO" Nullable="true" />
+          <Property Name="Satisfacao" Type="Int32" Nullable="true" />
           <Property Name="FoiUsado" Type="Boolean" Nullable="true" />
           <Property Name="ObsControle" Type="String" Nullable="true" />
           <NavigationProperty Name="Bolsista" Relationship="Uni7ReservasModel.BolsistaReserva" FromRole="Reserva" ToRole="Usuario" />
@@ -442,11 +442,6 @@
           <Member Name="LAB" Value="0" />
           <Member Name="SALA" Value="1" />
           <Member Name="AUDITORIO" Value="2" />
-        </EnumType>
-        <EnumType Name="SATISFACAO">
-          <Member Name="OTIMO" Value="0" />
-          <Member Name="REGULAR" Value="1" />
-          <Member Name="RUIM" Value="2" />
         </EnumType>
         <Association Name="Restricoes">
           <End Type="Uni7ReservasModel.Local" Role="Local" Multiplicity="*" />

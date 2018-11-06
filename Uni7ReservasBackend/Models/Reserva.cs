@@ -28,7 +28,7 @@ namespace Uni7ReservasBackend.Models
         public string Turno { get; set; }
         public Nullable<bool> Atraso { get; set; }
         public string ComentarioUsuario { get; set; }
-        public Nullable<SATISFACAO> Satisfacao { get; set; }
+        public Nullable<int> Satisfacao { get; set; }
         public Nullable<bool> FoiUsado { get; set; }
         public string ObsControle { get; set; }
     
