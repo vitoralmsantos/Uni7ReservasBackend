@@ -175,6 +175,7 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         [Route("alterarsenha/{id:int}")]
+        [HttpPut]
         public IHttpActionResult AlterarSenha(int id, [FromBody]UsuarioSenhaTO usuario)
         {
             BaseResponse response = new BaseResponse();
@@ -197,6 +198,7 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         [Route("atualizardados/{id:int}")]
+        [HttpPut]
         public IHttpActionResult AtualizarDados(int id, [FromBody]UsuarioTO usuario)
         {
             BaseResponse response = new BaseResponse();

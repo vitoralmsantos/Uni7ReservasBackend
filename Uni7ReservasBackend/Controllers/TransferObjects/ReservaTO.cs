@@ -21,6 +21,7 @@ namespace Uni7ReservasBackend.Controllers.TransferObjects
         public string EmailUsuario { get; set; }
         public bool FoiUsado { get; set; }
         public int Satisfacao { get; set; }
+        public bool ExibeAvaliacao { get; set; }
         public string ComentarioUsuario { get; set; }
         public string ObsControle { get; set; }
         public List<int> IdEquipamentos { get; set; }

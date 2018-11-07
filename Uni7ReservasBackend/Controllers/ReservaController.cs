@@ -93,6 +93,7 @@ namespace Uni7ReservasBackend.Controllers
                     rTO.EmailUsuario = r.Usuario.Email;
                     rTO.ComentarioUsuario = r.ComentarioUsuario;
                     rTO.Satisfacao = r.Satisfacao.HasValue ? r.Satisfacao.Value : 0;
+                    rTO.ExibeAvaliacao = DateTime.Now > r.Data;
                     rTO.Equipamentos = new List<string>();
                     rTO.IdEquipamentos = new List<int>();
                     foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
@@ -149,6 +150,7 @@ namespace Uni7ReservasBackend.Controllers
                     rTO.EmailUsuario = r.Usuario.Email;
                     rTO.ComentarioUsuario = r.ComentarioUsuario;
                     rTO.Satisfacao = r.Satisfacao.HasValue ? r.Satisfacao.Value : 0;
+                    rTO.ExibeAvaliacao = DateTime.Now > r.Data;
                     rTO.Equipamentos = new List<string>();
                     rTO.IdEquipamentos = new List<int>();
                     foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
@@ -194,6 +196,7 @@ namespace Uni7ReservasBackend.Controllers
                 response.Elemento.EmailUsuario = r.Usuario.Email;
                 response.Elemento.ComentarioUsuario = r.ComentarioUsuario;
                 response.Elemento.Satisfacao = r.Satisfacao.HasValue ? r.Satisfacao.Value : 0;
+                response.Elemento.ExibeAvaliacao = DateTime.Now > r.Data;
                 foreach (CategoriaEquipamento ce in r.CategoriasEquipamentos)
                 {
                     response.Elemento.Equipamentos.Add(ce.Nome);
@@ -221,7 +224,8 @@ namespace Uni7ReservasBackend.Controllers
             try
             {
                 DateTime data = DateTime.ParseExact(reserva.Data, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                Reserva.Reservar(reserva.IdUsuario, data, reserva.Horario, reserva.Turno, reserva.IdLocal, reserva.Obs, reserva.IdCategoria);
+                Reserva.Reservar(reserva.IdUsuario, data, reserva.Horario, reserva.Turno, reserva.IdLocal, 
+                    reserva.Obs, reserva.IdCategoria);
             }
             catch (EntidadesException eex)
             {
