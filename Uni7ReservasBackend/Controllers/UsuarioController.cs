@@ -136,7 +136,12 @@ namespace Uni7ReservasBackend.Controllers
             
             try
             {
-                response.Token = Usuario.Autenticar(login.Email, login.Senha);
+                List<string> retorno = Usuario.Autenticar(login.Email, login.Senha);
+                if (retorno.Count > 0)
+                {
+                    response.UserID = Convert.ToInt32(retorno[0]);
+                    response.Token = retorno[1];
+                }
             }
             catch (EntidadesException eex)
             {

@@ -82,9 +82,10 @@ namespace Uni7ReservasBackend.Models
         /// <param name="email"></param>
         /// <param name="senha"></param>
         /// <returns></returns>
-        public static string Autenticar(string email, string senha)
+        public static List<string> Autenticar(string email, string senha)
         {
-            string token = null;
+            List<string> retorno = new List<string>();
+
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
                 var usuario_ = from Usuario u in context.Usuarios
@@ -100,17 +101,20 @@ namespace Uni7ReservasBackend.Models
                     {
                         byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
                         byte[] key = Guid.NewGuid().ToByteArray();
-                        token = Convert.ToBase64String(time.Concat(key).ToArray());
+                        string token = Convert.ToBase64String(time.Concat(key).ToArray());
 
                         usuario_.First().Token = token;
                         context.SaveChanges();
+
+                        retorno.Add(usuario_.First().Id.ToString());
+                        retorno.Add(token);
                     }
                     else
                         throw new EntidadesException(EntityExcCode.AUTENTICACAO, email);
                 }
             }
-
-            return token;
+            
+            return retorno;
         }
 
         public static Usuario ConsultarUsuarioPorId(int idUsuario)
@@ -146,16 +150,6 @@ namespace Uni7ReservasBackend.Models
             if (!regexEmail.IsMatch(email))
                 throw new EntidadesException(EntityExcCode.EMAILINVALIDO, email);
 
-            Random random = new Random((int)DateTime.Now.Ticks);
-            StringBuilder pwdBuilder = new StringBuilder();
-            char ch;
-            for (int i = 0; i < TAMANHOSENHA; i++)
-            {
-                ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
-                pwdBuilder.Append(ch);
-            }
-            string senhaTemp = pwdBuilder.ToString(); //Senha temporária pois o campo não pode ser nulo.
-
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
                 var usuario_ = from Usuario u in context.Usuarios
@@ -170,7 +164,7 @@ namespace Uni7ReservasBackend.Models
                     usuario.Nome = nome;
                     usuario.Email = email;
                     usuario.Tipo = tipo;
-                    usuario.Senha = senhaTemp;
+                    usuario.Senha = Util.GerarHashMd5("123456"); //Senha temparária até envio do e-mail com nova senha
 
                     context.Usuarios.Add(usuario);
                     context.SaveChanges();
