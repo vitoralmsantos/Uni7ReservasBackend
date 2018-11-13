@@ -48,25 +48,25 @@ namespace Uni7ReservasBackend.Models
             return usuario;
         }
 
-        public static bool ValidarToken(string email, string token)
+        public static bool ValidarToken(int id, string token)
         {
             bool tokenValido = false;
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
                 var usuario_ = from Usuario u in context.Usuarios
-                               where u.Email == email
+                               where u.Id == id
                                select u;
 
                 if (usuario_.Count() == 0)
-                    throw new EntidadesException(EntityExcCode.EMAILNAOCADASTRADO, email);
+                    throw new EntidadesException(EntityExcCode.IDUSUARIONAOCADASTRADO, id.ToString());
                 else
                 {
                     Usuario usuario = usuario_.First();
                     byte[] data = Convert.FromBase64String(token);
                     DateTime hora = DateTime.FromBinary(BitConverter.ToInt64(data, 0));
 
-                    //Token coincide e está não expirou
-                    if (usuario.Token.Equals(token) && hora < DateTime.UtcNow.AddMinutes(-1 * TEMPOSESSAO))
+                    //Token coincide e hora não expirou
+                    if (usuario.Token.Equals(token) && DateTime.UtcNow < hora.AddMinutes(TEMPOSESSAO))
                     {
                         tokenValido = true;
                     }

@@ -15,14 +15,14 @@ namespace Uni7ReservasBackend
 {
     public class AutenticacaoHandler : DelegatingHandler
     {
-        public static string TOKEN = "TOKEN";
-        public static string USERID = "USERID";
+        public static string TOKEN = "x-api-key";
+        public static string USERID = "x-userid";
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            bool requerValidacao = !request.RequestUri.LocalPath.Equals("api/usuario/login");
+            bool requerValidacao = !request.RequestUri.LocalPath.Equals("/api/usuario/login");
 
-            requerValidacao = false; //TIRAR ESSA LINHA EM PRODUÇÃO
+            //requerValidacao = false; //TIRAR ESSA LINHA EM PRODUÇÃO
 
             if (requerValidacao && !ValidaToken(request))
             {
@@ -36,25 +36,26 @@ namespace Uni7ReservasBackend
 
         private bool ValidaToken(HttpRequestMessage message)
         {
-            if (!message.Headers.Contains(TOKEN) || !message.Headers.Contains(USERID))
+            string token = "";
+            string userid = "";
+            var queryString = message.GetQueryNameValuePairs();
+            foreach(KeyValuePair<string, string> kvp in queryString)
+            {
+                if (kvp.Key.Equals(TOKEN) && kvp.Value != null) token = kvp.Value;
+                if (kvp.Key.Equals(USERID) && kvp.Value != null) userid = kvp.Value;
+            }
+
+            if (token.Length == 0 || userid.Length == 0)
                 return false;
             else
             {
-                string token = message.Headers.GetValues(TOKEN).First();
-                string userID = message.Headers.GetValues(USERID).First();
-
-                if (token != null && userID != null)
+                try
                 {
-                    try
-                    {
-                        return Usuario.ValidarToken(userID, token);
-                    }
-                    catch(Exception ex)
-                    {
-                        return false;
-                    }
+                    token = token.Replace("\"", "");
+                    int userID = Convert.ToInt32(userid);
+                    return Usuario.ValidarToken(userID, token);
                 }
-                else
+                catch(Exception ex)
                 {
                     return false;
                 }
