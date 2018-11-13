@@ -15,15 +15,14 @@ namespace Uni7ReservasBackend
 {
     public class AutenticacaoHandler : DelegatingHandler
     {
-        public static string TOKEN = "x-api-key";
-        public static string USERID = "x-userid";
+        public static string TOKEN = "app_token";
+        public static string USERID = "user_id";
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            bool requerValidacao = !request.RequestUri.LocalPath.Equals("/api/usuario/login");
-
-            //requerValidacao = false; //TIRAR ESSA LINHA EM PRODUÇÃO
-
+            bool requerValidacao = (!request.Method.Method.Equals("GET") && 
+                !request.RequestUri.LocalPath.Equals("/api/usuario/login"));
+            
             if (requerValidacao && !ValidaToken(request))
             {
                 var response = new HttpResponseMessage(HttpStatusCode.Forbidden);
