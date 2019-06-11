@@ -11,7 +11,6 @@
     <EntitySet Name="Locais" EntityType="Uni7ReservasModel.Store.Locais" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Equipamentos" EntityType="Uni7ReservasModel.Store.Equipamentos" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Categorias" EntityType="Uni7ReservasModel.Store.Categorias" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Chamados" EntityType="Uni7ReservasModel.Store.Chamados" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Recursos" EntityType="Uni7ReservasModel.Store.Recursos" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RecursosLocais" EntityType="Uni7ReservasModel.Store.RecursosLocais" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Restricoes" EntityType="Uni7ReservasModel.Store.Restricoes" store:Type="Tables" Schema="dbo" />
@@ -35,10 +34,6 @@
     <AssociationSet Name="FK_Restricoes_CategoriaEquipamento" Association="Uni7ReservasModel.Store.FK_Restricoes_CategoriaEquipamento">
       <End Role="CategoriaEquipamento" EntitySet="Categorias" />
       <End Role="Restricoes" EntitySet="Restricoes" />
-    </AssociationSet>
-    <AssociationSet Name="UsuarioChamado" Association="Uni7ReservasModel.Store.UsuarioChamado">
-      <End Role="Usuario" EntitySet="Usuarios" />
-      <End Role="Chamado" EntitySet="Chamados" />
     </AssociationSet>
     <AssociationSet Name="LocalRecursoLocal" Association="Uni7ReservasModel.Store.LocalRecursoLocal">
       <End Role="Local" EntitySet="Locais" />
@@ -119,19 +114,6 @@
     <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ComentarioReserva" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
-  <EntityType Name="Chamados">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Descricao" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Status" Type="int" Nullable="false" />
-    <Property Name="Observacoes" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="DataLimite" Type="datetime" Nullable="false" />
-    <Property Name="DataPrevista" Type="datetime" Nullable="true" />
-    <Property Name="Telefone" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Usuario_Id" Type="int" Nullable="false" />
-  </EntityType>
   <EntityType Name="Recursos">
     <Key>
       <PropertyRef Name="Id" />
@@ -200,18 +182,6 @@
       </Principal>
       <Dependent Role="Equipamento">
         <PropertyRef Name="CategoriaEquipamento_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="UsuarioChamado">
-    <End Role="Usuario" Type="Uni7ReservasModel.Store.Usuarios" Multiplicity="1" />
-    <End Role="Chamado" Type="Uni7ReservasModel.Store.Chamados" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Chamado">
-        <PropertyRef Name="Usuario_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -325,11 +295,6 @@
             <End Role="Local" EntitySet="Locais" />
             <End Role="CategoriaEquipamento" EntitySet="Categorias" />
           </AssociationSet>
-          <EntitySet Name="Chamados" EntityType="Uni7ReservasModel.Chamado" />
-          <AssociationSet Name="UsuarioChamado" Association="Uni7ReservasModel.UsuarioChamado">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="Chamado" EntitySet="Chamados" />
-          </AssociationSet>
           <EntitySet Name="Recursos" EntityType="Uni7ReservasModel.Recurso" />
           <EntitySet Name="RecursosLocais" EntityType="Uni7ReservasModel.RecursoLocal" />
           <AssociationSet Name="LocalRecursoLocal" Association="Uni7ReservasModel.LocalRecursoLocal">
@@ -359,7 +324,6 @@
           <Property Name="Email" Type="String" Nullable="false" />
           <Property Name="Senha" Type="String" Nullable="false" />
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPOUSUARIO" Nullable="false" />
-          <NavigationProperty Name="Chamados" Relationship="Uni7ReservasModel.UsuarioChamado" FromRole="Usuario" ToRole="Chamado" />
           <Property Name="Token" Type="String" Nullable="true" />
           <NavigationProperty Name="ReservasBolsista" Relationship="Uni7ReservasModel.BolsistaReserva" FromRole="Usuario" ToRole="Reserva" />
         </EntityType>
@@ -444,23 +408,6 @@
         <Association Name="Restricoes">
           <End Type="Uni7ReservasModel.Local" Role="Local" Multiplicity="*" />
           <End Type="Uni7ReservasModel.CategoriaEquipamento" Role="CategoriaEquipamento" Multiplicity="*" />
-        </Association>
-        <EntityType Name="Chamado">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descricao" Type="String" Nullable="false" />
-          <Property Name="Status" Type="Uni7ReservasModel.STATUSCHAMADO" Nullable="false" />
-          <Property Name="Observacoes" Type="String" Nullable="true" />
-          <NavigationProperty Name="Usuario" Relationship="Uni7ReservasModel.UsuarioChamado" FromRole="Chamado" ToRole="Usuario" />
-          <Property Name="DataLimite" Type="DateTime" Nullable="false" />
-          <Property Name="DataPrevista" Type="DateTime" Nullable="true" />
-          <Property Name="Telefone" Type="String" Nullable="true" />
-        </EntityType>
-        <Association Name="UsuarioChamado">
-          <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="Uni7ReservasModel.Chamado" Role="Chamado" Multiplicity="*" />
         </Association>
         <EnumType Name="STATUSCHAMADO">
           <Member Name="ABERTO" Value="0" />
@@ -574,19 +521,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Chamados">
-      <EntityTypeMapping TypeName="IsTypeOf(Uni7ReservasModel.Chamado)">
-        <MappingFragment StoreEntitySet="Chamados">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="Observacoes" ColumnName="Observacoes" />
-          <ScalarProperty Name="DataLimite" ColumnName="DataLimite" />
-          <ScalarProperty Name="DataPrevista" ColumnName="DataPrevista" />
-          <ScalarProperty Name="Telefone" ColumnName="Telefone" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Recursos">
       <EntityTypeMapping TypeName="IsTypeOf(Uni7ReservasModel.Recurso)">
         <MappingFragment StoreEntitySet="Recursos">
@@ -636,14 +570,6 @@
       </EndProperty>
       <EndProperty Name="CategoriaEquipamento">
         <ScalarProperty Name="Id" ColumnName="RestricoesCategoriaEquipamento_Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="UsuarioChamado" TypeName="Uni7ReservasModel.UsuarioChamado" StoreEntitySet="Chamados">
-      <EndProperty Name="Usuario">
-        <ScalarProperty Name="Id" ColumnName="Usuario_Id" />
-      </EndProperty>
-      <EndProperty Name="Chamado">
-        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="LocalRecursoLocal" TypeName="Uni7ReservasModel.LocalRecursoLocal" StoreEntitySet="RecursosLocais">

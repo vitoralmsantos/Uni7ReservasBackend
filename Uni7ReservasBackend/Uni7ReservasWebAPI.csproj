@@ -118,7 +118,6 @@
   <ItemGroup>
     <Compile Include="App_Start\AutenticacaoHandler.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ChamadoController.cs" />
     <Compile Include="Controllers\RecursoController.cs" />
     <Compile Include="Controllers\LocalController.cs" />
     <Compile Include="Controllers\EquipamentoController.cs" />
@@ -128,7 +127,6 @@
     <Compile Include="Controllers\Response\EntidadesResponse.cs" />
     <Compile Include="Controllers\Response\EntidadeResponse.cs" />
     <Compile Include="Controllers\Response\TokenResponse.cs" />
-    <Compile Include="Controllers\TransferObjects\ChamadoTO.cs" />
     <Compile Include="Controllers\TransferObjects\RestricaoTO.cs" />
     <Compile Include="Controllers\TransferObjects\RecursoLocalTO.cs" />
     <Compile Include="Controllers\TransferObjects\RecursoTO.cs" />
@@ -143,10 +141,6 @@
     <Compile Include="Models\CategoriaEquipamento.cs">
       <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Chamado.cs">
-      <DependentUpon>Uni7ReservasEDM.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Entidades\Chamado.cs" />
     <Compile Include="Models\Entidades\Recurso.cs" />
     <Compile Include="Models\Entidades\Local.cs" />
     <Compile Include="Models\Entidades\Equipamento.cs" />
