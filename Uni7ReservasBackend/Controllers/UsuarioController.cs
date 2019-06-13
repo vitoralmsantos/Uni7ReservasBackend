@@ -185,15 +185,14 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
-        [Route("alterarsenha/{id:int}")]
-        [HttpPut]
-        public IHttpActionResult AlterarSenha(int id, [FromBody]UsuarioSenhaTO usuario)
+        [Route("alterarsenha")]
+        public IHttpActionResult AlterarSenha([FromBody]UsuarioSenhaTO usuario)
         {
             BaseResponse response = new BaseResponse();
 
             try
             {
-                Usuario.AtualizarSenha(id, usuario.SenhaAntiga, usuario.SenhaNova);
+                Usuario.AtualizarSenha(usuario.Id, usuario.SenhaAntiga, usuario.SenhaNova);
             }
             catch (EntidadesException eex)
             {
@@ -208,15 +207,14 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
-        [Route("atualizardados/{id:int}")]
-        [HttpPut]
-        public IHttpActionResult AtualizarDados(int id, [FromBody]UsuarioTO usuario)
+        [Route("atualizardados")]
+        public IHttpActionResult AtualizarDados([FromBody]UsuarioTO usuario)
         {
             BaseResponse response = new BaseResponse();
 
             try
             {
-                Usuario.Atualizar(id, usuario.Nome, usuario.Email);
+                Usuario.Atualizar(usuario.Id, usuario.Nome, usuario.Email);
             }
             catch (EntidadesException eex)
             {
