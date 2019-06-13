@@ -141,6 +141,12 @@ namespace Uni7ReservasBackend.Controllers
                 {
                     response.UserID = Convert.ToInt32(retorno[0]);
                     response.Token = retorno[1];
+                    Usuario u = Usuario.ConsultarUsuarioPorId(response.UserID);
+                    response.Usuario = new UsuarioTO();
+                    response.Usuario.Id = u.Id;
+                    response.Usuario.Email = u.Email;
+                    response.Usuario.Nome = u.Nome;
+                    response.Usuario.Tipo = (int) u.Tipo;
                 }
             }
             catch (EntidadesException eex)

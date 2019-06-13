@@ -377,9 +377,6 @@ namespace Uni7ReservasBackend.Models
                 if (usuario_.Count() == 0)
                     throw new EntidadesException(EntityExcCode.IDUSUARIONAOCADASTRADO, idUsuario.ToString());
 
-                if (usuario_.First().Chamados.Count() > 0)
-                    throw new EntidadesException(EntityExcCode.USUARIOPOSSUICHAMADOS, usuario_.First().Chamados.Count().ToString());
-
                 if (usuario_.First().ReservasBolsista.Count() > 0)
                     throw new EntidadesException(EntityExcCode.USUARIOPOSSUIRESERVASBOLSISTA, usuario_.First().ReservasBolsista.Count().ToString());
 
