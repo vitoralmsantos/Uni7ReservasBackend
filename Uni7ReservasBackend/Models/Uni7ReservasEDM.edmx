@@ -395,10 +395,9 @@
         </Association>
         <EnumType Name="TIPOUSUARIO">
           <Member Name="ADMIN" Value="0" />
-          <Member Name="SECRETARIO" Value="1" />
+          <Member Name="SUPORTE" Value="1" />
           <Member Name="COORDENADOR" Value="2" />
           <Member Name="PROFESSOR" Value="3" />
-          <Member Name="BOLSISTA" Value="4" />
         </EnumType>
         <EnumType Name="TIPOLOCAL">
           <Member Name="LAB" Value="0" />

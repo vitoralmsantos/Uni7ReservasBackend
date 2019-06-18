@@ -14,9 +14,8 @@ namespace Uni7ReservasBackend.Models
     public enum TIPOUSUARIO : int
     {
         ADMIN = 0,
-        SECRETARIO = 1,
+        SUPORTE = 1,
         COORDENADOR = 2,
-        PROFESSOR = 3,
-        BOLSISTA = 4
+        PROFESSOR = 3
     }
 }
