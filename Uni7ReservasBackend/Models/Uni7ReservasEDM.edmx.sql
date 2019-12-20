@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/06/2018 15:27:25
--- Generated from EDMX file: C:\Users\NIP\source\repos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
+-- Date Created: 12/20/2019 15:02:36
+-- Generated from EDMX file: D:\Projetos\Uni7ReservasBackend\Uni7ReservasBackend\Models\Uni7ReservasEDM.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [Uni7ReservasBD];
+USE [RESERVASUNI7];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -17,23 +17,11 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_UsuarioReserva]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reservas] DROP CONSTRAINT [FK_UsuarioReserva];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ReservaLocal]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reservas] DROP CONSTRAINT [FK_ReservaLocal];
+IF OBJECT_ID(N'[dbo].[FK_BolsistaReserva]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservas] DROP CONSTRAINT [FK_BolsistaReserva];
 GO
 IF OBJECT_ID(N'[dbo].[FK_CategoriaEquipamentoEquipamento]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Equipamentos] DROP CONSTRAINT [FK_CategoriaEquipamentoEquipamento];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Restricoes_Local]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Restricoes] DROP CONSTRAINT [FK_Restricoes_Local];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Restricoes_CategoriaEquipamento]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Restricoes] DROP CONSTRAINT [FK_Restricoes_CategoriaEquipamento];
-GO
-IF OBJECT_ID(N'[dbo].[FK_UsuarioChamado]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Chamados] DROP CONSTRAINT [FK_UsuarioChamado];
 GO
 IF OBJECT_ID(N'[dbo].[FK_LocalRecursoLocal]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RecursosLocais] DROP CONSTRAINT [FK_LocalRecursoLocal];
@@ -41,37 +29,37 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_RecursoRecursoLocal]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RecursosLocais] DROP CONSTRAINT [FK_RecursoRecursoLocal];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ReservaCategoriaEquipamento_Reserva]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ReservaCategoriaEquipamento] DROP CONSTRAINT [FK_ReservaCategoriaEquipamento_Reserva];
-GO
 IF OBJECT_ID(N'[dbo].[FK_ReservaCategoriaEquipamento_CategoriaEquipamento]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ReservaCategoriaEquipamento] DROP CONSTRAINT [FK_ReservaCategoriaEquipamento_CategoriaEquipamento];
 GO
-IF OBJECT_ID(N'[dbo].[FK_BolsistaReserva]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reservas] DROP CONSTRAINT [FK_BolsistaReserva];
+IF OBJECT_ID(N'[dbo].[FK_ReservaCategoriaEquipamento_Reserva]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ReservaCategoriaEquipamento] DROP CONSTRAINT [FK_ReservaCategoriaEquipamento_Reserva];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ReservaLocal]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservas] DROP CONSTRAINT [FK_ReservaLocal];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Restricoes_CategoriaEquipamento]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Restricoes] DROP CONSTRAINT [FK_Restricoes_CategoriaEquipamento];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Restricoes_Local]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Restricoes] DROP CONSTRAINT [FK_Restricoes_Local];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UsuarioReserva]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservas] DROP CONSTRAINT [FK_UsuarioReserva];
 GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[Usuarios]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Usuarios];
-GO
-IF OBJECT_ID(N'[dbo].[Reservas]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Reservas];
-GO
-IF OBJECT_ID(N'[dbo].[Locais]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Locais];
+IF OBJECT_ID(N'[dbo].[Categorias]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Categorias];
 GO
 IF OBJECT_ID(N'[dbo].[Equipamentos]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Equipamentos];
 GO
-IF OBJECT_ID(N'[dbo].[Categorias]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Categorias];
-GO
-IF OBJECT_ID(N'[dbo].[Chamados]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Chamados];
+IF OBJECT_ID(N'[dbo].[Locais]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Locais];
 GO
 IF OBJECT_ID(N'[dbo].[Recursos]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Recursos];
@@ -79,11 +67,17 @@ GO
 IF OBJECT_ID(N'[dbo].[RecursosLocais]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RecursosLocais];
 GO
+IF OBJECT_ID(N'[dbo].[ReservaCategoriaEquipamento]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ReservaCategoriaEquipamento];
+GO
+IF OBJECT_ID(N'[dbo].[Reservas]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Reservas];
+GO
 IF OBJECT_ID(N'[dbo].[Restricoes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Restricoes];
 GO
-IF OBJECT_ID(N'[dbo].[ReservaCategoriaEquipamento]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ReservaCategoriaEquipamento];
+IF OBJECT_ID(N'[dbo].[Usuarios]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Usuarios];
 GO
 
 -- --------------------------------------------------
@@ -145,19 +139,6 @@ CREATE TABLE [dbo].[Categorias] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Nome] nvarchar(max)  NOT NULL,
     [ComentarioReserva] nvarchar(max)  NULL
-);
-GO
-
--- Creating table 'Chamados'
-CREATE TABLE [dbo].[Chamados] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Descricao] nvarchar(max)  NOT NULL,
-    [Status] int  NOT NULL,
-    [Observacoes] nvarchar(max)  NULL,
-    [DataLimite] datetime  NOT NULL,
-    [DataPrevista] datetime  NULL,
-    [Telefone] nvarchar(max)  NULL,
-    [Usuario_Id] int  NOT NULL
 );
 GO
 
@@ -225,12 +206,6 @@ GO
 -- Creating primary key on [Id] in table 'Categorias'
 ALTER TABLE [dbo].[Categorias]
 ADD CONSTRAINT [PK_Categorias]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'Chamados'
-ALTER TABLE [dbo].[Chamados]
-ADD CONSTRAINT [PK_Chamados]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -329,21 +304,6 @@ GO
 CREATE INDEX [IX_FK_Restricoes_CategoriaEquipamento]
 ON [dbo].[Restricoes]
     ([RestricoesCategoriaEquipamento_Id]);
-GO
-
--- Creating foreign key on [Usuario_Id] in table 'Chamados'
-ALTER TABLE [dbo].[Chamados]
-ADD CONSTRAINT [FK_UsuarioChamado]
-    FOREIGN KEY ([Usuario_Id])
-    REFERENCES [dbo].[Usuarios]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_UsuarioChamado'
-CREATE INDEX [IX_FK_UsuarioChamado]
-ON [dbo].[Chamados]
-    ([Usuario_Id]);
 GO
 
 -- Creating foreign key on [Local_Id] in table 'RecursosLocais'

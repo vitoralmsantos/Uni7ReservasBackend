@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Uni7ReservasModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Uni7ReservasModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="Uni7ReservasModelStoreContainer">
     <EntitySet Name="Usuarios" EntityType="Uni7ReservasModel.Store.Usuarios" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Reservas" EntityType="Uni7ReservasModel.Store.Reservas" store:Type="Tables" Schema="dbo" />
@@ -320,11 +320,11 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Reservas" Relationship="Uni7ReservasModel.UsuarioReserva" FromRole="Usuario" ToRole="Reserva" />
-          <Property Name="Nome" Type="String" Nullable="false" />
-          <Property Name="Email" Type="String" Nullable="false" />
-          <Property Name="Senha" Type="String" Nullable="false" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Senha" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPOUSUARIO" Nullable="false" />
-          <Property Name="Token" Type="String" Nullable="true" />
+          <Property Name="Token" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ReservasBolsista" Relationship="Uni7ReservasModel.BolsistaReserva" FromRole="Usuario" ToRole="Reserva" />
         </EntityType>
         <EntityType Name="Reserva">
@@ -334,16 +334,16 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Usuario" Relationship="Uni7ReservasModel.UsuarioReserva" FromRole="Reserva" ToRole="Usuario" />
           <NavigationProperty Name="Local" Relationship="Uni7ReservasModel.ReservaLocal" FromRole="Reserva" ToRole="Local" />
-          <Property Name="Data" Type="DateTime" Nullable="false" />
-          <Property Name="ReservadoEm" Type="DateTime" Nullable="false" />
-          <Property Name="Obs" Type="String" Nullable="true" />
-          <Property Name="Horario" Type="String" Nullable="false" />
-          <Property Name="Turno" Type="String" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ReservadoEm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Obs" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Horario" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Turno" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="CategoriasEquipamentos" Relationship="Uni7ReservasModel.ReservaCategoriaEquipamento" FromRole="Reserva" ToRole="CategoriaEquipamento" />
-          <Property Name="ComentarioUsuario" Type="String" Nullable="true" />
+          <Property Name="ComentarioUsuario" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Satisfacao" Type="Int32" Nullable="true" />
           <Property Name="FoiUsado" Type="Boolean" Nullable="true" />
-          <Property Name="ObsControle" Type="String" Nullable="true" />
+          <Property Name="ObsControle" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Bolsista" Relationship="Uni7ReservasModel.BolsistaReserva" FromRole="Reserva" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Local">
@@ -352,13 +352,13 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Reservas" Relationship="Uni7ReservasModel.ReservaLocal" FromRole="Local" ToRole="Reserva" />
-          <Property Name="Nome" Type="String" Nullable="false" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Reservavel" Type="Boolean" Nullable="false" />
           <Property Name="Disponivel" Type="Boolean" Nullable="false" />
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPOLOCAL" Nullable="false" />
           <NavigationProperty Name="RestricoesCategoriaEquipamento" Relationship="Uni7ReservasModel.Restricoes" FromRole="Local" ToRole="CategoriaEquipamento" />
           <NavigationProperty Name="Recursos" Relationship="Uni7ReservasModel.LocalRecursoLocal" FromRole="Local" ToRole="RecursoLocal" />
-          <Property Name="ComentarioReserva" Type="String" Nullable="true" />
+          <Property Name="ComentarioReserva" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="Equipamento">
           <Key>
@@ -366,8 +366,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="CategoriaEquipamento" Relationship="Uni7ReservasModel.CategoriaEquipamentoEquipamento" FromRole="Equipamento" ToRole="CategoriaEquipamento" />
-          <Property Name="Modelo" Type="String" Nullable="false" />
-          <Property Name="Serie" Type="String" Nullable="false" />
+          <Property Name="Modelo" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Serie" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Disponivel" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="CategoriaEquipamento">
@@ -376,10 +376,10 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Equipamentos" Relationship="Uni7ReservasModel.CategoriaEquipamentoEquipamento" FromRole="CategoriaEquipamento" ToRole="Equipamento" />
-          <Property Name="Nome" Type="String" Nullable="false" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="RestricoesLocais" Relationship="Uni7ReservasModel.Restricoes" FromRole="CategoriaEquipamento" ToRole="Local" />
           <NavigationProperty Name="Reservas" Relationship="Uni7ReservasModel.ReservaCategoriaEquipamento" FromRole="CategoriaEquipamento" ToRole="Reserva" />
-          <Property Name="ComentarioReserva" Type="String" Nullable="true" />
+          <Property Name="ComentarioReserva" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
         <Association Name="UsuarioReserva">
           <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="1" />
@@ -423,11 +423,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nome" Type="String" Nullable="false" />
-          <Property Name="Detalhes" Type="String" Nullable="false" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Detalhes" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Locais" Relationship="Uni7ReservasModel.RecursoRecursoLocal" FromRole="Recurso" ToRole="RecursoLocal" />
           <Property Name="Tipo" Type="Uni7ReservasModel.TIPORECURSO" Nullable="false" />
-          <Property Name="Vencimento" Type="DateTime" Nullable="true" />
+          <Property Name="Vencimento" Type="DateTime" Nullable="true" Precision="3" />
         </EntityType>
         <EntityType Name="RecursoLocal">
           <Key>

@@ -209,6 +209,7 @@
     <Content Include="Models\Uni7ReservasEDM.edmx.diagram">
       <DependentUpon>Uni7ReservasEDM.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\ReservasUNI7.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
