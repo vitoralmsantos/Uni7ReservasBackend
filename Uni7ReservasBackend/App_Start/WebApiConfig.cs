@@ -14,7 +14,7 @@ namespace Uni7ReservasBackend
             // Serviços e configuração da API da Web
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
 
-            var cors = new EnableCorsAttribute("*", "*", "*");
+            var cors = new EnableCorsAttribute("http://192.168.101.95:8084", "*", "*");
             config.EnableCors(cors);
 
             // Rotas da API da Web

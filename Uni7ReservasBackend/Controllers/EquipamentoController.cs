@@ -12,7 +12,6 @@ using Uni7ReservasBackend.Models.Entidades;
 
 namespace Uni7ReservasBackend.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/equipamento")]
     public class EquipamentoController : ApiController
     {

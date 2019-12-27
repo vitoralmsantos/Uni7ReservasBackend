@@ -14,7 +14,6 @@ using Uni7ReservasBackend.Models.Entidades;
 
 namespace Uni7ReservasBackend.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/categoria")]
     public class CategoriaController : ApiController
     {

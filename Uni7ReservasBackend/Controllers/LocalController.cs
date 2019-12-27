@@ -13,7 +13,6 @@ using Uni7ReservasBackend.Models.Entidades;
 
 namespace Uni7ReservasBackend.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [RoutePrefix("api/local")]
     public class LocalController : ApiController
     {
@@ -252,14 +251,15 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
-        [Route("{id:int}")]
-        public IHttpActionResult Put(int id, [FromBody]LocalTO local)
+        [Route("atualizar")]
+        [HttpPost]
+        public IHttpActionResult Atualizar([FromBody]LocalTO local)
         {
             BaseResponse response = new BaseResponse();
 
             try
             {
-                Local.Atualizar(id, local.Nome, local.Reservavel, local.Disponivel, (TIPOLOCAL)local.Tipo, local.ComentarioReserva);
+                Local.Atualizar(local.Id, local.Nome, local.Reservavel, local.Disponivel, (TIPOLOCAL)local.Tipo, local.ComentarioReserva);
             }
             catch (EntidadesException eex)
             {
@@ -275,14 +275,15 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         // DELETE: api/Usuario/5
-        [Route("{id:int}")]
-        public IHttpActionResult Delete(int id)
+        [Route("remover")]
+        [HttpPost]
+        public IHttpActionResult Remover([FromBody]LocalTO local)
         {
             BaseResponse response = new BaseResponse();
 
             try
             {
-                Local.Remover(id);
+                Local.Remover(local.Id);
             }
             catch (EntidadesException eex)
             {
