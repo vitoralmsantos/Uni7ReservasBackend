@@ -22,7 +22,7 @@ namespace Uni7ReservasBackend
         {
             bool requerValidacao = (!request.Method.Method.Equals("GET") && 
                 !request.RequestUri.LocalPath.Equals("/api/usuario/login"));
-            
+
             if (requerValidacao && !ValidaToken(request))
             {
                 var response = new HttpResponseMessage(HttpStatusCode.Forbidden);
