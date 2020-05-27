@@ -1,0 +1,42 @@
+[
+  {
+    "Turno": "M",
+    "Horario": "AB",
+    "Minutos": 450
+  },
+  {
+    "Turno": "M",
+    "Horario": "CD",
+    "Minutos": 570
+  },
+  {
+    "Turno": "M",
+    "Horario": "EF",
+    "Minutos": 690
+  },
+  {
+    "Turno": "T",
+    "Horario": "AB",
+    "Minutos": 810
+  },
+  {
+    "Turno": "T",
+    "Horario": "CD",
+    "Minutos": 930
+  },
+  {
+    "Turno": "T",
+    "Horario": "EF",
+    "Minutos": 1050
+  },
+  {
+    "Turno": "N",
+    "Horario": "AB",
+    "Minutos": 1140
+  },
+  {
+    "Turno": "N",
+    "Horario": "CD",
+    "Minutos": 1260
+  }
+]

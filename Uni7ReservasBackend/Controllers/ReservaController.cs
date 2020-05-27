@@ -126,9 +126,9 @@ namespace Uni7ReservasBackend.Controllers
             try
             {
                 DateTime? dateTimeDe=null, dateTimeAte=null;
-                if (dataDe.Length > 0)
+                if (dataDe != null && dataDe.Length > 0)
                     dateTimeDe = DateTime.ParseExact(dataDe, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                if (dataAte.Length > 0)
+                if (dataAte != null && dataAte.Length > 0)
                     dateTimeAte = DateTime.ParseExact(dataAte, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
                 List<Reserva> reservas = Reserva.ConsultarPorFiltro(dateTimeDe, dateTimeAte, tipo, idLocal, idCategoria, obs);
@@ -216,6 +216,7 @@ namespace Uni7ReservasBackend.Controllers
 
         // POST api/<controller>
         [Route("")]
+        [HttpPost]
         public IHttpActionResult Post([FromBody]ReservaRegistroTO reserva)
         {
             BaseResponse response = new BaseResponse();
@@ -225,6 +226,32 @@ namespace Uni7ReservasBackend.Controllers
                 DateTime data = DateTime.ParseExact(reserva.Data, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 Reserva.Reservar(reserva.IdUsuario, data, reserva.Horario, reserva.Turno, reserva.IdLocal, 
                     reserva.Obs, reserva.IdCategoria);
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("periodo")]
+        [HttpPost]
+        public IHttpActionResult ReservarPeriodo([FromBody]ReservaRegistroTO reserva)
+        {
+            BaseResponse response = new BaseResponse();
+
+            try
+            {
+                DateTime dataDe = DateTime.ParseExact(reserva.Data, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime dataAte = DateTime.ParseExact(reserva.DataAte, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                Reserva.ReservarPeriodo(reserva.IdUsuario, dataDe, dataAte, reserva.Horario, reserva.Turno, 
+                    reserva.IdLocal, reserva.Obs, reserva.IdCategoria);
             }
             catch (EntidadesException eex)
             {
@@ -285,22 +312,15 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
-        // PUT api/<controller>/5
-        [Route("{id:int}")]
-        public IHttpActionResult Put(int id, [FromBody]string categoria)
-        {
-
-            return Ok();
-        }
-
         // DELETE api/<controller>/5
-        [Route("{id:int}")]
-        public IHttpActionResult Delete(int id)
+        [Route("remover")]
+        [HttpPost]
+        public IHttpActionResult Remover([FromBody]ReservaRegistroTO reserva)
         {
             BaseResponse response = new BaseResponse();
             try
             {
-                Reserva.Remover(id);
+                Reserva.Remover(reserva.Id);
             }
             catch (EntidadesException eex)
             {

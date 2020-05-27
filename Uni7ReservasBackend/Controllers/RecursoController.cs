@@ -107,8 +107,9 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
-        [Route("{id:int}")]
-        public IHttpActionResult Put(int id, [FromBody]RecursoTO recurso)
+        [Route("atualizar")]
+        [HttpPost]
+        public IHttpActionResult Atualizar([FromBody]RecursoTO recurso)
         {
             BaseResponse response = new BaseResponse();
 
@@ -119,7 +120,7 @@ namespace Uni7ReservasBackend.Controllers
                 {
                     vencimento = DateTime.ParseExact(recurso.Vencimento, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 }
-                Recurso.Atualizar(id, recurso.Nome, recurso.Detalhes, vencimento, (TIPORECURSO)recurso.Tipo);
+                Recurso.Atualizar(recurso.Id, recurso.Nome, recurso.Detalhes, vencimento, (TIPORECURSO)recurso.Tipo);
             }
             catch (EntidadesException eex)
             {
@@ -135,14 +136,15 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         // DELETE: api/Usuario/5
-        [Route("{id:int}")]
-        public IHttpActionResult Delete(int id)
+        [Route("remover")]
+        [HttpPost]
+        public IHttpActionResult Remover([FromBody]RecursoTO recurso)
         {
             BaseResponse response = new BaseResponse();
 
             try
             {
-                Recurso.Remover(id);
+                Recurso.Remover(recurso.Id);
             }
             catch (EntidadesException eex)
             {

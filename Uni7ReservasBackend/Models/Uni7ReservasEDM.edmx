@@ -4,272 +4,272 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Uni7ReservasModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="Uni7ReservasModelStoreContainer">
-    <EntitySet Name="Usuarios" EntityType="Uni7ReservasModel.Store.Usuarios" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Reservas" EntityType="Uni7ReservasModel.Store.Reservas" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Locais" EntityType="Uni7ReservasModel.Store.Locais" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Equipamentos" EntityType="Uni7ReservasModel.Store.Equipamentos" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Categorias" EntityType="Uni7ReservasModel.Store.Categorias" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Recursos" EntityType="Uni7ReservasModel.Store.Recursos" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="RecursosLocais" EntityType="Uni7ReservasModel.Store.RecursosLocais" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Restricoes" EntityType="Uni7ReservasModel.Store.Restricoes" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ReservaCategoriaEquipamento" EntityType="Uni7ReservasModel.Store.ReservaCategoriaEquipamento" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="UsuarioReserva" Association="Uni7ReservasModel.Store.UsuarioReserva">
-      <End Role="Usuario" EntitySet="Usuarios" />
-      <End Role="Reserva" EntitySet="Reservas" />
-    </AssociationSet>
-    <AssociationSet Name="ReservaLocal" Association="Uni7ReservasModel.Store.ReservaLocal">
-      <End Role="Reserva" EntitySet="Reservas" />
-      <End Role="Local" EntitySet="Locais" />
-    </AssociationSet>
-    <AssociationSet Name="CategoriaEquipamentoEquipamento" Association="Uni7ReservasModel.Store.CategoriaEquipamentoEquipamento">
-      <End Role="CategoriaEquipamento" EntitySet="Categorias" />
-      <End Role="Equipamento" EntitySet="Equipamentos" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Restricoes_Local" Association="Uni7ReservasModel.Store.FK_Restricoes_Local">
-      <End Role="Local" EntitySet="Locais" />
-      <End Role="Restricoes" EntitySet="Restricoes" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Restricoes_CategoriaEquipamento" Association="Uni7ReservasModel.Store.FK_Restricoes_CategoriaEquipamento">
-      <End Role="CategoriaEquipamento" EntitySet="Categorias" />
-      <End Role="Restricoes" EntitySet="Restricoes" />
-    </AssociationSet>
-    <AssociationSet Name="LocalRecursoLocal" Association="Uni7ReservasModel.Store.LocalRecursoLocal">
-      <End Role="Local" EntitySet="Locais" />
-      <End Role="RecursoLocal" EntitySet="RecursosLocais" />
-    </AssociationSet>
-    <AssociationSet Name="RecursoRecursoLocal" Association="Uni7ReservasModel.Store.RecursoRecursoLocal">
-      <End Role="Recurso" EntitySet="Recursos" />
-      <End Role="RecursoLocal" EntitySet="RecursosLocais" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ReservaCategoriaEquipamento_Reserva" Association="Uni7ReservasModel.Store.FK_ReservaCategoriaEquipamento_Reserva">
-      <End Role="Reserva" EntitySet="Reservas" />
-      <End Role="ReservaCategoriaEquipamento" EntitySet="ReservaCategoriaEquipamento" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ReservaCategoriaEquipamento_CategoriaEquipamento" Association="Uni7ReservasModel.Store.FK_ReservaCategoriaEquipamento_CategoriaEquipamento">
-      <End Role="CategoriaEquipamento" EntitySet="Categorias" />
-      <End Role="ReservaCategoriaEquipamento" EntitySet="ReservaCategoriaEquipamento" />
-    </AssociationSet>
-    <AssociationSet Name="BolsistaReserva" Association="Uni7ReservasModel.Store.BolsistaReserva">
-      <End Role="Usuario" EntitySet="Usuarios" />
-      <End Role="Reserva" EntitySet="Reservas" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Usuarios">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Senha" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Tipo" Type="int" Nullable="false" />
-    <Property Name="Token" Type="nvarchar(max)" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Reservas">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Data" Type="datetime" Nullable="false" />
-    <Property Name="ReservadoEm" Type="datetime" Nullable="false" />
-    <Property Name="Obs" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Horario" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Turno" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ComentarioUsuario" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Satisfacao" Type="int" Nullable="true" />
-    <Property Name="FoiUsado" Type="bit" Nullable="true" />
-    <Property Name="ObsControle" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Usuario_Id" Type="int" Nullable="false" />
-    <Property Name="Local_Id" Type="int" Nullable="false" />
-    <Property Name="Bolsista_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Locais">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Reservavel" Type="bit" Nullable="false" />
-    <Property Name="Disponivel" Type="bit" Nullable="false" />
-    <Property Name="Tipo" Type="int" Nullable="false" />
-    <Property Name="ComentarioReserva" Type="nvarchar(max)" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Equipamentos">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Modelo" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Serie" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Disponivel" Type="bit" Nullable="false" />
-    <Property Name="CategoriaEquipamento_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Categorias">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ComentarioReserva" Type="nvarchar(max)" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Recursos">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Detalhes" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Tipo" Type="int" Nullable="false" />
-    <Property Name="Vencimento" Type="datetime" Nullable="true" />
-  </EntityType>
-  <EntityType Name="RecursosLocais">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Qtde" Type="int" Nullable="false" />
-    <Property Name="Local_Id" Type="int" Nullable="false" />
-    <Property Name="Recurso_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Restricoes">
-    <Key>
-      <PropertyRef Name="RestricoesLocais_Id" />
-      <PropertyRef Name="RestricoesCategoriaEquipamento_Id" />
-    </Key>
-    <Property Name="RestricoesLocais_Id" Type="int" Nullable="false" />
-    <Property Name="RestricoesCategoriaEquipamento_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ReservaCategoriaEquipamento">
-    <Key>
-      <PropertyRef Name="Reservas_Id" />
-      <PropertyRef Name="CategoriasEquipamentos_Id" />
-    </Key>
-    <Property Name="Reservas_Id" Type="int" Nullable="false" />
-    <Property Name="CategoriasEquipamentos_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <Association Name="UsuarioReserva">
-    <End Role="Usuario" Type="Uni7ReservasModel.Store.Usuarios" Multiplicity="1" />
-    <End Role="Reserva" Type="Uni7ReservasModel.Store.Reservas" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Reserva">
-        <PropertyRef Name="Usuario_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ReservaLocal">
-    <End Role="Reserva" Type="Uni7ReservasModel.Store.Reservas" Multiplicity="*" />
-    <End Role="Local" Type="Uni7ReservasModel.Store.Locais" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Local">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Reserva">
-        <PropertyRef Name="Local_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="CategoriaEquipamentoEquipamento">
-    <End Role="CategoriaEquipamento" Type="Uni7ReservasModel.Store.Categorias" Multiplicity="1" />
-    <End Role="Equipamento" Type="Uni7ReservasModel.Store.Equipamentos" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CategoriaEquipamento">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Equipamento">
-        <PropertyRef Name="CategoriaEquipamento_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="LocalRecursoLocal">
-    <End Role="Local" Type="Uni7ReservasModel.Store.Locais" Multiplicity="1" />
-    <End Role="RecursoLocal" Type="Uni7ReservasModel.Store.RecursosLocais" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Local">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="RecursoLocal">
-        <PropertyRef Name="Local_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="RecursoRecursoLocal">
-    <End Role="Recurso" Type="Uni7ReservasModel.Store.Recursos" Multiplicity="1" />
-    <End Role="RecursoLocal" Type="Uni7ReservasModel.Store.RecursosLocais" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Recurso">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="RecursoLocal">
-        <PropertyRef Name="Recurso_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="BolsistaReserva">
-    <End Role="Usuario" Type="Uni7ReservasModel.Store.Usuarios" Multiplicity="0..1" />
-    <End Role="Reserva" Type="Uni7ReservasModel.Store.Reservas" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Usuario">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Reserva">
-        <PropertyRef Name="Bolsista_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Restricoes_Local">
-    <End Role="Local" Type="Uni7ReservasModel.Store.Locais" Multiplicity="1" />
-    <End Role="Restricoes" Type="Uni7ReservasModel.Store.Restricoes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Local">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Restricoes">
-        <PropertyRef Name="RestricoesLocais_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Restricoes_CategoriaEquipamento">
-    <End Role="Restricoes" Type="Uni7ReservasModel.Store.Restricoes" Multiplicity="*" />
-    <End Role="CategoriaEquipamento" Type="Uni7ReservasModel.Store.Categorias" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="CategoriaEquipamento">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Restricoes">
-        <PropertyRef Name="RestricoesCategoriaEquipamento_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ReservaCategoriaEquipamento_Reserva">
-    <End Role="Reserva" Type="Uni7ReservasModel.Store.Reservas" Multiplicity="1" />
-    <End Role="ReservaCategoriaEquipamento" Type="Uni7ReservasModel.Store.ReservaCategoriaEquipamento" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Reserva">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ReservaCategoriaEquipamento">
-        <PropertyRef Name="Reservas_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ReservaCategoriaEquipamento_CategoriaEquipamento">
-    <End Role="ReservaCategoriaEquipamento" Type="Uni7ReservasModel.Store.ReservaCategoriaEquipamento" Multiplicity="*" />
-    <End Role="CategoriaEquipamento" Type="Uni7ReservasModel.Store.Categorias" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="CategoriaEquipamento">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ReservaCategoriaEquipamento">
-        <PropertyRef Name="CategoriasEquipamentos_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="Uni7ReservasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categorias">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ComentarioReserva" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Equipamentos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Modelo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Serie" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Disponivel" Type="bit" Nullable="false" />
+          <Property Name="CategoriaEquipamento_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Locais">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Reservavel" Type="bit" Nullable="false" />
+          <Property Name="Disponivel" Type="bit" Nullable="false" />
+          <Property Name="Tipo" Type="int" Nullable="false" />
+          <Property Name="ComentarioReserva" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Recursos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Detalhes" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Tipo" Type="int" Nullable="false" />
+          <Property Name="Vencimento" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RecursosLocais">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Qtde" Type="int" Nullable="false" />
+          <Property Name="Local_Id" Type="int" Nullable="false" />
+          <Property Name="Recurso_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReservaCategoriaEquipamento">
+          <Key>
+            <PropertyRef Name="Reservas_Id" />
+            <PropertyRef Name="CategoriasEquipamentos_Id" />
+          </Key>
+          <Property Name="Reservas_Id" Type="int" Nullable="false" />
+          <Property Name="CategoriasEquipamentos_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reservas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+          <Property Name="ReservadoEm" Type="datetime" Nullable="false" />
+          <Property Name="Obs" Type="nvarchar(max)" />
+          <Property Name="Horario" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Turno" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ComentarioUsuario" Type="nvarchar(max)" />
+          <Property Name="Satisfacao" Type="int" />
+          <Property Name="FoiUsado" Type="bit" />
+          <Property Name="ObsControle" Type="nvarchar(max)" />
+          <Property Name="Usuario_Id" Type="int" Nullable="false" />
+          <Property Name="Local_Id" Type="int" Nullable="false" />
+          <Property Name="Bolsista_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Restricoes">
+          <Key>
+            <PropertyRef Name="RestricoesLocais_Id" />
+            <PropertyRef Name="RestricoesCategoriaEquipamento_Id" />
+          </Key>
+          <Property Name="RestricoesLocais_Id" Type="int" Nullable="false" />
+          <Property Name="RestricoesCategoriaEquipamento_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Senha" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Tipo" Type="int" Nullable="false" />
+          <Property Name="Token" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_BolsistaReserva">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="Reservas" Type="Self.Reservas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reservas">
+              <PropertyRef Name="Bolsista_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CategoriaEquipamentoEquipamento">
+          <End Role="Categorias" Type="Self.Categorias" Multiplicity="1" />
+          <End Role="Equipamentos" Type="Self.Equipamentos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorias">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Equipamentos">
+              <PropertyRef Name="CategoriaEquipamento_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocalRecursoLocal">
+          <End Role="Locais" Type="Self.Locais" Multiplicity="1" />
+          <End Role="RecursosLocais" Type="Self.RecursosLocais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locais">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecursosLocais">
+              <PropertyRef Name="Local_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecursoRecursoLocal">
+          <End Role="Recursos" Type="Self.Recursos" Multiplicity="1" />
+          <End Role="RecursosLocais" Type="Self.RecursosLocais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recursos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecursosLocais">
+              <PropertyRef Name="Recurso_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReservaCategoriaEquipamento_CategoriaEquipamento">
+          <End Role="Categorias" Type="Self.Categorias" Multiplicity="1" />
+          <End Role="ReservaCategoriaEquipamento" Type="Self.ReservaCategoriaEquipamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorias">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReservaCategoriaEquipamento">
+              <PropertyRef Name="CategoriasEquipamentos_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReservaCategoriaEquipamento_Reserva">
+          <End Role="Reservas" Type="Self.Reservas" Multiplicity="1" />
+          <End Role="ReservaCategoriaEquipamento" Type="Self.ReservaCategoriaEquipamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReservaCategoriaEquipamento">
+              <PropertyRef Name="Reservas_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReservaLocal">
+          <End Role="Locais" Type="Self.Locais" Multiplicity="1" />
+          <End Role="Reservas" Type="Self.Reservas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locais">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reservas">
+              <PropertyRef Name="Local_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Restricoes_CategoriaEquipamento">
+          <End Role="Categorias" Type="Self.Categorias" Multiplicity="1" />
+          <End Role="Restricoes" Type="Self.Restricoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorias">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Restricoes">
+              <PropertyRef Name="RestricoesCategoriaEquipamento_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Restricoes_Local">
+          <End Role="Locais" Type="Self.Locais" Multiplicity="1" />
+          <End Role="Restricoes" Type="Self.Restricoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locais">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Restricoes">
+              <PropertyRef Name="RestricoesLocais_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsuarioReserva">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Reservas" Type="Self.Reservas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reservas">
+              <PropertyRef Name="Usuario_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Uni7ReservasModelStoreContainer">
+          <EntitySet Name="Categorias" EntityType="Self.Categorias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Equipamentos" EntityType="Self.Equipamentos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Locais" EntityType="Self.Locais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recursos" EntityType="Self.Recursos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecursosLocais" EntityType="Self.RecursosLocais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReservaCategoriaEquipamento" EntityType="Self.ReservaCategoriaEquipamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservas" EntityType="Self.Reservas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Restricoes" EntityType="Self.Restricoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BolsistaReserva" Association="Self.FK_BolsistaReserva">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Reservas" EntitySet="Reservas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CategoriaEquipamentoEquipamento" Association="Self.FK_CategoriaEquipamentoEquipamento">
+            <End Role="Categorias" EntitySet="Categorias" />
+            <End Role="Equipamentos" EntitySet="Equipamentos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocalRecursoLocal" Association="Self.FK_LocalRecursoLocal">
+            <End Role="Locais" EntitySet="Locais" />
+            <End Role="RecursosLocais" EntitySet="RecursosLocais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecursoRecursoLocal" Association="Self.FK_RecursoRecursoLocal">
+            <End Role="Recursos" EntitySet="Recursos" />
+            <End Role="RecursosLocais" EntitySet="RecursosLocais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReservaCategoriaEquipamento_CategoriaEquipamento" Association="Self.FK_ReservaCategoriaEquipamento_CategoriaEquipamento">
+            <End Role="Categorias" EntitySet="Categorias" />
+            <End Role="ReservaCategoriaEquipamento" EntitySet="ReservaCategoriaEquipamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReservaCategoriaEquipamento_Reserva" Association="Self.FK_ReservaCategoriaEquipamento_Reserva">
+            <End Role="Reservas" EntitySet="Reservas" />
+            <End Role="ReservaCategoriaEquipamento" EntitySet="ReservaCategoriaEquipamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReservaLocal" Association="Self.FK_ReservaLocal">
+            <End Role="Locais" EntitySet="Locais" />
+            <End Role="Reservas" EntitySet="Reservas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Restricoes_CategoriaEquipamento" Association="Self.FK_Restricoes_CategoriaEquipamento">
+            <End Role="Categorias" EntitySet="Categorias" />
+            <End Role="Restricoes" EntitySet="Restricoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Restricoes_Local" Association="Self.FK_Restricoes_Local">
+            <End Role="Locais" EntitySet="Locais" />
+            <End Role="Restricoes" EntitySet="Restricoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsuarioReserva" Association="Self.FK_UsuarioReserva">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Reservas" EntitySet="Reservas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Uni7ReservasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -313,7 +313,7 @@
             <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="Reserva" EntitySet="Reservas" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="Id" />
@@ -455,7 +455,7 @@
           <End Type="Uni7ReservasModel.Usuario" Role="Usuario" Multiplicity="0..1" />
           <End Type="Uni7ReservasModel.Reserva" Role="Reserva" Multiplicity="*" />
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -604,7 +604,7 @@
       </EndProperty>
       <Condition ColumnName="Bolsista_Id" IsNull="false" />
     </AssociationSetMapping>
-  </EntityContainerMapping>
+          </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
@@ -618,7 +618,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Uni7ReservasBackend.Models.Entidades;
+using static Uni7ReservasBackend.Models.Entidades.Util;
 
 namespace Uni7ReservasBackend.Models
 {
@@ -13,6 +14,13 @@ namespace Uni7ReservasBackend.Models
         {
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
             {
+                //Verifica data
+                DateTime limite = data.AddMinutes(Util.HorarioParaHora(horario, turno) - 60);
+                if (DateTime.Now > limite)
+                {
+                    throw new EntidadesException(EntityExcCode.DATAPASSADA, data.ToShortDateString() + " " + turno + " " + horario);
+                }
+
                 //Consulta usuário
                 var usuario_ = from Usuario u in context.Usuarios
                                where u.Id == idUsuario
@@ -101,7 +109,7 @@ namespace Uni7ReservasBackend.Models
             }
         }
 
-        public static void ReservarPeriodo(int idUsuario, DateTime dataDe, DateTime dataAte, List<int> diasSemana, string horario,
+        public static void ReservarPeriodo(int idUsuario, DateTime dataDe, DateTime dataAte, string horario,
             string turno, int idLocal, string obs, int idCatEquipamento)
         {
             using (Uni7ReservasEntities context = new Uni7ReservasEntities())
@@ -148,20 +156,10 @@ namespace Uni7ReservasBackend.Models
                 }
 
                 DateTime data = dataDe;
-                //Índice do dia da semana atual no vetor diasSemana
-                int indiceDiaSemanaAtual = -1;
 
-                for (int i = 0; i < diasSemana.Count(); i++)
+                if (dataDe > dataAte)
                 {
-                    if ((int)data.DayOfWeek == diasSemana[i])
-                    {
-                        indiceDiaSemanaAtual = i;
-                    }
-                }
-
-                if (indiceDiaSemanaAtual == -1)
-                {
-                    throw new EntidadesException(EntityExcCode.DATAINICIALINVALIDA, "");
+                    throw new EntidadesException(EntityExcCode.DATASINVALIDAS, "");
                 }
 
                 List<Reserva> reservas = new List<Reserva>();
@@ -219,15 +217,7 @@ namespace Uni7ReservasBackend.Models
                     reservas.Add(reserva);
 
                     //Passa para próximo dia
-                    indiceDiaSemanaAtual = (indiceDiaSemanaAtual + 1) % diasSemana.Count();
-                    if (diasSemana[indiceDiaSemanaAtual] > (int)data.DayOfWeek)
-                    {
-                        data.AddDays(diasSemana[indiceDiaSemanaAtual] - (int)data.DayOfWeek);
-                    }
-                    else
-                    {
-                        data.AddDays(7 + diasSemana[indiceDiaSemanaAtual] - (int)data.DayOfWeek);
-                    }
+                    data.AddDays(7);
                 }
 
                 foreach (Reserva r in reservas)

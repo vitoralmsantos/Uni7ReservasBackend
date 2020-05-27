@@ -102,6 +102,54 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
+        [Route("enviarsenha")]
+        [HttpPost]
+        public IHttpActionResult EnviarNovaSenha([FromBody]UsuarioTO usuario)
+        {
+            EntidadeResponse<UsuarioTO> response = new EntidadeResponse<UsuarioTO>();
+
+            try
+            {
+                Usuario.EnviarNovaSenha(usuario.Email);
+                response.Detalhes = "Senha enviada para " + usuario.Email;
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
+        [Route("solicitarcadastro")]
+        [HttpPost]
+        public IHttpActionResult SolicitarCadastro([FromBody]MensagemTO mensagemTO)
+        {
+            EntidadeResponse<UsuarioTO> response = new EntidadeResponse<UsuarioTO>();
+
+            try
+            {
+                Usuario.SolicitarCadastro(mensagemTO.Nome, mensagemTO.Email, mensagemTO.Mensagem);
+                response.Detalhes = "Solicitação enviada.";
+            }
+            catch (EntidadesException eex)
+            {
+                response.Status = (int)eex.Codigo;
+                response.Detalhes = eex.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Status = -1;
+                response.Detalhes = ex.Message;
+            }
+            return Ok(response);
+        }
+
         // POST: api/Usuario
         [Route("")]
         public IHttpActionResult Post([FromBody]UsuarioTO usuario)

@@ -20,6 +20,7 @@ namespace Uni7ReservasBackend.Models.Entidades
         USUARIOPOSSUIRESERVAS = 1010,
         USUARIOPOSSUICHAMADOS = 1011,
         USUARIOPOSSUIRESERVASBOLSISTA = 1012,
+        MENSAGEMNAOENVIADA = 1013,
         LOCALINDISPONIVEL = 1101,
         EQUIPAMENTOINDISPONIVEL = 1102,
         EQUIPAMENTONECESSARIO = 1103,
@@ -27,7 +28,9 @@ namespace Uni7ReservasBackend.Models.Entidades
         RESTRICAOLOCALEQUIPAMENTO = 1105,
         RESERVAINEXISTENTE = 1106,
         LOCALINDISPONIVELPROPRIOUSUARIO = 1107,
-        DATAINICIALINVALIDA = 1108,
+        DATASINVALIDAS = 1108,
+        RESTRICAODIAS = 1109,
+        DATAPASSADA = 1110,
         CATEGORIAINEXISTENTE = 1201,
         NOMECATEGORIAVAZIO = 1202,
         CATEGORIAJACADASTRADA = 1203,
@@ -47,6 +50,7 @@ namespace Uni7ReservasBackend.Models.Entidades
         RECURSOLOCALINEXISTENTE = 1506,
         CHAMADOINEXISTENTE = 1601,
         DESCRICAOCHAMADOVAZIO = 1602
+
     }
 
     public class EntidadesException : Exception
@@ -93,12 +97,18 @@ namespace Uni7ReservasBackend.Models.Entidades
                         return String.Format("Usuário possui {0} chamados.", Detalhe);
                     case EntityExcCode.USUARIOPOSSUIRESERVASBOLSISTA:
                         return String.Format("Bolsita possui {0} reservas vinculadas a ele(a).", Detalhe);
+                    case EntityExcCode.MENSAGEMNAOENVIADA:
+                        return String.Format("A mensagem não foi enviada para o administrador: {0}.", Detalhe);
                     case EntityExcCode.LOCALINDISPONIVEL:
                         return String.Format("O local já possui reserva nesta data e horário por {0}.", Detalhe);
                     case EntityExcCode.LOCALINDISPONIVELPROPRIOUSUARIO:
                         return "O local já possui reserva em seu nome nesta data e horário. Se desejar incluir um equipamento, por favor, selecione a opção de edição ao lado da reserva realizada.";
-                    case EntityExcCode.DATAINICIALINVALIDA:
-                        return "A data inicial não coincide com nenhum dos dias da semana a serem reservados.";
+                    case EntityExcCode.DATASINVALIDAS:
+                        return "A data inicial não pode ser posterior à final.";
+                    case EntityExcCode.RESTRICAODIAS:
+                        return String.Format("Você não pode reservar nessa data, pois há um limite de {0} dias de antecipação.", Detalhe);
+                    case EntityExcCode.DATAPASSADA:
+                        return String.Format("Data/horário não permitidos para a reserva: {0}.", Detalhe);
                     case EntityExcCode.EQUIPAMENTOINDISPONIVEL:
                         return "O equipamento está indisponível: " + Detalhe;
                     case EntityExcCode.EQUIPAMENTONECESSARIO:
@@ -145,6 +155,7 @@ namespace Uni7ReservasBackend.Models.Entidades
                         return String.Format("Chamado inexistente: {0}", Detalhe);
                     case EntityExcCode.DESCRICAOCHAMADOVAZIO:
                         return String.Format("Descrição do chamado não pode ser vazia.");
+
                     default: return "Erro desconhecido";
                 }
             }

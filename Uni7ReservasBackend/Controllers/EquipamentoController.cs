@@ -99,14 +99,15 @@ namespace Uni7ReservasBackend.Controllers
             return Ok(response);
         }
 
-        [Route("{id:int}")]
-        public IHttpActionResult Put(int id, [FromBody]EquipamentoTO equipamento)
+        [Route("atualizar")]
+        [HttpPost]
+        public IHttpActionResult Atualizar([FromBody]EquipamentoTO equipamento)
         {
             BaseResponse response = new BaseResponse();
 
             try
             {
-                Equipamento.Atualizar(id, equipamento.Modelo, equipamento.Serie, equipamento.Disponivel, equipamento.IdCategoria);
+                Equipamento.Atualizar(equipamento.Id, equipamento.Modelo, equipamento.Serie, equipamento.Disponivel, equipamento.IdCategoria);
             }
             catch (EntidadesException eex)
             {
@@ -122,14 +123,15 @@ namespace Uni7ReservasBackend.Controllers
         }
 
         // DELETE: api/Usuario/5
-        [Route("{id:int}")]
-        public IHttpActionResult Delete(int id)
+        [Route("remover")]
+        [HttpPost]
+        public IHttpActionResult Remover([FromBody]EquipamentoTO equipamento)
         {
             BaseResponse response = new BaseResponse();
 
             try
             {
-                Equipamento.Remover(id, true);
+                Equipamento.Remover(equipamento.Id, true);
             }
             catch (EntidadesException eex)
             {

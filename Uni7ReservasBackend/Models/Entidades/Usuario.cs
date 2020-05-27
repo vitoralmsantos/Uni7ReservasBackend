@@ -293,16 +293,17 @@ namespace Uni7ReservasBackend.Models
 
                 string body = "";
                 body += "<p>Prezado(a) " + nomeUsuario + ",</p>";
-                body += "<p>Sua nova senha de acesso do UNI7 Reservas é " + senha + "</p>";
+                body += "<p>Sua nova senha de acesso do UNI7 Reservas é <strong>" + senha + "</strong></p>";
+                body += "<p></p>";
                 body += "<p></p>";
                 body += "<a href='http://www.uni7.edu.br/reservas'><img alt =\"\" hspace=0 src=\"cid:imageId\" align=baseline border=0 width=\"120\"></a>";
                 body += "<br/><a href='http://www.uni7.edu.br/reservas'>http://www.uni7.edu.br/reservas</a>";
 
                 var smtp = new SmtpClient
                 {
-                    Host = "",
-                    Port = 25,
-                    EnableSsl = false,
+                    Host = "smtp.office365.com",
+                    Port = 587,
+                    EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
@@ -313,7 +314,7 @@ namespace Uni7ReservasBackend.Models
                 message.Subject = subject;
 
                 AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body, null, "text/html");
-                LinkedResource imagelink = new LinkedResource(HttpContext.Current.Server.MapPath("~/Imagens/uni7reservaslogo.png"), "image/png");
+                LinkedResource imagelink = new LinkedResource(HttpContext.Current.Server.MapPath("~/App_LocalResources/uni7_logo.png"), "image/png");
                 imagelink.ContentId = "imageId";
                 imagelink.TransferEncoding = System.Net.Mime.TransferEncoding.Base64;
                 htmlView.LinkedResources.Add(imagelink);
@@ -337,6 +338,54 @@ namespace Uni7ReservasBackend.Models
             catch(Exception ex)
             {
                 throw new EntidadesException(EntityExcCode.SENHANAOENVIADA, ex.Message);
+            }
+        }
+
+        public static void SolicitarCadastro(string nome, string email, string mensagem)
+        {
+            try
+            {
+                var fromAddress = new MailAddress(Util.EMAIL_CONTATO, "UNI7 Reservas");
+                var toAddress = new MailAddress(Util.EMAIL_ADMIN, "");
+                string fromPassword = Util.EMAIL_PWD;
+                string subject = "UNI7 Reservas - Solicitação de cadastro";
+
+                string body = "";
+                body += "<p>Prezado(a) administrador(a)</p>";
+                body += "<p><strong>" + nome + " (" + email + ")</strong> solicitou ingresso no UNI7 Reservas";
+                body += "<p>Mensagem enviada:</p>";
+                body += "<p>"+mensagem+"</p>";
+                body += "<p></p>";
+                body += "<p></p>";
+                body += "<a href='http://www.uni7.edu.br/reservas'><img alt =\"\" hspace=0 src=\"cid:imageId\" align=baseline border=0 width=\"120\"></a>";
+                body += "<br/><a href='http://www.uni7.edu.br/reservas'>http://www.uni7.edu.br/reservas</a>";
+
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.office365.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                };
+
+                var message = new MailMessage(fromAddress, toAddress);
+
+                message.Subject = subject;
+
+                AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body, null, "text/html");
+                LinkedResource imagelink = new LinkedResource(HttpContext.Current.Server.MapPath("~/App_LocalResources/uni7_logo.png"), "image/png");
+                imagelink.ContentId = "imageId";
+                imagelink.TransferEncoding = System.Net.Mime.TransferEncoding.Base64;
+                htmlView.LinkedResources.Add(imagelink);
+                message.AlternateViews.Add(htmlView);
+
+                smtp.Send(message);
+            }
+            catch (Exception ex)
+            {
+                throw new EntidadesException(EntityExcCode.MENSAGEMNAOENVIADA, ex.Message);
             }
         }
 

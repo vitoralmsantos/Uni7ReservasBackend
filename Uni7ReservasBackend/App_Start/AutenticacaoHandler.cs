@@ -20,8 +20,12 @@ namespace Uni7ReservasBackend
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            //Se não for login e GET então precisa do token
             bool requerValidacao = (!request.Method.Method.Equals("GET") && 
-                !request.RequestUri.LocalPath.Equals("/api/usuario/login"));
+                !request.RequestUri.LocalPath.Equals("/api/usuario/login") &&
+                !request.RequestUri.LocalPath.Equals("/api/usuario/enviarsenha") &&
+                !request.RequestUri.LocalPath.Equals("/api/usuario/solicitarcadastro")
+                );
 
             if (requerValidacao && !ValidaToken(request))
             {
@@ -40,9 +44,10 @@ namespace Uni7ReservasBackend
             var queryString = message.GetQueryNameValuePairs();
             foreach(KeyValuePair<string, string> kvp in queryString)
             {
-                if (kvp.Key.Equals(TOKEN) && kvp.Value != null) token = kvp.Value;
+                //if (kvp.Key.Equals(TOKEN) && kvp.Value != null) token = kvp.Value;
                 if (kvp.Key.Equals(USERID) && kvp.Value != null) userid = kvp.Value;
             }
+            token = message.RequestUri.ToString().Substring(message.RequestUri.ToString().IndexOf(TOKEN) + 11, 32);
 
             if (token.Length == 0 || userid.Length == 0)
                 return false;
