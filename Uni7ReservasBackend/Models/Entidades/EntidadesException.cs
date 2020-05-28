@@ -102,7 +102,7 @@ namespace Uni7ReservasBackend.Models.Entidades
                     case EntityExcCode.LOCALINDISPONIVEL:
                         return String.Format("O local já possui reserva nesta data e horário por {0}.", Detalhe);
                     case EntityExcCode.LOCALINDISPONIVELPROPRIOUSUARIO:
-                        return "O local já possui reserva em seu nome nesta data e horário. Se desejar incluir um equipamento, por favor, selecione a opção de edição ao lado da reserva realizada.";
+                        return "O local já possui reserva em seu nome nesta data e horário.";
                     case EntityExcCode.DATASINVALIDAS:
                         return "A data inicial não pode ser posterior à final.";
                     case EntityExcCode.RESTRICAODIAS:
